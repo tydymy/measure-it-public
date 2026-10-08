@@ -1,0 +1,75 @@
+# measure-it-public: API, dashboard and MCP server from one image, read-only and offline.
+#
+#   uv run measure-it bundle --unpack dist/bundle          # build + unpack the data bundle (docs/DEPLOYMENT.md)
+#   docker compose up -d --build                           # API :8000, dashboard :8501, MCP (streamable HTTP) :8765
+#   docker compose ps                                      # health of the three services
+#
+# MEASURE_IT_BUNDLE points at an UNPACKED data bundle (default ./dist/bundle). Ports bind to 127.0.0.1 only: there is
+# no authentication, so put a reverse proxy with authentication in front before exposing them (docs/DEPLOYMENT.md §6).
+
+x-measure-it: &measure-it
+  image: measure-it:local
+  build:
+    context: .
+    target: runtime
+  read_only: true                       # the container filesystem is read-only; only /tmp is writable
+  tmpfs:
+    - /tmp:size=512m
+    - /home/app:size=64m
+  environment:
+    MEASURE_IT_OFFLINE: "1"             # no tool reaches the network
+  volumes:
+    - ${MEASURE_IT_BUNDLE:-./dist/bundle}/data:/app/data:ro
+    - ${MEASURE_IT_BUNDLE:-./dist/bundle}/results:/app/results:ro
+    - ${MEASURE_IT_BUNDLE:-./dist/bundle}/configs:/app/configs:ro
+    - ${MEASURE_IT_BUNDLE:-./dist/bundle}/SOURCE_REGISTRY.yaml:/app/SOURCE_REGISTRY.yaml:ro
+  security_opt:
+    - no-new-privileges:true
+  cap_drop: [ALL]
+  restart: unless-stopped
+  mem_limit: 6g
+
+services:
+  api:
+    <<: *measure-it
+    command: ["measure-it", "serve-api", "--host", "0.0.0.0", "--port", "8000", "--offline"]
+    ports: ["127.0.0.1:${MEASURE_IT_API_PORT:-8000}:8000"]
+    environment:
+      MEASURE_IT_OFFLINE: "1"
+      MEASURE_IT_HEALTH_URL: http://127.0.0.1:8000/health
+    healthcheck:
+      test: ["CMD", "python", "/usr/local/bin/measure-it-healthcheck"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+
+  dashboard:
+    <<: *measure-it
+    command: ["measure-it", "dashboard", "--host", "0.0.0.0", "--port", "8501", "--offline", "--headless"]
+    ports: ["127.0.0.1:${MEASURE_IT_DASHBOARD_PORT:-8501}:8501"]
+    environment:
+      MEASURE_IT_OFFLINE: "1"
+      MEASURE_IT_HEALTH_URL: http://127.0.0.1:8501/_stcore/health
+    healthcheck:
+      test: ["CMD", "python", "/usr/local/bin/measure-it-healthcheck"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+
+  mcp:
+    <<: *measure-it
+    # MCP over streamable HTTP at http://127.0.0.1:8765/mcp. For a stdio client use instead:
+    #   docker run -i --rm -v "$PWD/dist/bundle/data:/app/data:ro" ... measure-it:local measure-it serve-mcp
+    command: ["measure-it", "serve-mcp", "--transport", "http", "--host", "0.0.0.0", "--port", "8765"]
+    ports: ["127.0.0.1:${MEASURE_IT_MCP_PORT:-8765}:8765"]
+    environment:
+      MEASURE_IT_OFFLINE: "1"
+      MEASURE_IT_HEALTH_URL: http://127.0.0.1:8765/health
+    healthcheck:
+      test: ["CMD", "python", "/usr/local/bin/measure-it-healthcheck"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3

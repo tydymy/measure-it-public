@@ -1,0 +1,2294 @@
+version: 1
+project: measure-it-public
+sources:
+- source_id: gwas_catalog
+  name: NHGRI-EBI GWAS Catalog REST API v2
+  publisher: NHGRI-EBI GWAS Catalog (EMBL-EBI / NHGRI)
+  data_layer: condition_molecular
+  status: ingested
+  landing_url: https://www.ebi.ac.uk/gwas/
+  access_urls:
+  - https://www.ebi.ac.uk/gwas/rest/api/v2
+  - https://www.ebi.ac.uk/gwas/rest/api/v2/docs
+  - https://www.ebi.ac.uk/gwas/rest/api/v2/rest-api-doc.yaml
+  license: EMBL-EBI terms of use (data); Apache-2.0 (API code)
+  access_conditions: open API, no key
+  retrieved_at: '2026-09-23T21:34:47+00:00'
+  source_version: GWAS Catalog data release 2026-09-13; REST API 2.0 (api release 2025-08-01); EFO v3.93.0; gene
+    build GRCh38.p14
+  update_date: '2026-09-13'
+  unit_of_observation: curated SNP-trait association; GWAS study
+  sample_size:
+    rows: 2772
+    unique_associations: 2394
+    unique_studies: 330
+    per_condition_associations:
+      long_covid: 0
+      me_cfs: 9
+      pots: 0
+      dysautonomia: 3
+      fibromyalgia: 50
+      eds_hsd: 0
+      mcas: 0
+      lyme_disease: 3
+      ptlds: 0
+      post_infectious_syndrome: 0
+      migraine: 854
+      ibs: 483
+      gastroparesis: 10
+      endometriosis: 1029
+    per_condition_studies:
+      long_covid: 4
+      me_cfs: 19
+      pots: 0
+      dysautonomia: 8
+      fibromyalgia: 41
+      eds_hsd: 3
+      mcas: 0
+      lyme_disease: 3
+      ptlds: 0
+      post_infectious_syndrome: 0
+      migraine: 92
+      ibs: 85
+      gastroparesis: 5
+      endometriosis: 71
+  geographic_resolution: none
+  person_level: false
+  geographic: false
+  omics: true
+  wearable: false
+  participant_linkage: not applicable (published summary associations)
+  true_participant_linkage_across_modalities: false
+  processed_outputs:
+  - condition_molecular_evidence__gwas_catalog
+  - condition_molecular_coverage__gwas_catalog
+  - condition_molecular_evidence
+  - condition_molecular_coverage
+  audit: data/raw/gwas_catalog/DATA_AUDIT.md
+  ingestion_module: measure_it.omics.gwas_catalog
+  limitations:
+  - Curated top associations only; zero associations is not evidence of no genetic effect
+  - 'Zero-association conditions: long_covid, pots, eds_hsd, mcas, ptlds, post_infectious_syndrome'
+  - 'Zero association and zero study conditions: pots, mcas, ptlds, post_infectious_syndrome'
+  - Effect sizes per curated effect allele; no harmonisation
+  - Condition-level molecular evidence only; not participant-linked
+- source_id: ncbi_geo_sra
+  name: NCBI GEO / SRA (Entrez E-utilities, metadata only)
+  publisher: NCBI / National Library of Medicine
+  data_layer: condition_molecular
+  status: ingested
+  landing_url: https://www.ncbi.nlm.nih.gov/geo/
+  access_urls:
+  - https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi
+  - https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi
+  - https://eutils.ncbi.nlm.nih.gov/entrez/eutils/einfo.fcgi
+  license: open NCBI records; submitter terms apply to individual datasets
+  access_conditions: open API, no key (<= 3 requests/s)
+  retrieved_at: '2026-09-23T21:41:04+00:00'
+  source_version: NCBI Entrez db=gds last update 2026/09/22 20:16 (9067174 records); db=sra last update 2026/09/23
+    15:46 (46760314 records)
+  update_date: gds 2026/09/22 20:16; sra 2026/09/23 15:46
+  unit_of_observation: GEO series x condition; SRA study x condition (metadata)
+  sample_size:
+    geo_condition_series_rows: 537
+    geo_unique_series: 512
+    sra_condition_study_rows: 257
+    sra_unique_studies: 249
+    per_condition_geo_series_in_scope:
+      long_covid: 52
+      me_cfs: 28
+      pots: 0
+      dysautonomia: 49
+      fibromyalgia: 13
+      eds_hsd: 18
+      mcas: 0
+      lyme_disease: 27
+      ptlds: 4
+      post_infectious_syndrome: 12
+      migraine: 20
+      ibs: 21
+      gastroparesis: 5
+      endometriosis: 218
+    per_condition_sra_studies:
+      long_covid: 45
+      me_cfs: 8
+      pots: 3
+      dysautonomia: 10
+      fibromyalgia: 9
+      eds_hsd: 11
+      mcas: 0
+      lyme_disease: 12
+      ptlds: 3
+      post_infectious_syndrome: 1
+      migraine: 13
+      ibs: 15
+      gastroparesis: 4
+      endometriosis: 123
+    precision_demo_cluster:
+      long_covid: 0.8
+      me_cfs: 0.9
+      pots: 1.0
+  geographic_resolution: none
+  person_level: false
+  geographic: false
+  omics: true
+  wearable: false
+  participant_linkage: not applicable (study metadata)
+  true_participant_linkage_across_modalities: false
+  processed_outputs:
+  - geo_study_catalog
+  - sra_study_catalog
+  - condition_molecular_evidence__geo
+  - condition_molecular_coverage__geo
+  - condition_molecular_evidence
+  - condition_molecular_coverage
+  audit: data/raw/ncbi_geo_sra/DATA_AUDIT.md
+  ingestion_module: measure_it.omics.geo_sra
+  limitations:
+  - Text-query matches; precision measured only for the demo cluster (see DATA_AUDIT.md)
+  - Metadata only; sample counts are GSM/runs, not participants
+  - SRA human-organism filter excludes metagenome-labelled submissions
+  - 'Zero in-scope GEO series: pots, mcas'
+- source_id: open_targets
+  name: Open Targets Platform GraphQL API v4
+  publisher: Open Targets (EMBL-EBI, Wellcome Sanger Institute and partners)
+  data_layer: condition_molecular
+  status: ingested
+  landing_url: https://platform.opentargets.org/
+  access_urls:
+  - https://api.platform.opentargets.org/api/v4/graphql
+  - https://platform-docs.opentargets.org/data-access/graphql-api
+  license: CC0 1.0 (Open Targets Platform data)
+  access_conditions: open API, no key
+  retrieved_at: '2026-09-23T21:32:03+00:00'
+  source_version: Open Targets Platform data release 26.06; API 26.6.3
+  update_date: data release 26.06
+  unit_of_observation: target-disease association / evidence item / drug indication / pathway annotation
+  sample_size:
+    rows: 52164
+    association_rows: 29152
+    unique_targets: 11864
+    per_condition_unique_targets:
+      long_covid: 347
+      me_cfs: 1775
+      pots: 231
+      dysautonomia: 3246
+      fibromyalgia: 595
+      eds_hsd: 3273
+      mcas: 0
+      lyme_disease: 1297
+      ptlds: 4
+      post_infectious_syndrome: 8240
+      migraine: 2930
+      ibs: 2050
+      gastroparesis: 236
+      endometriosis: 3561
+    per_condition_unique_targets_primary_id:
+      long_covid: 347
+      me_cfs: 1775
+      pots: 0
+      dysautonomia: 196
+      fibromyalgia: 595
+      eds_hsd: 3270
+      mcas: 0
+      lyme_disease: 1297
+      ptlds: 4
+      post_infectious_syndrome: 8240
+      migraine: 2930
+      ibs: 2050
+      gastroparesis: 236
+      endometriosis: 3561
+    per_condition_genetic_association_targets:
+      long_covid: 2
+      me_cfs: 71
+      pots: 1
+      dysautonomia: 50
+      fibromyalgia: 0
+      eds_hsd: 54
+      mcas: 0
+      lyme_disease: 11
+      ptlds: 0
+      post_infectious_syndrome: 415
+      migraine: 566
+      ibs: 176
+      gastroparesis: 47
+      endometriosis: 280
+    per_condition_known_drugs:
+      long_covid: 30
+      me_cfs: 28
+      pots: 38
+      dysautonomia: 10
+      fibromyalgia: 103
+      eds_hsd: 7
+      mcas: 0
+      lyme_disease: 6
+      ptlds: 2
+      post_infectious_syndrome: 0
+      migraine: 171
+      ibs: 114
+      gastroparesis: 44
+      endometriosis: 90
+  geographic_resolution: none
+  person_level: false
+  geographic: false
+  omics: true
+  wearable: false
+  participant_linkage: not applicable (condition-level evidence, no participants)
+  true_participant_linkage_across_modalities: false
+  processed_outputs:
+  - condition_molecular_evidence__open_targets
+  - condition_molecular_coverage__open_targets
+  - condition_molecular_evidence
+  - condition_molecular_coverage
+  audit: data/raw/open_targets/DATA_AUDIT.md
+  ingestion_module: measure_it.omics.open_targets
+  limitations:
+  - Associations are indirect by default (descendant diseases included); broad/component ids pull in monogenic subtypes
+    and neoplasms (per-condition counts are also given for the primary id only)
+  - Scores are Open Targets heuristics (source-provided), not probabilities; no combined omics score
+  - 'Conditions with no Open Targets identifier: mcas'
+  - Literature/animal-model evidence dominates target counts for poorly characterised conditions
+  - Condition-level molecular enrichment/evidence only; not participant-linked
+- source_id: published_lab_evidence
+  name: Published lab and biomarker evidence for invisible illnesses (curated literature extraction)
+  publisher: Peer-reviewed journals, indexed by PubMed / Europe PMC (EMBL-EBI); extraction curated by this project
+  landing_url: https://europepmc.org/
+  access_urls:
+  - https://www.ebi.ac.uk/europepmc/webservices/rest/search
+  - https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/fullTextXML
+  license: Abstracts and metadata via the Europe PMC REST API (open); full texts used are open-access articles;
+    quotes are short verbatim extracts for verification. Copyright stays with publishers.
+  access_conditions: Open; no registration or data-use agreement
+  retrieved_at: '2026-09-24T20:45:29+00:00'
+  source_version: curated 2026-09-24
+  update_date: '2026-09-24'
+  data_layer: condition_molecular
+  evidence_type: published_biomarker
+  unit_of_observation: one published claim (publication x condition x biomarker x metric)
+  sample_size:
+    claims: 109
+    publications: 102
+    quote_verified: 109
+  geographic_resolution: none
+  person_level: false
+  geographic: false
+  omics: false
+  wearable: false
+  participant_linkage: none (aggregate published results)
+  true_participant_linkage_across_modalities: false
+  status: ingested
+  processed_outputs:
+  - published_lab_evidence
+  audit: data/raw/published_lab_evidence/DATA_AUDIT.md
+  ingestion_module: measure_it.labs.published_lab_evidence
+  limitations: 'Curated, not a systematic review: searches were targeted (see DATA_AUDIT.md), so absence of a row
+    is not evidence of absence. Every number is a published claim, not reproduced by this project. Most rows compare
+    patients with healthy controls (spectrum bias), several biomarkers are part of the diagnostic criteria they
+    are scored against (incorporation bias, flagged per row), and almost none report external validation.'
+- source_id: reactome
+  name: Reactome pathway knowledgebase, release 97 (GMT, pathway list, hierarchy)
+  publisher: Reactome (OICR, EMBL-EBI, NYU Langone, OHSU)
+  landing_url: https://reactome.org/download-data
+  access_urls:
+  - https://download.reactome.org/97/ReactomePathways.gmt.zip
+  - https://download.reactome.org/97/ReactomePathways.txt
+  - https://download.reactome.org/97/ReactomePathwaysRelation.txt
+  - https://reactome.org/AnalysisService/identifiers/projection (live cross-check only; current release)
+  license: CC BY 4.0 (Reactome data)
+  access_conditions: open download, no registration
+  retrieved_at: '2026-09-24T04:34:10+00:00'
+  source_version: Reactome release 97 (versioned archive https://download.reactome.org/97/)
+  update_date: quarterly releases; release 97 archive files Last-Modified Wed, 24 Jun 2026 19:18:39 GMT, Wed, 24
+    Jun 2026 19:18:40 GMT
+  data_layer: condition_molecular
+  unit_of_observation: pathway (gene set, name, parent-child relation)
+  sample_size:
+    gmt_pathways: 2868
+    gmt_pathways_hsa: 2868
+    gmt_distinct_genes: 11990
+    pathways_all_species: 23603
+    pathways_homo_sapiens: 2883
+    relations_all: 23717
+    relations_homo_sapiens: 2899
+    top_level_homo_sapiens: 29
+  omics: true
+  geographic_resolution: none
+  person_level: false
+  geographic: false
+  wearable: false
+  participant_linkage: not applicable (reference vocabulary)
+  true_participant_linkage_across_modalities: false
+  status: ingested
+  processed_outputs: []
+  audit: data/raw/reactome/DATA_AUDIT.md
+  ingestion_module: measure_it.omics.reference_data
+  limitations:
+  - 'Pathway annotation, not measurement: over-representation shows which curated pathways a gene list touches'
+  - Nested, overlapping pathways; hierarchy-based system classification uses a curated anchor table
+  - The AnalysisService cross-check runs the live current release (cached), not the pinned archive
+  used_by: measure_it.omics.coherence (results/tables/test3_*.csv, Test 3 molecular coherence) and measure_it.omics.graph
+    (measurable_biology, fig5_*.csv)
+- source_id: clinicaltrials_gov
+  name: ClinicalTrials.gov API v2
+  publisher: U.S. National Library of Medicine (NLM), NIH
+  data_layer: facility
+  status: ingested
+  landing_url: https://clinicaltrials.gov/data-api/api
+  access_urls:
+  - https://clinicaltrials.gov/api/v2/studies
+  - https://clinicaltrials.gov/api/v2/version
+  - https://clinicaltrials.gov/api/v2/studies/search-areas
+  - https://clinicaltrials.gov/api/oas/v2
+  license: Open U.S. government registry; NLM data terms ask for the credit line 'Courtesy of the U.S. National
+    Library of Medicine', no implied endorsement, and disclosure when redistributed data are not current (https://www.nlm.nih.gov/databases/download/terms_and_conditions.html).
+    The ClinicalTrials.gov terms page is JavaScript-rendered and was not machine-read.
+  access_conditions: open API, no key or registration
+  retrieved_at: '2026-09-23T20:37:07+00:00'
+  source_version: API 2.0.5; dataTimestamp 2026-09-23T09:00:05 UTC
+  update_date: '2026-09-23T09:00:05'
+  unit_of_observation: registered study (NCT ID); long tables per condition match, intervention, outcome, site
+  sample_size:
+    trials: 7910
+    trial_condition_pairs: 8345
+    interventions: 13021
+    outcomes: 54022
+    sites: 47482
+    us_sites: 27828
+    us_sites_with_geopoint: 27766
+    us_sites_with_county: 27816
+    research_site_keys: 28874
+    queries_run: 34
+    terms_skipped_bare_acronym: 2
+    trials_per_condition:
+      dysautonomia: 1112
+      eds_hsd: 108
+      endometriosis: 950
+      fibromyalgia: 1484
+      gastroparesis: 342
+      ibs: 1170
+      long_covid: 710
+      lyme_disease: 129
+      mcas: 143
+      me_cfs: 218
+      migraine: 1814
+      post_infectious_syndrome: 2
+      pots: 139
+      ptlds: 24
+  geographic_resolution: site point (ClinicalTrials.gov geoPoint, city-level) or ZCTA centroid; county_fips (2024)
+    from the site ZIP's ZCTA first, else geoPoint point-in-polygon
+  person_level: false
+  geographic: true
+  omics: false
+  wearable: false
+  participant_linkage: not applicable (no participant data)
+  true_participant_linkage_across_modalities: false
+  processed_outputs:
+  - clinical_trials
+  - trial_conditions
+  - trial_interventions
+  - trial_outcomes
+  - trial_sites
+  - ctgov_facility_summary
+  audit: data/raw/clinicaltrials_gov/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.clinicaltrials
+  limitations:
+  - Registration is not evidence that a measurement works or an intervention is effective
+  - query.cond expands synonyms and MeSH ancestors; use trial_conditions.condition_literal_match for precision
+  - Phrase-quoted search misses some registrations that name the condition (e.g. 'Long COVID-19'); the number is
+    measured in DATA_AUDIT.md (quoting check) -- the trial sets are not a complete census
+  - ctgov_facility_summary rows with facility_missing are per-city buckets of unnamed sites, not facilities
+  - Bare acronyms (PASC, ME/CFS) are never searched
+  - geoPoint is a city-level geocode, not the facility address
+  - Facility names vary in spelling; sponsor placeholder names are flagged facility_generic
+  - Snapshot at dataTimestamp 2026-09-23T09:00:05
+- source_id: cms_partd_prescriber
+  name: Medicare Part D Prescribers - by Provider and Drug (configured drugs)
+  publisher: CMS (Office of Enterprise Data and Analytics)
+  landing_url: https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/medicare-part-d-prescribers-by-provider-and-drug
+  access_urls:
+  - https://data.cms.gov/data-api/v1/dataset/d5aa71a8-dcc0-4570-8bcf-bd39deac69fe/data
+  license: U.S. government public use file
+  access_conditions: open API, no registration
+  retrieved_at: '2026-10-07T18:54:06+00:00'
+  source_version: 'Medicare Part D Prescribers - by Provider and Drug : 2024-12-01'
+  update_date: '2026-05-21'
+  data_layer: facility
+  unit_of_observation: prescriber NPI x drug (calendar year)
+  sample_size:
+    rows: 61320
+    prescriber_npis: 51010
+    per_drug_rows:
+      Midodrine Hcl: 38433
+      Fludrocortisone Acetate: 12451
+      Pyridostigmine Bromide: 6627
+      Cromolyn Sodium: 1577
+      Ivabradine Hcl: 1205
+      Droxidopa: 1027
+  geographic_resolution: prescriber state (county via NPPES join downstream)
+  person_level: false
+  geographic: true
+  omics: false
+  wearable: false
+  participant_linkage: not applicable (prescribers, not participants)
+  true_participant_linkage_across_modalities: false
+  status: ingested
+  processed_outputs:
+  - provider_condition_rx_signals
+  audit: data/raw/cms_partd_prescriber/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.cms_partd_prescriber
+  limitations:
+  - a prescription is not a diagnosis; configured drugs are not specific to the target conditions
+  - Medicare Part D enrollees only (PDP and MA-PD)
+  - rows with < 11 claims are suppressed by CMS; beneficiary counts 1-10 blank
+  - generic name does not distinguish dosage forms (cromolyn ophthalmic vs oral)
+  data_year: 2024
+- source_id: cms_physician_service
+  name: Medicare Physician & Other Practitioners - by Provider and Service (configured HCPCS codes)
+  publisher: CMS (Office of Enterprise Data and Analytics)
+  landing_url: https://data.cms.gov/provider-summary-by-type-of-service/medicare-physician-other-practitioners/medicare-physician-other-practitioners-by-provider-and-service
+  access_urls:
+  - https://data.cms.gov/data-api/v1/dataset/335e5f35-eca6-482d-87b3-f99883e213e3/data
+  license: U.S. government public use file
+  access_conditions: open API, no registration
+  retrieved_at: '2026-10-07T18:54:02+00:00'
+  source_version: 'Medicare Physician & Other Practitioners - by Provider and Service : 2024-12-01'
+  update_date: '2026-05-21'
+  data_layer: facility
+  unit_of_observation: rendering NPI x HCPCS x place of service (calendar year)
+  sample_size:
+    source_rows: 280067
+    table_rows: 328271
+    npis: 100135
+    npis_per_measurement_class:
+      accelerometry: 646
+      autonomic_testing: 1402
+      capillaroscopy: 10992
+      continuous_spo2: 413
+      cpet: 4457
+      digital_cognitive: 55
+      digital_gait: 44
+      ecg_ambulatory: 17502
+      endothelial_function: 51
+      hrv: 730
+      microvascular_function: 11040
+      ppg: 7550
+      remote_patient_monitoring: 8871
+      retinal_imaging: 37861
+      sleep_objective: 4828
+      small_fiber_testing: 1336
+      vascular_imaging: 43863
+      wearable_heart_rate: 7550
+  geographic_resolution: provider ZIP5 (county via NPPES join downstream)
+  person_level: false
+  geographic: true
+  omics: false
+  wearable: false
+  participant_linkage: not applicable (providers, not participants)
+  true_participant_linkage_across_modalities: false
+  status: ingested
+  processed_outputs:
+  - provider_measurement_activity
+  audit: data/raw/cms_physician_service/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.cms_physician_service
+  limitations:
+  - Medicare fee-for-service Part B only
+  - rows with < 11 beneficiaries suppressed by CMS
+  - billing a code does not mean the clinician sees the target condition
+  - no CPT code exists for nailfold capillaroscopy; proxies are labelled
+  data_year: 2024
+- source_id: hrsa_health_centers
+  name: HRSA Health Center Service Delivery and Look-Alike Sites
+  publisher: HRSA Bureau of Primary Health Care (HRSA Data Warehouse)
+  data_layer: facility
+  status: ingested
+  landing_url: https://data.hrsa.gov/data/download
+  access_urls:
+  - https://data.hrsa.gov/DataDownload/DD_Files/Health_Center_Service_Delivery_and_LookAlike_Sites.csv
+  - https://data.hrsa.gov/DataDownload/DD_Files/Health_Center_Service_Delivery_and_LookAlike_Sites_Data_Download_Metadata.xlsx
+  license: 'U.S. federal government data (public domain); landing page: ''Usage limitations: None'''
+  access_conditions: open download, no registration
+  retrieved_at: '2026-09-23T20:25:36+00:00'
+  source_version: HRSA Data Warehouse extract 2026-09-23
+  update_date: 'daily refresh (landing page ''Updated: 9/23/2026'')'
+  unit_of_observation: health-center service-delivery / look-alike site
+  sample_size:
+    sites: 19266
+    active_sites: 19266
+    service_delivery_sites: 17995
+    look_alike_sites: 956
+    health_center_organizations: 1569
+    geocoded_source_point: 19185
+    counties_with_site: 2296
+  geographic_resolution: point (HRSA address geocode); county FIPS (2024)
+  person_level: false
+  geographic: true
+  omics: false
+  wearable: false
+  participant_linkage: not applicable (facility registry)
+  true_participant_linkage_across_modalities: false
+  processed_outputs:
+  - facilities__hrsa
+  audit: data/raw/hrsa_health_centers/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.hrsa
+  limitations:
+  - Administrative listing of in-scope sites; no service lines, specialties or patient volumes
+  - Download contains only active sites
+  - 80 sites lack a street address; 79 have no site location at all (state 'XX'; incl. domestic-violence shelters,
+    whose address HRSA suppresses)
+  - 10 sites where HRSA's county FIPS disagrees with 2024 point-in-polygon (reported, source kept)
+- source_id: nih_reporter
+  name: NIH RePORTER Project API v2
+  publisher: National Institutes of Health, Office of Extramural Research (RePORT)
+  data_layer: facility
+  status: ingested
+  landing_url: https://api.reporter.nih.gov/
+  access_urls:
+  - https://api.reporter.nih.gov/v2/projects/search
+  - https://api.reporter.nih.gov/documents/Data%20Elements%20for%20RePORTER%20Project%20API_V2.pdf
+  - https://api.reporter.nih.gov/swagger/v2/swagger.json
+  license: U.S. federal government data (public domain)
+  access_conditions: open API, no key; NIH asks for <= 1 request/second and large jobs off-hours
+  retrieved_at: '2026-09-23T20:36:10+00:00'
+  source_version: RePORTER Project API v2.0; latest date_added 2026-09-19T17:04:02
+  update_date: weekly (RePORTER refresh); FY2026 incomplete at retrieval
+  unit_of_observation: fiscal-year award record (appl_id) matched by text search to a target condition
+  sample_size:
+    projects_appl_id: 9342
+    core_projects: 3020
+    organizations: 549
+    condition_links: 15358
+    augmented_query_hits: 4696
+    queries: 76
+    fiscal_years: 2015-2026
+    per_condition_projects:
+      long_covid: 1036
+      me_cfs: 593
+      pots: 68
+      dysautonomia: 1595
+      fibromyalgia: 1230
+      eds_hsd: 147
+      mcas: 17
+      lyme_disease: 1399
+      ptlds: 95
+      post_infectious_syndrome: 0
+      migraine: 1771
+      ibs: 1109
+      gastroparesis: 515
+      endometriosis: 1110
+    geocoded_projects: 8739
+  geographic_resolution: zcta_centroid (organization ZIP5 as ZCTA internal point); point (RePORTER org coordinate,
+    state-verified) when the ZIP has no ZCTA; organization city/state
+  person_level: false
+  geographic: true
+  omics: false
+  wearable: false
+  participant_linkage: not applicable (award records, no participants)
+  true_participant_linkage_across_modalities: false
+  processed_outputs:
+  - nih_projects
+  - nih_project_conditions
+  - nih_project_query_hits
+  audit: data/raw/nih_reporter/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.nih_reporter
+  limitations:
+  - Condition assignment is RePORTER phrase search over title/abstract/thesaurus-expanded terms; terms-only matches
+    are concept-level (see match_tier)
+  - award_amount is a fiscal-year total-cost obligation, not spending; whole awards count toward every condition
+    they mention; per-condition totals overlap and must not be summed
+  - 'Multi-project awards: obligation_total counts the parent amount (= IC funding) in place of its subprojects
+    per (project_num, fiscal_year); in 10 of 179 parent+subproject groups the subprojects sum to more than the parent
+    (RePORTER inconsistency)'
+  - FY2026 incomplete at retrieval
+  - Organization location = awardee address (ZIP5 -> ZCTA internal point, or RePORTER's state-verified point when
+    the ZIP has no ZCTA); not study sites; NIH intramural records have no address
+  - Ambiguous acronym PASC also means pancreatic stellate cells; flagged likely_false_positive
+  - 'RCDC categories: NIH-only, not yet assigned for FY2026'
+  - Research-capability signal only; not patient burden or evidence that a measurement works
+- source_id: nppes
+  name: NPPES NPI Registry downloadable file (V.2, full replacement monthly)
+  publisher: CMS (NPPES)
+  data_layer: facility
+  status: ingested
+  landing_url: https://download.cms.gov/nppes/NPI_Files.html
+  access_urls:
+  - https://download.cms.gov/nppes/NPPES_Data_Dissemination_September_2026_V2.zip
+  - https://download.cms.gov/nppes/NPPES_Deactivated_NPI_Report_091426_V2.zip
+  license: FOIA-disclosable U.S. government data (public)
+  access_conditions: open download, no registration or data-use agreement
+  retrieved_at: '2026-09-23T20:25:29+00:00'
+  source_version: NPPES_Data_Dissemination_September_2026_V2.zip (npidata_pfile_20050523-20260913.csv); NUCC 26.1
+  update_date: Mon, 14 Sep 2026 08:54:39 GMT
+  unit_of_observation: NPI (individual provider or organisation)
+  sample_size:
+    npi_rows_in_file: 9798758
+    deactivated_excluded: 355329
+    active_us_practice_location: 9432641
+    providers_in_any_group: 1456346
+    per_group_npis_any:
+      cardiology: 59989
+      electrophysiology: 5523
+      neurology: 40039
+      rheumatology: 12641
+      immunology_allergy: 10592
+      infectious_disease: 17507
+      pulmonology: 28950
+      gastroenterology: 32389
+      pain_medicine: 29964
+      pmr: 35759
+      primary_care: 1012206
+      gynecology: 93813
+      vascular: 20373
+      fqhc: 18615
+      rural_health_clinic: 9755
+      community_health_clinic: 5018
+      primary_care_clinic: 21834
+      specialty_clinic: 23567
+      general_acute_care_hospital: 22809
+      critical_access_hospital: 3859
+      rehabilitation_facility: 13077
+      cardiac_rehabilitation: 198
+      sleep_disorder_center: 3502
+      physiological_laboratory: 2278
+      clinical_laboratory: 22694
+      pain_clinic: 2219
+      infusion_center: 2061
+      public_health_clinic: 1615
+      va_clinic: 1693
+      clinical_research: 1492
+  geographic_resolution: practice ZIP5 -> ZCTA internal point (zcta_centroid); 2024 county aggregates
+  person_level: false
+  geographic: true
+  omics: false
+  wearable: false
+  participant_linkage: not applicable (providers, not participants)
+  true_participant_linkage_across_modalities: false
+  processed_outputs:
+  - providers
+  - provider_specialty_groups
+  - provider_density_county
+  - provider_taxonomy_counts
+  audit: data/raw/nppes/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.nppes
+  limitations:
+  - NPI taxonomy is self-reported and does not mean a provider treats Long COVID, ME/CFS or POTS
+  - NPPES addresses are self-reported and may be billing-oriented
+  - geocodes are ZIP centroids (ZCTA internal points), not address geocodes
+  - counts are NPIs, not FTEs; organisations register subparts separately
+  - primary practice location only; secondary locations counted, not mapped
+  format_version: V.2 (V.1 retired by CMS 2026-03-03; header columns identical, longer name fields)
+- source_id: nucc_taxonomy
+  name: NUCC Health Care Provider Taxonomy code set (CSV)
+  publisher: National Uniform Claim Committee
+  data_layer: facility
+  status: ingested
+  landing_url: https://www.nucc.org/index.php/code-sets-mainmenu-41/provider-taxonomy-mainmenu-40/csv-mainmenu-57
+  access_urls:
+  - https://www.nucc.org/images/stories/CSV/nucc_taxonomy_261.csv
+  license: free public download; NUCC terms of use
+  access_conditions: open download, no registration
+  retrieved_at: '2026-09-23T20:25:25+00:00'
+  source_version: '26.1'
+  update_date: 7/1/26
+  unit_of_observation: taxonomy code
+  sample_size:
+    codes: 883
+  geographic_resolution: none
+  person_level: false
+  geographic: false
+  omics: false
+  wearable: false
+  participant_linkage: not applicable
+  true_participant_linkage_across_modalities: false
+  processed_outputs:
+  - nucc_taxonomy
+  audit: data/raw/nucc_taxonomy/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.nppes
+  limitations:
+  - a taxonomy is a self-selected classification, not a credential or a list of conditions treated
+  - many facility codes have no NUCC definition
+- source_id: openfda_device
+  name: openFDA device endpoints (classification, 510k incl. De Novo, PMA, registration & listing)
+  publisher: U.S. Food and Drug Administration (openFDA)
+  data_layer: facility
+  status: ingested
+  landing_url: https://open.fda.gov/apis/device/
+  access_urls:
+  - https://api.fda.gov/device/classification.json
+  - https://api.fda.gov/device/510k.json
+  - https://api.fda.gov/device/pma.json
+  - https://api.fda.gov/device/registrationlisting.json
+  - https://download.open.fda.gov/device/classification/device-classification-0001-of-0001.json.zip
+  license: public domain, dedicated under Creative Commons CC0 1.0 Universal (https://open.fda.gov/license/)
+  access_conditions: 'open API, no key used; openFDA limits without a key: 240 requests/min and 1,000 requests/day
+    per IP (https://open.fda.gov/apis/authentication/)'
+  retrieved_at: '2026-09-23T21:00:50+00:00'
+  source_version: 510k last_updated 2026-09-14; classification last_updated 2026-09-14; pma last_updated 2026-09-14;
+    registrationlisting last_updated 2026-09-14; classification bulk last_updated 2026-09-23
+  update_date: API meta.last_updated 2026-09-14; classification bulk export last_updated 2026-09-23
+  unit_of_observation: FDA product code; 510(k)/De Novo decision; PMA decision/supplement; establishment registration
+    count per product code
+  sample_size:
+    classification_product_codes_total: 7093
+    measurement_classes: 26
+    measurement_classes_with_mapped_code: 22
+    mapped_product_codes: 90
+    measurement_code_mappings: 98
+    fda_510k_records: 8101
+    fda_510k_de_novo_records: 16
+    fda_pma_records: 132
+    named_device_findings: 456
+    api_queries: 576
+  geographic_resolution: none (applicant addresses are not deployment locations)
+  person_level: false
+  geographic: false
+  omics: false
+  wearable: false
+  participant_linkage: not applicable (regulatory records, no people)
+  true_participant_linkage_across_modalities: false
+  processed_outputs:
+  - fda_device_classification
+  - fda_510k
+  - fda_pma
+  - fda_registration_listing_counts
+  - measurement_regulatory_status
+  - fda_named_device_findings
+  - fda_device_query_log
+  audit: data/raw/openfda_device/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.openfda
+  limitations:
+  - A regulatory record is a deployment-readiness signal, not evidence that the technology diagnoses the target
+    illness
+  - Product-code-to-measurement mapping is a human curation of FDA category names; generic codes are mapped only
+    with a device_filter and are low confidence.
+  - 510(k)-exempt categories can have marketed devices with no 510(k) record.
+  - Consumer wellness wearables (e.g. step counters, sleep trackers without medical claims) are generally not FDA-cleared
+    and are invisible here.
+  - De Novo decisions are taken from the 510k endpoint (DEN numbers); openFDA has no separate De Novo endpoint.
+  - Laboratory-developed tests (most omics assays) are not in these endpoints.
+  - Registration counts are establishment registrations whose current listings carry a code (manufacturers, relabelers,
+    importers...), not distinct devices or deployment sites; older clearances no longer listed contribute 0.
+  - Applicant/establishment addresses are firm addresses, not clinics or deployment locations.
+- source_id: cdc_brfss
+  name: 'CDC Behavioral Risk Factor Surveillance System (BRFSS) LLCP public data, Long COVID items 2022-2023 (2024
+    checked: no item)'
+  publisher: CDC Division of Population Health
+  landing_url: https://www.cdc.gov/brfss/annual_data/annual_2023.html
+  access_urls:
+  - https://www.cdc.gov/brfss/annual_data/2022/files/LLCP2022XPT.zip
+  - https://www.cdc.gov/brfss/annual_data/2023/files/LLCP2023XPT.zip
+  - https://www.cdc.gov/brfss/annual_data/2024/files/LLCP2024XPT.zip
+  - https://www.cdc.gov/brfss/annual_data/2022/zip/codebook22_llcp-v2-508.zip
+  - https://www.cdc.gov/brfss/annual_data/2023/zip/codebook23_llcp-v2-508.zip
+  - https://www.cdc.gov/brfss/annual_data/2024/zip/codebook24_llcp-v2-508.zip
+  - https://www.cdc.gov/brfss/annual_data/2023/files/MMSA2023_XPT.zip
+  - https://stacks.cdc.gov/view/cdc/174567/cdc_174567_DS1.pdf
+  license: U.S. federal government work (public domain)
+  access_conditions: open download, no registration
+  retrieved_at: '2026-10-07T17:58:26+00:00'
+  source_version: 'BRFSS LLCP 2022, 2023, 2024 public files (2022: USCODE22_LLCP_102523.HTML; 2023: USCODE23_LLCP_021924.HTML;
+    2024: USCODE24_LLCP_082125.HTML)'
+  update_date: annual
+  data_layer: geographic
+  unit_of_observation: adult survey respondent (interim only); processed = state/national direct estimates
+  sample_size:
+    records_2022: 445132
+    records_2023: 433323
+    records_2024: 457670
+    records_2023_50_states_dc: 425106
+    current_lc_cases_2023: 27074
+    mmsa_2023_areas: 128
+  geographic_resolution: state (public LLCP); urbanicity flags; MMSA in separate SMART file; no county
+  person_level: true
+  geographic: true
+  omics: false
+  wearable: false
+  participant_linkage: none (cross-sectional survey; LLCP and MMSA files not linked)
+  true_participant_linkage_across_modalities: false
+  status: ingested
+  processed_outputs:
+  - brfss_long_covid_direct_estimates
+  audit: data/raw/cdc_brfss/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.brfss
+  burden_evidence_level: A
+  condition_ids:
+  - long_covid
+  validation:
+    mmwr_2023_state_mae_pp: 0.0664
+    mmwr_2023_case_counts_identical: 52/52
+  limitations:
+  - Self-reported Long COVID; telephone survey with ~45% median response rate
+  - No county identifier on the public file; county values only via geography.sae (model)
+  - Kentucky and Pennsylvania absent from 2023 public data
+  - 2022 item is EVER long COVID, 2023 is CURRENT; 2024 has no Long COVID item
+  - MMWR definition counts break-offs as 'no' (downward, state-varying bias); SAE uses complete cases
+- source_id: cdc_long_covid
+  name: CDC NCHS Post-COVID Conditions (Household Pulse Survey long-COVID estimates)
+  publisher: CDC National Center for Health Statistics / U.S. Census Bureau
+  data_layer: geographic
+  status: ingested
+  landing_url: https://www.cdc.gov/nchs/covid19/pulse/long-covid.htm
+  access_urls:
+  - https://data.cdc.gov/d/gsea-w83j
+  - https://www.census.gov/programs-surveys/household-pulse-survey/technical-documentation/questionnaires.2025.html
+  - https://www.census.gov/programs-surveys/household-pulse-survey/technical-documentation/questionnaires.2026.html
+  - https://data.cdc.gov/d/dttw-5yxu
+  - https://data.cdc.gov/d/d2rk-yvas
+  license: Public Domain U.S. Government
+  access_conditions: open download, no registration
+  retrieved_at: '2026-09-23T20:31:36+00:00'
+  source_version: data.cdc.gov gsea-w83j, rows updated 2024-10-04T14:06:03; HPS phases 3.5-4.2
+  update_date: rows updated 2024-10-04T14:06:03; series final (HPS long-COVID items ended 2024-09-16)
+  unit_of_observation: indicator x state/national x subgroup x HPS collection period (weighted % of adults)
+  sample_size:
+    rows: 15912
+    raw_rows: 18639
+    periods: 27
+    states_incl_dc: 51
+    indicators: 8
+    suppressed_rows: 1832
+    hps_respondents: UNKNOWN / NOT AVAILABLE (not published in this dataset)
+  geographic_resolution: national, state (no county)
+  person_level: false
+  geographic: true
+  omics: false
+  wearable: false
+  participant_linkage: not applicable (aggregate survey estimates)
+  true_participant_linkage_across_modalities: false
+  processed_outputs:
+  - geo_condition_burden__cdc_long_covid
+  audit: data/raw/cdc_long_covid/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.cdc_long_covid
+  burden_evidence_level: A
+  condition_ids:
+  - long_covid
+  successor_check:
+    htops: no long-COVID item in any of the 6 HTOPS questionnaires scanned.
+    brfss_prevalence_covid_questions:
+      dttw-5yxu: 0
+      d2rk-yvas: 0
+  limitations:
+  - Experimental online survey with low response rates; possible nonresponse bias
+  - Self-reported, no clinical confirmation
+  - State and national only; subgroups are national only; never county
+  - Series ends September 2024; HTOPS (2025-) has no long-COVID items
+  - Many state cells suppressed; wide state CIs
+- source_id: cdc_lyme
+  name: 'CDC Lyme disease surveillance: reported cases by county of residence, 2001-2023'
+  publisher: CDC NCEZID Division of Vector-Borne Diseases (NNDSS)
+  data_layer: geographic
+  status: ingested
+  landing_url: https://www.cdc.gov/lyme/data-research/facts-stats/lyme-disease-case-map.html
+  access_urls:
+  - https://www.cdc.gov/lyme/media/files/2025/02/LD_Case_Counts_by_County_2023_updated.csv
+  - https://data.cdc.gov/d/84rx-ksgd
+  - https://data.cdc.gov/d/qtbi-xd4i
+  - https://data.cdc.gov/d/x5j9-wybp
+  - https://www2.census.gov/programs-surveys/popest/datasets/2000-2010/intercensal/county/co-est00int-tot.csv
+  - https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/intercensal/county/asrh/cc-est2020int-agesex-all.csv
+  - https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/counties/totals/co-est2025-alldata.csv
+  - https://www2.census.gov/programs-surveys/popest/datasets/2020-2021/counties/totals/co-est2021-alldata.csv
+  license: U.S. Government work (public domain)
+  access_conditions: open download; www.cdc.gov returns HTTP 403 to non-default User-Agents, fetched with python-requests
+    UA
+  retrieved_at: '2026-09-23T20:27:25+00:00'
+  source_version: LD_Case_Counts_by_County_2023_updated.csv (Last-Modified Tue, 08 Sep 2026 16:00:31 GMT); cases
+    2001-2023
+  update_date: county file Last-Modified Tue, 08 Sep 2026 16:00:31 GMT; annual
+  unit_of_observation: county of residence x year (reported cases)
+  sample_size:
+    county_years: 72291
+    counties: 3153
+    years: 2001-2023
+    rows: 144582
+    total_cases_2001_2023: 751335
+    incidence_rows_without_denominator: 36
+  geographic_resolution: county (CT legacy counties 2001-2022, CT planning regions 2023)
+  person_level: false
+  geographic: true
+  omics: false
+  wearable: false
+  participant_linkage: not applicable (aggregate surveillance counts)
+  true_participant_linkage_across_modalities: false
+  processed_outputs:
+  - geo_condition_burden__cdc_lyme
+  audit: data/raw/cdc_lyme/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.cdc_lyme
+  burden_evidence_level: A
+  condition_ids:
+  - lyme_disease
+  ptlds_burden_evidence_level: D (no burden rows written)
+  denominator: Census PEP July-1 county population (2000-2010 intercensal, 2010-2020 intercensal, V2025; V2021 for
+    CT legacy 2020-2021)
+  limitations:
+  - 'Reported surveillance cases: substantial under-ascertainment; varies by state and year'
+  - '2022 surveillance change (lab-only reporting in high-incidence states): not comparable with 2001-2021'
+  - County of residence, not county of exposure
+  - 'Zero state totals between reporting years are suspected non-reporting, not absence: MN 2020 (87 counties) (suspected_state_nonreporting)'
+  - Cases with unknown county of residence are mostly not in the county file (up to 53% (CT 2012) of a state's cases);
+    see state_cases_missing_from_county_file_pct
+  - Incidence denominators are this project's choice (Census PEP), not CDC-published county rates
+  - CT legacy counties 2001-2022 vs planning regions 2023; not re-mapped
+  - No PTLDS burden (level D)
+- source_id: cdc_places
+  name: 'CDC PLACES: Local Data for Better Health (2025 release: county + ZCTA)'
+  publisher: CDC Division of Population Health (NCCDPHP)
+  data_layer: geographic
+  status: ingested
+  landing_url: https://www.cdc.gov/places/
+  access_urls:
+  - https://data.cdc.gov/d/swc5-untb
+  - https://data.cdc.gov/d/qnzd-25i4
+  - https://data.cdc.gov/d/m35w-spkz
+  - https://api.us.socrata.com/api/catalog/v1?domains=data.cdc.gov&q=PLACES
+  license: Public Domain
+  access_conditions: open download, no registration
+  retrieved_at: '2026-09-23T20:32:35+00:00'
+  source_version: PLACES 2025 release (data.cdc.gov swc5-untb / qnzd-25i4); BRFSS 2023 (35 measures); BRFSS 2022
+    (5 measures)
+  update_date: county rows 2025-12-04T10:35:06; zcta rows 2025-12-12T16:09:22; annual releases
+  unit_of_observation: county x measure x value type (crude/age-adjusted); ZCTA x measure (crude)
+  sample_size:
+    county_rows: 229298
+    counties: 3144
+    measures: 40
+    zcta_rows: 891767
+    zctas: 32520
+    zcta_measures: 31
+    counties_with_2023_brfss_measures: 2957
+    counties_with_social_needs: 2299
+  geographic_resolution: county (2024 vintage, CT planning regions); zcta; national reference row
+  person_level: false
+  geographic: true
+  omics: false
+  wearable: false
+  participant_linkage: not applicable (ecological modeled estimates)
+  true_participant_linkage_across_modalities: false
+  processed_outputs:
+  - geo_context__cdc_places
+  - geo_context_zcta__cdc_places
+  audit: data/raw/cdc_places/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.cdc_places
+  evidence_type: modeled_small_area_estimate
+  contains_long_covid_measure: false
+  ct_county_vintage: ct_planning_regions_09110_09190
+  limitations:
+  - Modeled small-area estimates (BRFSS MRP), not observed prevalence; not for program evaluation
+  - No long-COVID, ME/CFS, POTS or Lyme measure; symptom/function measures are context or labelled level-C proxies
+  - Kentucky and Pennsylvania lack all 2023-BRFSS measures in the 2025 release
+  - Social-needs measures cover 39 states + DC only
+  - Two BRFSS years mixed within the release (2023 for 35 measures, 2022 for 5)
+- source_id: cdc_svi
+  name: CDC/ATSDR Social Vulnerability Index 2022 (county)
+  publisher: CDC / ATSDR Geospatial Research, Analysis, and Services Program (GRASP)
+  data_layer: geographic
+  status: ingested
+  landing_url: https://www.atsdr.cdc.gov/place-health/php/svi/svi-data-documentation-download.html
+  access_urls:
+  - https://svi2.cdc.gov/webapi/Documents/download?year=2022&type=csv&category=states_counties&name=SVI_2022_US_COUNTY
+  - https://svi2.cdc.gov/webapi/Documents/download?year=2022&type=csv&category=states_counties&name=PUERTORICO_COUNTY
+  - https://svi2.cdc.gov/webapi/documents/publication?filename=SVI2022Documentation_ZCTA
+  license: U.S. federal government work (public domain); CDC suggests citing the SVI database
+  access_conditions: open download, no registration
+  retrieved_at: '2026-09-23T20:38:15+00:00'
+  source_version: 'SVI 2022 (ACS 2018-2022 5-year); newer release probed: 2024: HTTP None, 2022: HTTP 200'
+  update_date: biennial releases; ATSDR download page dated 2026-05-11 lists 2022 as the newest; 2022 MP_CROWD correction
+    2024-12-11
+  unit_of_observation: county / county-equivalent
+  sample_size:
+    us_counties: 3144
+    pr_municipios: 78
+  geographic_resolution: county (2022 county set; CT planning regions)
+  person_level: false
+  geographic: true
+  omics: false
+  wearable: false
+  participant_linkage: not applicable
+  true_participant_linkage_across_modalities: false
+  processed_outputs:
+  - geo_vulnerability
+  - geo_vulnerability_puerto_rico
+  audit: data/raw/cdc_svi/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.svi
+  limitations:
+  - Relative percentile ranks, not absolute levels; not comparable across SVI releases
+  - Puerto Rico ranked separately and not comparable with U.S. ranks
+  - No state-level SVI is published
+  - Vulnerability is not disease prevalence or burden
+- source_id: census_acs
+  name: American Community Survey 5-year estimates (2020-2024), table-based Summary File
+  publisher: U.S. Census Bureau
+  data_layer: geographic
+  status: ingested
+  landing_url: https://www.census.gov/programs-surveys/acs/data/summary-file.html
+  access_urls:
+  - https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/documentation/ACS20245YR_Table_Shells.txt
+  - https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b01001.dat
+  - https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b01002.dat
+  - https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b01003.dat
+  - https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b08201.dat
+  - https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b09001.dat
+  - https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b09020.dat
+  - https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b17001.dat
+  - https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b18101.dat
+  - https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b19013.dat
+  - https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b27020.dat
+  - https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b28002.dat
+  license: U.S. federal government work (public domain)
+  access_conditions: 'Summary File: open download, no registration. api.census.gov data requests required an API
+    key at retrieval (HTTP 302 -> missing_key.html); no key was requested, so the API was not used for data.'
+  retrieved_at: '2026-09-23T20:34:41+00:00'
+  source_version: ACS 2020-2024 5-year (release 2024)
+  update_date: annual (5-year release each December)
+  unit_of_observation: state / county / ZCTA (area-level survey estimates)
+  sample_size:
+    states: 52
+    counties: 3222
+    zctas: 33772
+  geographic_resolution: state, county (2024 vintage; CT planning regions), zcta (2020 ZCTAs)
+  person_level: false
+  geographic: true
+  omics: false
+  wearable: false
+  participant_linkage: not applicable (area-level estimates)
+  true_participant_linkage_across_modalities: false
+  processed_outputs:
+  - geo_context__acs
+  - geo_context_zcta__acs
+  audit: data/raw/census_acs/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.census_acs
+  limitations:
+  - Percentages derived from detailed-table cells, not downloaded subject/profile tables; MOEs approximated
+  - 5-year pooled estimates (period estimate, not a single year)
+  - ZCTA estimates carry large MOEs for small populations
+  - Area-level context only; never person-level
+- source_id: census_geography
+  name: Census cartographic boundaries, Gazetteer and ZCTA-county relationship files
+  publisher: U.S. Census Bureau
+  data_layer: geographic
+  status: ingested
+  landing_url: https://www.census.gov/geographies/reference-files.html
+  access_urls:
+  - https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2024_Gazetteer/2024_Gaz_counties_national.zip
+  - https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2024_Gazetteer/2024_Gaz_zcta_national.zip
+  - https://www2.census.gov/geo/docs/maps-data/data/rel2020/zcta520/tab20_zcta520_county20_natl.txt
+  - https://www2.census.gov/geo/tiger/GENZ2024/shp/cb_2024_us_county_5m.zip
+  - https://www2.census.gov/geo/tiger/GENZ2024/shp/cb_2024_us_state_5m.zip
+  - https://www2.census.gov/geo/tiger/GENZ2020/shp/cb_2020_us_county_5m.zip
+  license: U.S. federal government work (public domain)
+  access_conditions: open download, no registration
+  retrieved_at: '2026-09-23T20:17:22+00:00'
+  source_version: 2024 cartographic boundary + Gazetteer; 2020 relationship file
+  update_date: annual
+  unit_of_observation: state / county / ZCTA
+  sample_size:
+    counties_2024: 3235
+    states: 56
+    zctas: 33791
+    zctas_without_county: 0
+  geographic_resolution: state, county, zcta
+  person_level: false
+  geographic: true
+  omics: false
+  wearable: false
+  participant_linkage: not applicable
+  true_participant_linkage_across_modalities: false
+  processed_outputs:
+  - geographies
+  - zcta_centroids
+  - zcta_county_crosswalk
+  - county_boundaries_2024.geoparquet
+  - state_boundaries_2024.geoparquet
+  audit: data/raw/census_geography/DATA_AUDIT.md
+  ingestion_module: measure_it.geography.crosswalk
+  limitations:
+  - ZIP != ZCTA; PO-box ZIPs are not geocoded
+  - Connecticut county vintages differ (planning regions vs legacy counties)
+- source_id: cms_mmd
+  name: CMS Mapping Medicare Disparities (MMD) Tool - Population View
+  publisher: CMS Office of Minority Health (tool built and maintained by NORC for CMS OMH)
+  data_layer: geographic
+  status: ingested
+  landing_url: https://data.cms.gov/tools/mapping-medicare-disparities-by-population
+  access_urls:
+  - https://data.cms.gov/data-api/v1/mmd-tool/
+  - https://data.cms.gov/mmd-population/map.html
+  - https://data.cms.gov/mmd-population/assets/codebook_crosswalk.csv
+  - https://data.cms.gov/mmd-population/assets/strings.json
+  - https://data.cms.gov/mmd-population/js/menus.js
+  - https://data.cms.gov/mmd-population/js/datadownload.js
+  - https://www.cms.gov/About-CMS/Agency-Information/OMH/Downloads/Mapping-Technical-Documentation.pdf
+  - https://www.cms.gov/About-CMS/Agency-Information/OMH/Downloads/MappingPublicFAQs.pdf
+  - https://www2.ccwdata.org/web/guest/condition-categories-other
+  - https://www2.ccwdata.org/web/guest/condition-categories-chronic
+  - https://www2.ccwdata.org/documents/10280/19139421/other-condition-algorithms.pdf
+  - https://www2.ccwdata.org/documents/10280/19139421/comparing-chronic-pain.pdf
+  - https://www2.ccwdata.org/documents/10280/19139421/chr-chronic-condition-algorithms.pdf
+  - https://data.cms.gov/data.json
+  license: U.S. federal government work (public domain); aggregate, CMS cell-suppressed public data
+  access_conditions: Open, no registration or data-use agreement. MMD is not a catalogued data.cms.gov dataset (absent
+    from data.cms.gov/data.json at retrieval); aggregate slices are served by the data API that backs the public
+    MMD app, queried exactly as the app does.
+  retrieved_at: '2026-09-23T20:39:38+00:00'
+  source_version: MMD Population View data API (Medicare FFS) files as resolved by the app's codebook_crosswalk.csv;
+    claims years 2012-2022 final, 2023 preliminary (_p files); technical documentation revision 6/26/2024
+  update_date: Periodic (roughly annual new claims year plus preliminary-to-final refresh)
+  unit_of_observation: geography (county / state-territory / nation) x claims year x MMD condition x measure x adjustment
+    x age stratum; aggregate of Medicare FFS beneficiaries
+  sample_size:
+    api_slices_ok: 79
+    api_slices_not_ok: 0
+    parsed_cells: 1484509
+    geo_condition_burden_rows: 351936
+    geo_context_rows: 1249885
+    coverage_rows: 14
+    county_rows_per_year_fibro_prevalence:
+      2012: 3228
+      2013: 3229
+      2014: 3230
+      2015: 3225
+      2016: 3228
+      2017: 3224
+      2018: 3223
+      2019: 3220
+      2020: 3219
+      2021: 3219
+      2022: 3218
+      2023: 3241
+    beneficiary_denominators: published only as categories (11-499 ... 10,000+)
+  geographic_resolution: county (FIPS as published by CMS; legacy CT counties), state/territory, national
+  person_level: false
+  geographic: true
+  omics: false
+  wearable: false
+  participant_linkage: not applicable (aggregate claims statistics; no person identifiers)
+  true_participant_linkage_across_modalities: false
+  processed_outputs:
+  - geo_condition_burden__cms_mmd
+  - geo_context__cms_mmd
+  - condition_burden_coverage__cms_mmd
+  audit: data/raw/cms_mmd/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.cms_mmd
+  limitations:
+  - Medicare FFS beneficiaries (mostly >= 65 plus disability-entitled) - not representative of working-age invisible-illness
+    populations; coded-condition prevalence depends on diagnosis/coding practice.
+  - Only fibromyalgia (B, via CCW 'Fibromyalgia, Chronic Pain and Fatigue'), migraine (B, via CCW 'Migraine and
+    Other Chronic Headache') and ME/CFS (C, symptom proxy via the same fibromyalgia/pain/fatigue composite) have
+    CMS burden rows; POTS, dysautonomia, Long COVID, EDS/HSD, MCAS, Lyme, PTLDS, IBS, gastroparesis and endometriosis
+    are D (no usable CMS estimate).
+  - MMD 'COVID-19' is any COVID-19 diagnosis (acute infection), not Long COVID; kept as context only.
+  - Beneficiary denominators are published only as 5 size categories; prevalence is an integer percent.
+  - 'Suppression: cells <11 beneficiaries omitted; numerators of 1-2 published as 0 %.'
+  - County FIPS follow CMS vintage (legacy Connecticut counties); unmatched rows are reported, not forced. The two
+    1:1 renames CMS still publishes under pre-2015 codes (46113 -> 46102 Oglala Lakota SD, 02270 -> 02158 Kusilvak
+    AK; same boundary) are bridged to the 2024 code; fips_as_published keeps the CMS code.
+  - Smoothed (empirical-Bayes) rates, sex/race/dual/eligibility strata and the Medicare Advantage view are available
+    in MMD but not ingested.
+  - 2023 claims are preliminary (_p files) and may change when CMS publishes final 2023.
+  - The data API is the MMD app's backend, not a documented public API; file names can change on refresh.
+- source_id: hrsa_hpsa
+  name: 'HRSA shortage designations: HPSA (primary care, mental health, dental) and MUA/P'
+  publisher: HRSA Bureau of Health Workforce, Division of Policy and Shortage Designation (HRSA Data Warehouse)
+  data_layer: geographic
+  status: ingested
+  landing_url: https://data.hrsa.gov/data/download
+  access_urls:
+  - https://data.hrsa.gov/DataDownload/DD_Files/BCD_HPSA_FCT_DET_PC.csv
+  - https://data.hrsa.gov/DataDownload/DD_Files/BCD_HPSA_FCT_DET_MH.csv
+  - https://data.hrsa.gov/DataDownload/DD_Files/BCD_HPSA_FCT_DET_DH.csv
+  - https://data.hrsa.gov/DataDownload/DD_Files/HPSA_DATAMART_METADATA.XLSX
+  - https://data.hrsa.gov/DataDownload/DD_Files/SDMS_AUTO_HPSA_SITE_PC.csv
+  - https://data.hrsa.gov/DataDownload/DD_Files/SDMS_AUTO_HPSA_SITE_MH.csv
+  - https://data.hrsa.gov/DataDownload/DD_Files/SDMS_AUTO_HPSA_SITE_DH.csv
+  - https://data.hrsa.gov/DataDownload/DD_Files/DD_AUTO_HPSA_SITE_METADATA.XLSX
+  - https://data.hrsa.gov/DataDownload/DD_Files/MUA_DET.csv
+  - https://data.hrsa.gov/DataDownload/DD_Files/MUA_DATAMART_METADATA.XLSX
+  license: 'U.S. federal government data (public domain); landing page: ''Usage limitations: None'''
+  access_conditions: open download, no registration
+  retrieved_at: '2026-09-23T20:25:41+00:00'
+  source_version: HRSA Data Warehouse extract 2026-09-23
+  update_date: 'daily refresh (landing page ''Updated: 9/23/2026'')'
+  unit_of_observation: 'shortage designation (components: tract / county subdivision / county / facility); summarised
+    to 2024 county'
+  sample_size:
+    hpsa_raw_component_rows:
+      Primary Care: 80103
+      Mental Health: 41203
+      Dental Health: 47420
+    hpsa_in_effect_designations: 23949
+    hpsa_in_effect_by_discipline_status:
+      Dental Health:
+        Designated: 7218
+        Proposed For Withdrawal: 802
+      Mental Health:
+        Designated: 6508
+        Proposed For Withdrawal: 606
+      Primary Care:
+        Designated: 7809
+        Proposed For Withdrawal: 1006
+    mua_in_effect_designations: 4197
+    counties: 3235
+    counties_with_designated_pc_hpsa: 2902
+    counties_with_designated_mh_hpsa: 3047
+  geographic_resolution: census tract / county subdivision / county / facility point; county summary (2024)
+  person_level: false
+  geographic: true
+  omics: false
+  wearable: false
+  participant_linkage: not applicable (area/facility designations)
+  true_participant_linkage_across_modalities: false
+  processed_outputs:
+  - hpsa_designations
+  - hpsa_components
+  - mua_designations
+  - geo_context__hpsa
+  audit: data/raw/hrsa_hpsa/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.hrsa
+  limitations:
+  - Administrative shortage designation, not disease burden
+  - Partial-county flag = some tracts/subdivisions or a sub-population designated
+  - Withdrawn designations dropped; Proposed For Withdrawal kept but excluded from county flags
+  - Legacy Connecticut and retired county codes with a boundary change reported as unmatched, not remapped (the
+    1:1 renames 02270 -> 02158 and 46113 -> 46102 are placed on the 2024 code); overlapping 2024 counties that would
+    otherwise read 'none' are marked 'undetermined_legacy_geography' in geo_context__hpsa
+  - evidence_type recorded as composite_index pending an 'administrative_designation' vocabulary entry
+- source_id: usda_rucc
+  name: USDA ERS Rural-Urban Continuum Codes 2023
+  publisher: USDA Economic Research Service
+  data_layer: geographic
+  status: ingested
+  landing_url: https://www.ers.usda.gov/data-products/rural-urban-continuum-codes
+  access_urls:
+  - https://www.ers.usda.gov/media/5768/2023-rural-urban-continuum-codes.csv
+  - https://www.ers.usda.gov/media/5767/2023-rural-urban-continuum-codes.xlsx
+  - https://www.ers.usda.gov/data-products/rural-urban-continuum-codes/documentation
+  license: U.S. federal government work (public domain); cite USDA ERS
+  access_conditions: open download, no registration
+  retrieved_at: '2026-09-23T20:36:53+00:00'
+  source_version: RUCC 2023 (released January 2024; OMB Bulletin 23-01 delineation; 2020 Census)
+  update_date: 2023 file last updated 2024-01-22 (ERS page); data product page updated 2025-12-30; codes revised
+    after each decennial census
+  unit_of_observation: county / county-equivalent
+  sample_size:
+    counties: 3235
+    with_rucc_code: 3233
+  geographic_resolution: county (2023 county set; CT planning regions)
+  person_level: false
+  geographic: true
+  omics: false
+  wearable: false
+  participant_linkage: not applicable
+  true_participant_linkage_across_modalities: false
+  processed_outputs:
+  - geo_context__rucc
+  audit: data/raw/usda_rucc/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.rucc
+  limitations:
+  - Whole-county classification hides within-county rural/urban variation
+  - Nonmetro Virginia independent cities were combined with their counties of origin by ERS
+  - Rurality is context, not disease burden or access to care
+- source_id: published_device_evidence
+  name: Published device and objective-test evidence for invisible illnesses (curated literature extraction)
+  publisher: Peer-reviewed journals, indexed by PubMed / Europe PMC (EMBL-EBI); extraction curated by this project
+  landing_url: https://europepmc.org/
+  access_urls:
+  - https://psb.stanford.edu/psb-online/proceedings/psb26/choi.pdf
+  - https://www.ebi.ac.uk/europepmc/webservices/rest/search
+  - https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/fullTextXML
+  license: Abstracts and metadata via the Europe PMC REST API (open); full texts used are open-access articles;
+    quotes are short verbatim extracts for verification. Copyright stays with publishers.
+  access_conditions: Open; no registration or data-use agreement
+  retrieved_at: '2026-09-24T16:34:49+00:00'
+  source_version: curated 2026-09-24
+  update_date: '2026-09-24'
+  data_layer: measurement
+  evidence_type: published_biomarker
+  unit_of_observation: one published claim (publication x condition x device x metric)
+  sample_size:
+    claims: 66
+    publications: 61
+    quote_verified: 66
+  geographic_resolution: none
+  person_level: false
+  geographic: false
+  omics: false
+  wearable: true
+  participant_linkage: none (aggregate published results)
+  true_participant_linkage_across_modalities: false
+  status: ingested
+  processed_outputs:
+  - published_device_evidence
+  audit: data/raw/published_device_evidence/DATA_AUDIT.md
+  ingestion_module: measure_it.measurements.published_evidence
+  limitations: 'Curated, not a systematic review: searches were targeted (see DATA_AUDIT.md), so absence of a row
+    is not evidence of absence. Every number is a published claim, not reproduced by this project; most rows are
+    case-control designs with healthy controls (spectrum bias) and no external validation.'
+- source_id: data_gov_catalog
+  name: Data.gov catalog (metadata only)
+  publisher: U.S. General Services Administration (GSA), Data.gov
+  data_layer: metadata
+  status: ingested
+  landing_url: https://catalog.data.gov/
+  access_urls:
+  - https://catalog.data.gov/search
+  - https://api.gsa.gov/technology/datagov/v4/search
+  - https://catalog.data.gov/openapi.json
+  - https://resources.data.gov/catalog-api/
+  license: Not stated by the API. Catalog metadata is published by a U.S. federal agency (GSA); each listed dataset's
+    own license (dcat.license, present on 363/496 retrieved records) governs the records at the agency host.
+  access_conditions: 'Keyless origin catalog.data.gov/search (robots.txt Crawl-Delay: 10, honoured). Gateway api.gsa.gov/technology/datagov/v4
+    needs an api.data.gov key via X-Api-Key; DEMO_KEY documented at 30 req/IP/hour and 50/IP/day (resources.data.gov/catalog-api);
+    gateway reported X-RateLimit-Limit 10 on DEMO_KEY. Legacy CKAN package_search returns HTTP 404.'
+  retrieved_at: '2026-09-23T20:34:19+00:00'
+  source_version: Datagov Catalog API 0.1.0 (openapi.json); DCAT-US metadata
+  update_date: 'continuous harvest; latest last_harvested_date among retrieved records: 2026-09-28T20:31:10.855070'
+  unit_of_observation: catalog dataset record (DCAT-US metadata) per query and rank; not the data itself
+  sample_size:
+    queries_executed: 76
+    registry_sources_checked: 40
+    registry_sources_indexed: 12
+    registry_source_status_counts:
+      not_found: 12
+      dataset_indexed: 12
+      related_dataset_only: 9
+      publisher_indexed_dataset_not_matched: 2
+      no_results: 5
+    demo_queries: 6
+    result_rows: 519
+    result_rows_real: 496
+    result_rows_unknown: 23
+    unique_dataset_identifiers: 406
+    queries_failed: 0
+    catalog_total_datasets_api_stats: 559621
+  geographic_resolution: none (catalog metadata; spatial fields not used)
+  person_level: false
+  geographic: false
+  omics: false
+  wearable: false
+  participant_linkage: not applicable (metadata catalog; no participants)
+  true_participant_linkage_across_modalities: false
+  processed_outputs:
+  - data_gov_discovery_log
+  - data_gov_search_results
+  audit: data/raw/data_gov_catalog/DATA_AUDIT.md
+  ingestion_module: measure_it.agents.datagov
+  limitations:
+  - 'Metadata only: Data.gov does not host records; retrieve_from routes to the agency host.'
+  - Search is AND over terms with no total-hit count; n_results = first page, capped at rows.
+  - indexed yes/no = the planned dataset (curated title + planned + publisher regex) appears in the top rows results
+    of a curated query; same-programme records (derived indicators, locator tools, portals) are reported as related_dataset_only,
+    not as indexed. A source can exist in the catalog under wording the rules/queries miss (false 'no').
+  - Non-federal resources (Stanford, Monarch, EMBL-EBI, Open Targets, NUCC) are not expected in the catalog.
+  - Catalog relevance ranking and harvested contents change over time; results are a dated snapshot.
+- source_id: cms_icd10cm
+  name: CMS ICD-10-CM code descriptions in tabular order
+  publisher: CMS / CDC NCHS
+  landing_url: https://www.cms.gov/medicare/coding-billing/icd-10-codes
+  access_urls:
+  - https://www.cms.gov/files/zip/april-1-2026-code-descriptions-tabular-order.zip
+  - https://www.cms.gov/files/zip/2026-code-descriptions-tabular-order.zip
+  - https://www.cms.gov/files/zip/2027-code-descriptions-tabular-order.zip
+  license: U.S. federal government work (public domain)
+  access_conditions: open download, no registration
+  retrieved_at: '2026-09-23T20:26:02+00:00'
+  source_version: ICD-10-CM FY2026 (April 1, 2026 update; valid 2026-04-01 to 2026-09-30)
+  update_date: annual (Oct 1) with April 1 updates
+  unit_of_observation: ICD-10-CM code or category header
+  sample_size:
+    fy2026_rows: 98186
+    fy2026_billable: 74719
+    fy2026_headers: 23467
+    fy2027_rows: 98403
+  status: ingested
+  processed_outputs:
+  - ontology_icd10cm_codes
+  - condition_ontology_mappings
+  audit: data/raw/cms_icd10cm/DATA_AUDIT.md
+  limitations:
+  - Code set only; no counts or prevalence
+  - FY2027 codes take effect 2026-10-01
+  person_level: false
+  geographic: false
+  omics: false
+  wearable: false
+  participant_linkage: not applicable (concept-level vocabulary)
+  true_participant_linkage_across_modalities: false
+  geographic_resolution: none
+  ingestion_module: measure_it.ontology.build_registry
+  data_layer: ontology
+- source_id: ebi_ols4
+  name: EMBL-EBI Ontology Lookup Service (EFO, HPO, MeSH, DOID, ORDO, Mondo)
+  publisher: EMBL-EBI
+  data_layer: ontology
+  status: ingested
+  landing_url: https://www.ebi.ac.uk/ols4/
+  access_urls:
+  - https://www.ebi.ac.uk/ols4/api/search
+  - https://www.ebi.ac.uk/ols4/api/ontologies/{ontology}/terms
+  - https://www.ebi.ac.uk/ols4/api/ontologies/mondo
+  - https://www.ebi.ac.uk/ols4/api/ontologies/efo
+  - https://www.ebi.ac.uk/ols4/api/ontologies/mesh
+  - https://www.ebi.ac.uk/ols4/api/ontologies/hp
+  - https://www.ebi.ac.uk/ols4/api/ontologies/doid
+  - https://www.ebi.ac.uk/ols4/api/ontologies/ordo
+  license: 'OLS service: EMBL-EBI terms of use; each ontology under its own license (EFO/HPO/Mondo/DOID open; MeSH
+    NLM terms; ORDO CC BY 4.0)'
+  access_conditions: open API, no registration
+  retrieved_at: '2026-09-23T20:47:22+00:00'
+  source_version: mondo 2026-09-01; efo 3.94.0; mesh 2025; hp 2026-09-01; doid 2026-08-31; ordo 4.9
+  update_date: OLS reloads ontologies nightly; loaded dates in ols4_ontology_*.json
+  unit_of_observation: ontology term (label, synonyms, obsolescence)
+  sample_size:
+    api_calls_logged: 318
+    phenotype_axes: 13
+    efo_mapping_rows: 32
+  processed_outputs:
+  - condition_ontology_mappings
+  - condition_registry
+  - phenotype_axes
+  audit: data/raw/ebi_ols4/DATA_AUDIT.md
+  limitations:
+  - OLS exact search returns loose hits; results are post-filtered to exact label/synonym equality
+  - MeSH in OLS is the 2025 biopragmatics conversion
+  - No HPO term exists for 'orthostatic intolerance'
+  person_level: false
+  geographic: false
+  omics: false
+  wearable: false
+  participant_linkage: not applicable (concept-level vocabulary)
+  true_participant_linkage_across_modalities: false
+  geographic_resolution: none
+  ingestion_module: measure_it.ontology.build_registry
+- source_id: hgnc
+  name: HGNC complete set (HUGO Gene Nomenclature Committee)
+  publisher: HGNC (EMBL-EBI)
+  landing_url: https://www.genenames.org/download/
+  access_urls:
+  - https://storage.googleapis.com/public-download-files/hgnc/tsv/tsv/hgnc_complete_set.txt
+  license: CC0 (HGNC data are freely available without restriction)
+  access_conditions: open download, no registration
+  retrieved_at: '2026-09-23T23:08:00+00:00'
+  source_version: HGNC complete set, Last-Modified Fri, 18 Sep 2026 13:36:42 GMT (sha256 69bb5722d5a4)
+  update_date: continuous (file regenerated as nomenclature changes); no release numbers
+  data_layer: ontology
+  unit_of_observation: gene (approved symbol and identifiers)
+  sample_size:
+    rows: 45083
+    approved: 45083
+    approved_protein_coding: 19297
+    approved_missing_ensembl_id: 2684
+    approved_missing_ensembl_id_pct: 5.95
+  omics: false
+  geographic_resolution: none
+  person_level: false
+  geographic: false
+  wearable: false
+  participant_linkage: not applicable (reference vocabulary)
+  true_participant_linkage_across_modalities: false
+  status: ingested
+  processed_outputs: []
+  audit: data/raw/hgnc/DATA_AUDIT.md
+  ingestion_module: measure_it.omics.reference_data
+  limitations:
+  - 'Unversioned file: a cold checkout without data/raw/hgnc gets the then-current set'
+  - Symbol harmonisation maps previous/alias symbols only when unambiguous (coherence.SymbolMapper)
+  used_by: measure_it.omics.coherence (results/tables/test3_*.csv, Test 3 molecular coherence) and measure_it.omics.graph
+    (measurable_biology, fig5_*.csv)
+- source_id: mondo_ontology
+  name: Mondo Disease Ontology (+ Monarch KG disease-phenotype associations)
+  publisher: Monarch Initiative
+  data_layer: ontology
+  status: ingested
+  landing_url: https://mondo.monarchinitiative.org/
+  access_urls:
+  - https://github.com/monarch-initiative/mondo/releases/download/v2026-09-01/mondo.obo
+  - https://raw.githubusercontent.com/monarch-initiative/mondo/v2026-09-01/src/ontology/mappings/mondo.sssom.tsv
+  - https://github.com/monarch-initiative/mondo/releases/download/v2026-09-01/source-versions.tsv
+  - https://api.github.com/repos/monarch-initiative/mondo/releases/tags/v2026-09-01
+  - http://purl.obolibrary.org/obo/mondo/releases/2026-09-01/mondo.owl (first 4 KB, for owl:versionIRI)
+  - http://purl.obolibrary.org/obo/mondo.obo
+  - http://purl.obolibrary.org/obo/mondo/mappings/mondo.sssom.tsv
+  - https://api-v3.monarchinitiative.org/v3/api/association
+  - https://api-v3.monarchinitiative.org/v3/api/version
+  license: 'CC BY 4.0 (Mondo); Monarch KG aggregates sources under their own licenses (HPO annotations: HPO license)'
+  access_conditions: open download and open API, no registration
+  retrieved_at: '2026-09-23T20:25:59+00:00'
+  source_version: Mondo v2026-09-01 (releases/2026-09-01; versionIRI http://purl.obolibrary.org/obo/mondo/releases/2026-09-01/mondo.owl);
+    Monarch KG 2026-09-02
+  update_date: 'Mondo: monthly releases; Monarch KG: rebuilt roughly monthly'
+  unit_of_observation: disease class / disease-phenotype association
+  sample_size:
+    mondo_current_classes: 32109
+    mondo_obsolete_classes: 3906
+    registry_conditions: 14
+    mapping_rows: 298
+    phenotype_rows: 2709
+    phenotype_distinct_hpo: 1131
+  processed_outputs:
+  - condition_registry
+  - condition_ontology_mappings
+  - condition_phenotypes
+  - phenotype_axes
+  - ontology_icd10cm_codes
+  audit: data/raw/mondo_ontology/DATA_AUDIT.md
+  limitations:
+  - 'No direct Monarch KG HPO annotation for: long_covid, pots, fibromyalgia, mcas, ptlds, post_infectious_syndrome,
+    ibs, endometriosis'
+  - Descendant-scope phenotypes come mostly from rare Mendelian subtypes (e.g. EDS subtypes) and are flagged
+  - POTS has no stand-alone Mondo class; it is an exact synonym of 'orthostatic intolerance' (treated as broader)
+  - Mondo ICD-10-CM xrefs reach 8 of 14 conditions; 11 codes were added from CMS FY2026 descriptions (curated)
+  - 8 of 8 EFO xrefs carried by Mondo for these conditions are obsolete in EFO 3.94.0 (replaced by Mondo IRIs);
+    EFO-usable ids are Mondo IRIs
+  person_level: false
+  geographic: false
+  omics: false
+  wearable: false
+  participant_linkage: not applicable (concept-level vocabulary)
+  true_participant_linkage_across_modalities: false
+  geographic_resolution: none
+  ingestion_module: measure_it.ontology.build_registry
+- source_id: appelman_lc_pem_source
+  name: Appelman et al. 2024 Long COVID PEM study Source Data (plasma + muscle metabolomics, VO2max; Nat Commun
+    15:17)
+  publisher: 'Springer Nature / Nature Communications (authors: Amsterdam UMC, Vrije Universiteit Amsterdam)'
+  landing_url: https://doi.org/10.1038/s41467-023-44432-3
+  access_urls:
+  - https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-023-44432-3/MediaObjects/41467_2023_44432_MOESM4_ESM.xlsx
+  license: CC BY 4.0 (article and supplementary Source Data)
+  access_conditions: Open anonymous download; no registration or DUA (verified 2026-09-24).
+  retrieved_at: '2026-09-24T20:41:54+00:00'
+  source_version: Source Data file 41467_2023_44432_MOESM4_ESM.xlsx (HTTP Last-Modified Wed, 19 Feb 2025 20:38:37
+    GMT); sha256 726be4203131dad4848f7b7aef9bd3d038ad4c21d5ea55a022480a7de2d492db
+  update_date: 2024-01-04 (article publication; static)
+  data_layer: person
+  unit_of_observation: person x timepoint (baseline, 1 day and 1 week after PEM induction)
+  sample_size:
+    people_table1: 46
+    baseline_blood_long_covid: 25
+    baseline_blood_healthy: 21
+    baseline_muscle_long_covid: 25
+    baseline_muscle_healthy: 19
+    blood_metabolites: 83
+    muscle_metabolites: 116
+  geographic_resolution: none
+  person_level: true
+  geographic: false
+  omics: true
+  wearable: false
+  participant_linkage: metabolomics (blood, muscle), Table 1 demographics and Figure1 VO2max share the study ID
+    within the file; no key to Charlton 2026 or other datasets
+  true_participant_linkage_across_modalities: true
+  status: ingested
+  processed_outputs:
+  - phenotype_signatures__appelman_metabolomics
+  - results/tables/labs_dx_appelman_*.csv
+  audit: data/raw/appelman_lc_pem_source/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.appelman_lc_pem
+  limitations:
+  - 46 people; healthy controls only; no ME/CFS group in this file
+  - age not released (sex and BMI only)
+  - 'same trial as Charlton 2026 (NCT05225688): not independent evidence'
+  - relative, normalised intensities after the authors' QC
+  notes: 'Appelman B, Charlton BT, Goulding RP, et al. Muscle abnormalities worsen after post-exertional malaise
+    in long COVID. Nat Commun 15, 17 (2024). doi:10.1038/s41467-023-44432-3 (PMC10766651). Analysis: measure_it.labs.appelman_metabolomics
+    under docs/ANALYSIS_PLAN_LABS_VS_DIAGNOSIS.md.'
+- source_id: charlton_lc_mecfs_cpet_source
+  name: 'MUSCLE-ME: Long COVID and ME/CFS vs matched healthy controls, daily steps + CPET + muscle biopsy (Charlton
+    et al., Nat Commun 2026, Source Data)'
+  publisher: 'Springer Nature / Nature Communications (authors: Amsterdam UMC, Vrije Universiteit Amsterdam)'
+  landing_url: https://doi.org/10.1038/s41467-026-75725-y
+  access_urls:
+  - https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-026-75725-y/MediaObjects/41467_2026_75725_MOESM4_ESM.xlsx
+  license: CC BY 4.0 (article and supplementary Source Data)
+  access_conditions: Open anonymous download; no registration or DUA (verified 2026-09-24).
+  retrieved_at: '2026-09-24T17:15:26+00:00'
+  source_version: Source Data file 41467_2026_75725_MOESM4_ESM.xlsx (HTTP Last-Modified 2026-07-28); rows Group
+    == 'MUSCLE-ME'; sha256 01873106fd3f5e20a5d1b832ab28f8340c3f22292cb7979f4c0bf2a610e8ea06
+  update_date: 2026-07-28 (article publication; static)
+  data_layer: person
+  unit_of_observation: person (cross-sectional)
+  sample_size:
+    people_ingested: 81
+    long_covid: 25
+    me_cfs: 26
+    healthy_controls: 30
+    with_steps: 73
+    controls_with_steps: 22
+    with_vo2_rel: 79
+    agbresa_rows_not_ingested: 48
+  geographic_resolution: none
+  person_level: true
+  geographic: false
+  omics: false
+  wearable: true
+  participant_linkage: steps, CPET, muscle biopsy and lactate on one row per Subject (within-file); no key to Appelman
+    2024 or other datasets
+  true_participant_linkage_across_modalities: true
+  status: ingested
+  processed_outputs:
+  - participants__charlton_lc_mecfs_cpet_source
+  - participant_wearable_features__charlton_lc_mecfs_cpet_source
+  - participant_exam_features__charlton_lc_mecfs_cpet_source
+  - phenotype_signatures__charlton_lc_mecfs_cpet_source
+  - results/tables/charlton_lc_mecfs_cpet_source_variable_dictionary.csv
+  audit: data/raw/charlton_lc_mecfs_cpet_source/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.muscle_me_charlton
+  limitations:
+  - healthy controls only (no disease or deconditioned comparator); incorporation bias (activity limitation is part
+    of the case definitions)
+  - 8 of 30 controls lack steps; age not released
+  - 'probably the same people as Appelman et al. 2024 (same trial NCT05225688): not independent evidence'
+  - patients able to complete maximal CPET and biopsy (milder end)
+  notes: 'Charlton BT, Slaghekke A, Appelman B, et al. Skeletal muscle properties in long COVID and ME/CFS differ
+    from those induced by bed rest. Nat Commun 17 (2026). doi:10.1038/s41467-026-75725-y (PMID 42649155, PMC13518852;
+    first published 2026-07-28). Steps device: ActiGraph wGT3X-BT accelerometer, right hip, worn from early morning
+    to bedtime during the study period; daily physical activity = steps per day (method stated in Appelman et al.
+    2024, same trial NCT05225688; Charlton 2026 reports ''Daily Steps (steps*day-1)'' in Table 1 without restating
+    the method).'
+- source_id: endo_arg1_repod
+  name: Serum arginase in endometriosis vs controls (RepOD PY1P9X)
+  publisher: RepOD (ICM University of Warsaw Dataverse); Medical University of Warsaw
+  landing_url: https://repod.icm.edu.pl/dataset.xhtml?persistentId=doi:10.18150/PY1P9X
+  access_urls:
+  - https://repod.icm.edu.pl/api/access/datafile/48824
+  license: not stated in the file API response; RepOD default terms (check landing page)
+  access_conditions: Open anonymous download via the Dataverse access API (verified 2026-09-24).
+  retrieved_at: '2026-09-24T21:20:48+00:00'
+  source_version: endo_arg1.tab sha256 ab0f5a77eb8062de9ad2d7e75656e90404bd98eb94b31f82be5343da78785383
+  update_date: static deposit
+  data_layer: person
+  unit_of_observation: participant
+  sample_size:
+    rows: 215
+    Patient: 127
+    Ctrl3: 54
+    Ctrl: 25
+    Ctrl2: 9
+    arg1_pre_Ctrl: 23
+    arg1_pre_Ctrl2: 9
+    arg1_pre_Ctrl3: 53
+    arg1_pre_Patient: 120
+  geographic_resolution: none
+  person_level: true
+  geographic: false
+  omics: false
+  wearable: false
+  participant_linkage: single table
+  true_participant_linkage_across_modalities: false
+  status: ingested
+  processed_outputs:
+  - participants__endo_arg1_repod
+  - participant_labs__endo_arg1_repod
+  - phenotype_signatures__endo_arg1_repod
+  - results/tables/endo_arg1_repod_*.csv
+  audit: data/raw/endo_arg1_repod/DATA_AUDIT.md
+  ingestion_module: measure_it.labs.endo_arg1_repod
+  limitations:
+  - healthy controls have no ELISA plate recorded
+  - more people than the paper
+  - few surgical controls
+  - licence not stated in the API
+  conditions:
+  - endometriosis
+  measurement_class_ids:
+  - blood_biomarkers
+  citation: 'Pliszkiewicz M, Czystowska-Kuzmicz M, Soroczynska K, Siekierski BP, Safranow K, et al. Determination
+    of serum arginase-1 concentrations and serum arginase activity for the non-invasive diagnosis of endometriosis.
+    J Clin Med 2024;13:1489. Data: RepOD doi:10.18150/PY1P9X'
+  notes: Tied rank 2 in docs/LAB_DATASET_DISCOVERY.md; plan docs/ANALYSIS_PLAN_ENDO_ARG1_REPOD.md
+- source_id: fm_thermography
+  name: Infrared thermography in fibromyalgia vs controls (PLOS ONE 2021, 0253281) S1 Data
+  publisher: PLOS ONE / figshare; University of Valencia (Sempere-Rubio et al.)
+  landing_url: https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0253281
+  access_urls:
+  - https://ndownloader.figshare.com/files/28433660
+  - https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0253281&type=manuscript
+  license: CC BY 4.0 (PLOS article licence)
+  access_conditions: Open download, no registration or DUA (verified 2026-09-24).
+  retrieved_at: '2026-09-24T17:10:38+00:00'
+  source_version: figshare file 28433660 (pone.0253281.s001.xlsx), sha256 b6f2df13f9377291a51260adbbfbafb3167946ae399d27adafec2f77f707eaf9
+  update_date: static supplement published 2021-06-24
+  data_layer: person
+  unit_of_observation: participant (one resting thermography session)
+  sample_size:
+    participants: 178
+    fibromyalgia: 86
+    controls: 92
+    complete_six_average_temperatures:
+      fibromyalgia: 85
+      controls: 92
+  geographic_resolution: none
+  person_level: true
+  geographic: false
+  omics: false
+  wearable: false
+  participant_linkage: labels and temperatures share the native ID in one sheet; no cross-dataset linkage
+  true_participant_linkage_across_modalities: false
+  status: ingested
+  processed_outputs:
+  - participants__fm_thermography
+  - participant_device_features__fm_thermography
+  - phenotype_signatures__fm_thermography
+  - results/tables/fm_thermography_*.csv
+  audit: data/raw/fm_thermography/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.fm_thermography
+  limitations:
+  - Authors' published conclusion is negative (thermography not an effective supplementary assessment)
+  - Single site; post-menopausal women only; case-control by recruitment channel
+  - No non-FM pain or other invisible-illness comparator
+  - Per-session room temperature, date and season not recorded in the file (room held at 24 degC by protocol)
+  - ROI summary statistics only; images not released
+  conditions:
+  - fibromyalgia
+  measurement_class_ids:
+  - continuous_temperature
+  measurement_class_note: 'nearest class in configs/measurements.yaml by SIGNAL (skin temperature); that class is
+    a wearable, this is a single clinic infrared-camera image at rest. Proposed new class: infrared_thermography
+    (not added; configs/measurements.yaml is shared).'
+  citation: 'Sempere-Rubio N, Aguilar-Rodriguez M, Ingles M, Izquierdo-Alventosa R, Serra-Ano P. Thermal imaging
+    ruled out as a supplementary assessment in patients with fibromyalgia: a cross-sectional study. PLOS ONE 2021;16(6):e0253281.
+    doi:10.1371/journal.pone.0253281'
+  notes: Discovered and ranked in docs/DEVICE_DATASET_DISCOVERY.md (rank 2); primary analysis locked there.
+- source_id: geo_cohorts
+  name: NCBI GEO public case/control omics cohorts (Long COVID, ME/CFS)
+  publisher: NCBI / National Library of Medicine (GEO); per-series submitters
+  landing_url: https://www.ncbi.nlm.nih.gov/geo/
+  access_urls:
+  - https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi
+  - https://ftp.ncbi.nlm.nih.gov/geo/series
+  - https://www.ncbi.nlm.nih.gov/geo/download/
+  - https://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz
+  license: open GEO records; submitter terms apply to individual series
+  access_conditions: open, no login; GEO's /geo/download annotation link served a reCAPTCHA page to an automated
+    client (worked around with NCBI Gene FTP)
+  retrieved_at: '2026-09-24T16:42:05+00:00'
+  source_version: GEO series as deposited on the retrieval date; sha256 per file in MANIFEST.json
+  update_date: per series
+  data_layer: person
+  unit_of_observation: person (one sample per subject) within one GEO cohort
+  sample_size:
+    screened_rows: 93
+    screened_series: 88
+    passing_rows: 12
+    analysed_subsets:
+      GSE226260_wb:
+        cases: 17
+        controls: 20
+        features_analysed: 13424
+        missing_values: 0
+      GSE270045:
+        cases: 19
+        controls: 17
+        features_analysed: 16282
+        missing_values: 0
+      GSE275334_lc:
+        cases: 15
+        controls: 18
+        features_analysed: 752
+        missing_values: 0
+      GSE293840:
+        cases: 93
+        controls: 75
+        features_analysed: 14829
+        missing_values: 0
+      GSE156792:
+        cases: 61
+        controls: 48
+        features_analysed: 473587
+        missing_values: 0
+      GSE16059:
+        cases: 32
+        controls: 32
+        features_analysed: 20068
+        missing_values: 0
+      GSE227375:
+        cases: 15
+        controls: 24
+        features_analysed: 17424
+        missing_values: 0
+  geographic_resolution: none
+  person_level: true
+  geographic: false
+  omics: true
+  wearable: false
+  participant_linkage: within-cohort only; no cross-dataset participant key
+  true_participant_linkage_across_modalities: false
+  status: ingested
+  processed_outputs:
+  - phenotype_signatures__geo_cohorts
+  - results/tables/geo_cohort_*.csv
+  audit: data/raw/geo_cohorts/DATA_AUDIT.md
+  ingestion_module: measure_it.omics.geo_cohorts
+  limitations:
+  - small cohorts (33-168 subjects)
+  - case/control batch structure mostly unrecorded
+  - replication testable only for two blood-transcriptome pairs
+  - person-level within each cohort; never linked to wearable participants
+- source_id: heds_hsd_olink_serum_cinquina2026
+  name: Serum Olink proteome in hEDS/HSD vs healthy controls (Cinquina 2026)
+  publisher: Clinical Proteomics (BMC) / Europe PMC; Universita degli Studi di Brescia; The Ehlers-Danlos Society
+  landing_url: https://europepmc.org/article/PMC/PMC13081554
+  access_urls:
+  - https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13081554/supplementaryFiles
+  license: CC BY 4.0 (article and additional files, BMC open access)
+  access_conditions: Open download through the Europe PMC supplementaryFiles API; no registration (verified 2026-09-24).
+  retrieved_at: '2026-09-24T21:17:17+00:00'
+  source_version: PMC13081554_supplementaryFiles.zip sha256 78ae5524e458b8d5f71eed7ef9f34b84f12463d430b577c9c306f009fa187d5e
+  update_date: static supplement (published 2026-03-07)
+  data_layer: person
+  unit_of_observation: participant (one serum sample)
+  sample_size:
+    participants: 352
+    HSD_Italy: 44
+    HSD_USA: 44
+    control_Italy: 176
+    hEDS_Italy: 44
+    hEDS_USA: 44
+  geographic_resolution: none
+  person_level: true
+  geographic: false
+  omics: true
+  wearable: false
+  participant_linkage: NPX and clinical sheets share the sample ID (P#/H#); controls have NPX only
+  true_participant_linkage_across_modalities: false
+  status: ingested
+  processed_outputs:
+  - participants__heds_hsd_olink_serum_cinquina2026
+  - participant_labs__heds_hsd_olink_serum_cinquina2026
+  - phenotype_signatures__heds_hsd_olink_serum_cinquina2026
+  - results/tables/heds_hsd_olink_serum_cinquina2026_*.csv
+  audit: data/raw/heds_hsd_olink_serum_cinquina2026/DATA_AUDIT.md
+  ingestion_module: measure_it.labs.heds_hsd_olink_serum_cinquina2026
+  limitations:
+  - controls all Italian; half the patients American home draws (site/handling confounding)
+  - no per-person age/sex for controls
+  - healthy controls only; no disease comparator
+  - Olink NPX relative units
+  conditions:
+  - eds_hsd
+  measurement_class_ids:
+  - proteomics
+  citation: Cinquina V, Carini G, Chiarelli N, et al. Proximity extension assay-based serum proteomic profiling
+    identifies shared protein signatures in hypermobile Ehlers-Danlos syndrome and hypermobility spectrum disorders.
+    Clinical Proteomics 2026 (PMC13081554).
+  notes: Rank 1 in docs/LAB_DATASET_DISCOVERY.md; primary analysis locked in docs/ANALYSIS_PLAN_HEDS_HSD_OLINK_SERUM_CINQUINA2026.md
+- source_id: klein2023_mylc_ml_table
+  name: MY-LC integrated per-participant table (Klein et al. 2023 Nature, Suppl. Table 3)
+  publisher: Nature / Springer Nature; Yale University and Icahn School of Medicine at Mount Sinai
+  landing_url: https://doi.org/10.1038/s41586-023-06651-y
+  access_urls:
+  - https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-023-06651-y/MediaObjects/41586_2023_6651_MOESM4_ESM.xlsx
+  license: CC BY 4.0 (article supplementary information)
+  access_conditions: Open download (Springer static content; browser User-Agent), no registration (2026-09-24).
+  retrieved_at: '2026-09-24T21:21:16+00:00'
+  source_version: 41586_2023_6651_MOESM4_ESM.xlsx sha256 523e60d53347eb3d3cbb98f78c3af7bb4db168a1d9b399fdbcafbc1a06e3ee86
+  update_date: static supplement (2023)
+  data_layer: person
+  unit_of_observation: participant
+  sample_size:
+    rows: 185
+    analysis_set: 178
+    analysis_set_LC: 99
+    analysis_set_HC: 40
+    analysis_set_CC: 39
+    cortisol_HC: 40
+    cortisol_CC: 39
+    cortisol_LC: 98
+  geographic_resolution: none
+  person_level: true
+  geographic: false
+  omics: true
+  wearable: false
+  participant_linkage: all 7,431 columns share x0_LC_ID (one row per person)
+  true_participant_linkage_across_modalities: true
+  status: ingested
+  processed_outputs:
+  - participants__klein2023_mylc_ml_table
+  - participant_labs__klein2023_mylc_ml_table
+  - phenotype_signatures__klein2023_mylc_ml_table
+  - results/tables/klein2023_mylc_ml_table_*.csv
+  audit: data/raw/klein2023_mylc_ml_table/DATA_AUDIT.md
+  ingestion_module: measure_it.labs.klein2023_mylc_ml_table
+  limitations:
+  - recruitment-channel case-control
+  - single draw; cortisol diurnal
+  - no codebook in the file
+  conditions:
+  - long_covid
+  measurement_class_ids:
+  - blood_biomarkers
+  - immune_assays
+  citation: Klein J, Wood J, Jaycox JR, et al. Distinguishing features of long COVID identified through immune profiling.
+    Nature 2023;623:139-148. doi:10.1038/s41586-023-06651-y
+  notes: Ranked (tied 2nd/3rd) in docs/LAB_DATASET_DISCOVERY.md; plan docs/ANALYSIS_PLAN_KLEIN2023_MYLC_ML_TABLE.md
+- source_id: mapmecfs_nih_pi_mecfs
+  name: NIH intramural post-infectious ME/CFS deep phenotyping (Walitt et al. 2024; mapMECFS, GEO, SRA, Pennsieve
+    deposits)
+  publisher: NIH NINDS Division of Intramural Research; mapMECFS (RTI International); NCBI GEO/SRA; Pennsieve
+  data_layer: person
+  status: partial
+  landing_url: https://www.mapmecfs.org/group/post-infectious-mecfs-at-the-nih
+  access_urls:
+  - https://api.pennsieve.io/discover/datasets/356/versions/1/files?path=files/Data_share.xlsx
+  - https://api.pennsieve.io/discover/datasets/356/versions/1/files?path=manifest.json
+  - https://api.pennsieve.io/discover/datasets/356/versions/1/files?path=metadata/records/file.csv
+  - https://api.pennsieve.io/discover/datasets/356/versions/1/files?path=metadata/schema.json
+  - https://codeload.github.com/docwalitt/National-Institutes-of-Health-Myalgic-Encephalomyelitis-Chronic-Fatigue-Syndrome-Code-Repository/zip/refs/heads/main
+  - https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=biosample&id=SAMN37872266,SAMN37872267,SAMN37872268,SAMN37872269,SAMN37872270,SAMN37872271,SAMN37872272,SAMN37872273,SAMN37872274,SAMN37872275,SAMN37872276,SAMN37872277,SAMN37872278,SAMN37872279,SAMN37872280,SAMN37872281,SAMN37872282,SAMN37872283,SAMN37872284,SAMN37872285,SAMN37872286,SAMN37872287,SAMN37872288,SAMN37872289,SAMN37872290,SAMN38688091,SAMN38688092,SAMN38688093,SAMN38688094,SAMN38688095,SAMN38688096,SAMN38688097,SAMN38688098,SAMN38688099,SAMN38688100,SAMN38688101,SAMN38688102,SAMN38688103,SAMN38688104,SAMN38688105,SAMN38688106,SAMN38688107,SAMN38688108,SAMN38688109,SAMN38688110,SAMN38688111,SAMN38688112,SAMN38688113,SAMN38688114,SAMN38688115,SAMN38688116,SAMN38688117,SAMN38688118,SAMN38688119,SAMN38688120,SAMN38688121,SAMN38688122,SAMN39059897,SAMN39059898,SAMN39059899,SAMN39059900,SAMN39059901,SAMN39059902,SAMN39059903,SAMN39059904,SAMN39059905,SAMN39059906,SAMN39059907,SAMN39059908,SAMN39059909,SAMN39059910,SAMN39059911,SAMN39059912,SAMN39059913,SAMN39908962,SAMN39908963,SAMN39908964,SAMN39908965,SAMN39908966,SAMN39908967,SAMN39908968,SAMN39908969,SAMN39908970,SAMN40264465&retmode=xml
+  - https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=sra&id=32142217,31862214,31862212,31862210,31862208,31862206,31862204,31862202,31862200,31862198,31073767,31073766,31073765,31073764,31073763,31073762,31073761,31073760,31073759,31073758,31073757,31073756,31073755,31073754,31073753,31073752,31073751,30836199,30836198,30836197,30836196,30836195,30836194,30836193,30836192,30836191,30836190,30836189,30836188,30836187,30836186,30836185,30836184,30836183,30836182,30836181,30836180,30836179,30836178,30836177,30836176,30836175,30836174,30836173,30836172,30836171,30836170,30836169,30836168,30075586,30075585,30075584,30075583,30075582,30075581,30075580,30075579,30075578,30075577,30075576,30075575,30075574,30075573,30075572,30075571,30075570,30075569,30075568,30075567,30075566,30075565,30075564,30075563,30075562&rettype=runinfo&retmode=text
+  - https://ftp.ncbi.nlm.nih.gov/geo/series/GSE245nnn/GSE245661/matrix/GSE245661_series_matrix.txt.gz
+  - https://ftp.ncbi.nlm.nih.gov/geo/series/GSE245nnn/GSE245661/suppl/GSE245661_RAW.tar
+  - https://ftp.ncbi.nlm.nih.gov/geo/series/GSE251nnn/GSE251790/matrix/GSE251790_series_matrix.txt.gz
+  - https://ftp.ncbi.nlm.nih.gov/geo/series/GSE251nnn/GSE251790/suppl/GSE251790_CHI-19-027.Set_001.hybNorm.plateScale.medNorm.20200106.adat.txt.gz
+  - https://ftp.ncbi.nlm.nih.gov/geo/series/GSE251nnn/GSE251872/matrix/GSE251872-GPL21290_series_matrix.txt.gz
+  - https://ftp.ncbi.nlm.nih.gov/geo/series/GSE251nnn/GSE251872/matrix/GSE251872-GPL24676_series_matrix.txt.gz
+  - https://ftp.ncbi.nlm.nih.gov/geo/series/GSE251nnn/GSE251872/suppl/GSE251872_RAW.tar
+  - https://ftp.ncbi.nlm.nih.gov/geo/series/GSE254nnn/GSE254030/matrix/GSE254030_series_matrix.txt.gz
+  - https://ftp.ncbi.nlm.nih.gov/geo/series/GSE254nnn/GSE254030/suppl/GSE254030_CHI-19-021.Plasma_for_CFS.adat.txt.gz
+  - https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-024-45107-3/MediaObjects/41467_2024_45107_MOESM1_ESM.pdf
+  - https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-024-45107-3/MediaObjects/41467_2024_45107_MOESM2_ESM.pdf
+  - https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-024-45107-3/MediaObjects/41467_2024_45107_MOESM3_ESM.pdf
+  - https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-024-45107-3/MediaObjects/41467_2024_45107_MOESM4_ESM.zip
+  - https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-024-45107-3/MediaObjects/41467_2024_45107_MOESM5_ESM.docx
+  - https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-024-45107-3/MediaObjects/41467_2024_45107_MOESM6_ESM.zip
+  - https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10881493/fullTextXML
+  - https://www.mapmecfs.org/api/3/action/package_search?fq=groups:post-infectious-mecfs-at-the-nih&rows=1000
+  - https://www.mapmecfs.org/api/3/action/package_search?rows=1000
+  license: CC BY 4.0 (article, supplements, mapMECFS, Pennsieve); GEO/SRA public; GitHub GPL-3.0
+  access_conditions: 'GEO/SRA/Nature/GitHub/Pennsieve: open, no registration. mapMECFS data files: registered account
+    required (anonymous requests return HTTP 403 ''Login Required''); no account created, so mapMECFS files are
+    not automatable.'
+  retrieved_at: '2026-09-23T20:27:58+00:00'
+  source_version: doi:10.1038/s41467-024-45107-3; GEO SuperSeries GSE251792 SubSeries; last_update_date Mar 06 2024;
+    GitHub commit fa5cb068ab6fe2ceb06ce42587e727032d5be678
+  update_date: static publication deposits (GEO last updated 2024-03-06 per series matrices)
+  unit_of_observation: participant (NIH study number) x omics modality x feature; plus published condition-level
+    differential analytes
+  sample_size:
+    study_numbers_union_open_omics: 47
+    subjects_pbmc_rnaseq: 27
+    subjects_muscle_rnaseq: 25
+    subjects_csf_somalogic: 42
+    subjects_serum_somalogic: 42
+    subjects_csf_metabolomics: 21
+    subjects_stool_metagenomics: 32
+    subjects_eefrt_mapid: 31
+    subjects_pennsieve_emg: 14
+    subjects_pennsieve_fmri: 18
+    subjects_eefrt_source_data: 32
+    subjects_seahorse_post_cpet: 17
+    participant_omics_linked_rows: 902186
+    condition_evidence_rows: 14565
+    condition_evidence_nominal_p_lt_0.05: 4987
+    mapmecfs_files_gated: 85
+  geographic_resolution: none
+  person_level: true
+  geographic: false
+  omics: true
+  wearable: false
+  participant_linkage: omics x omics only, on NIH study numbers (1xx HV / 3xx PI-ME/CFS) published in GEO titles/count
+    files and Fig. 6J source data; serum SomaLogic via the Fatigue-NNN crosswalk in GSE251790. Wearable/HRV/orthostatic/CPET
+    data carry no participant IDs in open files and are NOT linked.
+  true_participant_linkage_across_modalities: true
+  wearable_omics_linkage: false
+  linked_modalities:
+  - pbmc_rnaseq
+  - muscle_rnaseq
+  - csf_somalogic
+  - serum_somalogic
+  - csf_metabolomics
+  processed_outputs:
+  - condition_molecular_evidence__mapmecfs
+  - modality_inventory__mapmecfs
+  - modality_overlap__mapmecfs
+  - participant_omics_linked__mapmecfs
+  - participants__mapmecfs
+  audit: data/raw/mapmecfs_nih_pi_mecfs/DATA_AUDIT.md; docs/MAP_MECFS_LINKAGE_AUDIT.md
+  ingestion_module: measure_it.ingestion.mapmecfs
+  limitations:
+  - Single exploratory case-control cohort (paper analytic n = 17 PI-ME/CFS + 21 HV); deposits include participants
+    outside that cohort and no open file flags adjudication status.
+  - Wearable/actigraphy/HRV/orthostatic/CPET per-participant data are gated on mapMECFS; open source data for these
+    carry group labels only, so they are not person-level data here.
+  - Participant 311 is labelled Male in both GEO RNA-seq deposits and Female in both SomaLogic deposits; flagged
+    (sex_concordant_across_sources = False), not corrected.
+  - Serum SomaLogic is attached to participants through the Fatigue-NNN pairing published only in the CSF deposit
+    (GSE251790); corroborated by sex/age/group agreement, not by an ID in the serum deposit.
+  - CSF metabolomics source data carry study numbers only on rows with Birth Sex = 1; other rows are not linkable.
+  - Supplementary Data 14A 'adjusted p-value' is not a monotone adjustment of its 'p-value' column (see audit),
+    so fdr_significant is UNKNOWN for its 142 rows (kept as published in adj_p_value); Supplementary Data 18 log2FoldChange
+    orientation is unverifiable (direction UNKNOWN).
+  - 'Supplementary Data 17 value scales, established against the GEO ADAT RFUs: 17A RFU, 17B log2_RFU. effect_value
+    is the log2 ratio of group medians for RFU values and the difference of group medians for log2(RFU) values (value_scale
+    column).'
+  - Condition evidence rows for SD15/17/20/21 take direction from group medians computed from the individual values
+    published in the same table; p-values are as published.
+  - GEO PBMC deposit has 27 samples while the PBMC DE analysis used 29 (source data 15 HV + 14 PI); stated n in
+    MOESM3 differs from source-data counts for SD16C (stated 8 HV, Fig. 8F has 9).
+- source_id: nhanes_2003_2006
+  name: NHANES 2003-2004 (C) and 2005-2006 (D) — hip accelerometry cohort
+  publisher: CDC National Center for Health Statistics (NCHS)
+  landing_url: https://wwwn.cdc.gov/nchs/nhanes/default.aspx
+  access_urls:
+  - https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2003/DataFiles/
+  - https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2005/DataFiles/
+  - https://ftp.cdc.gov/pub/Health_Statistics/NCHS/datalinkage/linked_mortality/
+  license: U.S. government public-use data; NCHS Data User Agreement applies
+  access_conditions: 'Public-use files, no registration. NCHS Data User Agreement (read 2026-09-23 at https://www.cdc.gov/nchs/policy/data-user-agreement.html):
+    use the data for statistical reporting and analysis only; make no attempt to learn the identity of any person;
+    do not link the data with individually identifiable data from other datasets; do not assess disclosure methods
+    or attempt re-identification.'
+  retrieved_at: '2026-09-24T17:28:18+00:00'
+  source_version: NHANES 2003-2004 and 2005-2006 public releases; PAXRAW_C/D.zip (2014-12-31); public-use LMF 2019
+  update_date: 2022-04-26 (latest Last-Modified among retrieved data files)
+  data_layer: person
+  unit_of_observation: participant (SEQN); participant-minute for hip accelerometry
+  sample_size:
+    participants: 20470
+    per_cycle:
+      2003-2004: 10122
+      2005-2006: 10348
+    mec_examined: 19593
+    pam_participants: 14631
+    passing_valid_wear_rule: 9691
+    passing_valid_wear_rule_age18plus: 6538
+  geographic_resolution: none
+  person_level: true
+  geographic: false
+  omics: false
+  wearable: true
+  participant_linkage: 'SEQN joins NHANES 2003-2006 components and the NCHS linked mortality file; participant_id
+    namespace nhanes0306:'
+  true_participant_linkage_across_modalities: true
+  status: ingested
+  processed_outputs:
+  - participants__nhanes0306
+  - participant_clinical_features__nhanes0306
+  - participant_labs__nhanes0306
+  - participant_medications__nhanes0306
+  - participant_mortality__nhanes0306
+  - participant_wearable_features__nhanes0306
+  - participant_wearable_daily__nhanes0306
+  audit: data/raw/nhanes_2003_2006/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.nhanes_2003_2006 (+ measure_it.wearables.nhanes0306_features)
+  limitations:
+  - 'Hip ActiGraph counts: different device/placement/unit from 2011-2014 wrist MIMS; not pooled'
+  - 'Waking-hours wear protocol: no sleep proxy; rest-activity metrics describe waking wear only'
+  - PHQ-9 (fatigue, depression, ME/CFS-like proxy) only 2005-2006
+  - No heart rate/HRV stream
+  - No geography in public files
+- source_id: nhanes_2011_2014
+  name: NHANES 2011-2012 (G) and 2013-2014 (H)
+  publisher: CDC National Center for Health Statistics (NCHS)
+  data_layer: person
+  status: ingested
+  landing_url: https://wwwn.cdc.gov/nchs/nhanes/default.aspx
+  access_urls:
+  - https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2011/DataFiles/
+  - https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2013/DataFiles/
+  - https://ftp.cdc.gov/pub/NHANES/LargeDataFiles/
+  - https://ftp.cdc.gov/pub/Health_Statistics/NCHS/datalinkage/linked_mortality/
+  - https://wwwn.cdc.gov/nchs/data/nhanes/omp/
+  - https://wwwn.cdc.gov/nchs/nhanes/search/datapage.aspx?Component=Laboratory&CycleBeginYear=2011
+  - https://wwwn.cdc.gov/nchs/nhanes/search/datapage.aspx?Component=Laboratory&CycleBeginYear=2013
+  license: U.S. government public-use data; NCHS Data User Agreement applies
+  access_conditions: 'Public-use files, no registration. NCHS Data User Agreement (read 2026-09-23 at https://www.cdc.gov/nchs/policy/data-user-agreement.html):
+    use the data for statistical reporting and analysis only; make no attempt to learn the identity of any person;
+    do not link the data with individually identifiable data from other datasets; do not assess disclosure methods
+    or attempt re-identification.'
+  retrieved_at: '2026-09-24T20:29:57+00:00'
+  source_version: NHANES 2011-2012 and 2013-2014 public releases (PAM released Nov 2020; PAXMIN large files last-modified
+    2022-08-01); public-use LMF 2019
+  update_date: 2026-01-20 (latest Last-Modified among retrieved data files)
+  unit_of_observation: participant (SEQN); participant-day and participant-minute for accelerometry
+  sample_size:
+    participants: 19931
+    per_cycle:
+      2011-2012: 9756
+      2013-2014: 10175
+    mec_examined: 19151
+    pam_data_available: 14693
+    passing_valid_wear_rule: 12955
+    passing_valid_wear_rule_age18plus: 8954
+    lab_layers: 58
+    lab_layer_participants_analysis_population:
+      aging_klotho_surplus: 4326
+      core_biochemistry_profile: 8409
+      core_cbc: 8577
+      diet_caffeine_metabolites_urine: 2810
+      env_acrylamide_hb_adducts: 1853
+      env_aldehydes_serum: 1619
+      env_aromatic_amines_urine: 1901
+      env_arsenic_urine: 3806
+      env_chlorophenols_herbicides_urine: 1406
+      env_ethylene_oxide_hb_adducts: 1874
+      env_flame_retardant_metabolites_urine_surplus: 2567
+      env_fluoride_plasma: 212
+      env_formaldehyde_hb_adducts: 1595
+      env_glyphosate_urine_surplus: 1345
+      env_heterocyclic_amines_urine: 1894
+      env_mercury_species_blood: 6354
+      env_metals_blood: 6368
+      env_metals_urine: 3797
+      env_pahs_urine: 3316
+      env_perchlorate_nitrate_thiocyanate_urine: 3755
+      env_pesticides_urine: 2853
+      env_pfas_serum: 2722
+      env_pfas_serum_surplus: 1370
+      env_phenols_parabens_urine: 2885
+      env_phthalates_urine: 2885
+      env_phthalates_urine_surplus: 1358
+      env_terpenes_serum_surplus: 1305
+      env_voc_metabolites_urine: 3754
+      env_vocs_blood: 4348
+      env_volatile_nitrosamines_urine: 1896
+      hormones_sex_steroids: 8350
+      hormones_thyroid_subsample: 1332
+      immune_autoantibodies_surplus: 2958
+      immune_celiac_serology: 8366
+      infectious_hepatitis: 8484
+      infectious_herpes_cmv: 4361
+      infectious_hiv: 5718
+      infectious_hpv: 7516
+      infectious_parasite_serology_surplus: 7602
+      infectious_sti_urine: 4580
+      infectious_tuberculosis_igra: 4152
+      lipids_glycaemia_full: 8578
+      metabolic_fasting_subsample: 4195
+      metabolic_ogtt_subsample: 3264
+      neuro_neurofilament_light_surplus: 1646
+      nutrition_fatty_acids_serum: 4033
+      nutrition_folate_b12_status: 8580
+      nutrition_holotranscobalamin_surplus: 3550
+      nutrition_iodine_urine: 2892
+      nutrition_trace_elements_serum: 2801
+      nutrition_vitamin_d_b12: 8498
+      oral_microbiome_16s: 3426
+      tobacco_cotinine: 8661
+      tobacco_nicotine_metabolites_urine: 1894
+      tobacco_nitrosamines_urine: 4403
+      urine_albumin_creatinine: 8758
+      urine_flow_rate: 8350
+      urine_osmolality: 4176
+    extended_lab_rows: 4181033
+  geographic_resolution: none
+  person_level: true
+  geographic: false
+  omics: false
+  wearable: true
+  participant_linkage: SEQN joins all NHANES components and the NCHS linked mortality file within NHANES
+  true_participant_linkage_across_modalities: true
+  processed_outputs:
+  - participants__nhanes
+  - participant_clinical_features__nhanes
+  - participant_conditions__nhanes
+  - participant_labs__nhanes
+  - participant_medications__nhanes
+  - participant_mortality__nhanes
+  - participant_wearable_features__nhanes
+  - participant_wearable_daily__nhanes
+  - participant_labs_extended__nhanes
+  - participant_layer_membership__nhanes
+  audit: data/raw/nhanes_2011_2014/DATA_AUDIT.md
+  ingestion_module: 'measure_it.ingestion.nhanes (+ measure_it.wearables.nhanes_features, measure_it.wearables.circadian)
+    (+ measure_it.ingestion.nhanes_labs_extended: full laboratory catalogue)'
+  limitations:
+  - No heart-rate/HRV stream; BPXPLS is a single 60-s exam pulse
+  - Diagnoses are self-reported; rx reason-for-use ICD-10-CM codes exist only for 2013-2014
+  - ME/CFS, Long COVID, POTS and EDS are not measured; fatigue only via PHQ-9 item DPQ040 (proxy)
+  - No ferritin or CRP/hs-CRP in 2011-2014; thyroid profile 2011-2012 subsample only
+  - Single MIMS active/inactive cut-point (10.558); sleep features are classifier-based proxies
+  - No geography in public files; any geographic use is ecological
+  - 'Extended lab layers: many are one-third or surplus subsamples (own weights) or one cycle only; analyse only
+    among sampled participants; below-LOD values are NCHS fill values (LLOD/sqrt(2))'
+  - Oral microbiome (16S) only for 2011-2012 participants aged 14-69
+  omics_note: oral microbiome 16S (NHANES Oral Microbiome Project, SEQN-linked) for 2011-2012; lab panels are biomarker
+    layers, not omics
+- source_id: stanford_longcovid_wearables
+  name: Stanford Snyder Lab COVID-19 and Long COVID smartwatch datasets (Mishra 2020, Alavi 2022, Uwakwe 2025)
+  publisher: Stanford University (Snyder Lab, Department of Genetics)
+  data_layer: person
+  status: ingested
+  landing_url: https://snyderlabs.stanford.edu/long-covid/
+  access_urls:
+  - https://journals.plos.org/digitalhealth/article/file?type=supplementary&id=10.1371/journal.pdig.0001093.s009
+  - https://journals.plos.org/digitalhealth/article/file?type=supplementary&id=10.1371/journal.pdig.0001093.s010
+  - https://journals.plos.org/digitalhealth/article/file?type=supplementary&id=10.1371/journal.pdig.0001093.s011
+  - https://purl.stanford.edu/cb174pb4851.json
+  - https://stacks.stanford.edu/file/druid:cb174pb4851/Demographic_Data.csv
+  - https://stacks.stanford.edu/file/druid:cb174pb4851/RHR_Data.zip
+  - https://stacks.stanford.edu/file/druid:cb174pb4851/Symptom_Data.csv
+  - https://static-content.springer.com/esm/art%3A10.1038%2Fs41551-020-00640-6/MediaObjects/41551_2020_640_MOESM3_ESM.xlsx
+  - https://static-content.springer.com/esm/art%3A10.1038%2Fs41591-021-01593-2/MediaObjects/41591_2021_1593_MOESM3_ESM.xlsx
+  - https://storage.googleapis.com/gbsc-gcp-project-ipop_public/COVID-19-Phase2/COVID-19-Phase2-Wearables.zip
+  - https://storage.googleapis.com/gbsc-gcp-project-ipop_public/COVID-19/COVID-19-Wearables.zip
+  - https://storage.googleapis.com/storage/v1/b/gbsc-gcp-project-ipop_public/o?prefix=COVID-19&fields=items(name,size,updated,md5Hash)
+  license: 'stanford_covid_mishra2020: No explicit data licence stated; public download link given in the paper''s
+    Data availability statement (Nature Biomedical Engineering 2020). | stanford_covid_alavi2022: No explicit data
+    licence stated for the zip; article CC BY 4.0; public download link given in the paper''s Data availability
+    statement. | stanford_longcovid_uwakwe2025: Open Data Commons Attribution License v1.0 (ODC-By 1.0); SDR use
+    statement: content will not be used to identify individuals.'
+  access_conditions: 'Open download, no registration or DUA (verified 2026-09-23). SDR terms: do not use to identify
+    individuals.'
+  retrieved_at: '2026-09-23T20:48:15+00:00'
+  source_version: 'stanford_covid_mishra2020: GCS object COVID-19/COVID-19-Wearables.zip updated 2020-10-19; labels
+    = Supplementary Data 1 (41551_2020_640_MOESM3_ESM.xlsx) | stanford_covid_alavi2022: GCS object COVID-19-Phase2/COVID-19-Phase2-Wearables.zip
+    updated 2021-08-13; labels = Source Data (41591_2021_1593_MOESM3_ESM.xlsx) | stanford_longcovid_uwakwe2025:
+    SDR druid:cb174pb4851 cocina version 3 (deposited 2025-07-12, modified 2026-03-18)'
+  update_date: phase1 zip 2020-10-19; phase2 zip 2021-08-13; SDR modified 2026-03-18
+  unit_of_observation: participant x minute (raw); participant x day; participant
+  sample_size:
+    participants:
+      stanford_covid_alavi2022: 2123
+      stanford_covid_mishra2020: 118
+      stanford_longcovid_uwakwe2025: 126
+    participants_with_processed_wearables:
+      stanford_covid_alavi2022: 2116
+      stanford_covid_mishra2020: 118
+      stanford_longcovid_uwakwe2025: 126
+    participant_days: 326934
+    long_covid_labelled: 126
+    long_covid_positive: 31
+    acute_covid19_positive_with_dates:
+      stanford_covid_alavi2022: 84
+      stanford_covid_mishra2020: 32
+  geographic_resolution: none
+  person_level: true
+  geographic: false
+  omics: false
+  wearable: true
+  participant_linkage: Within each sub-dataset wearable files and labels share native ids (verified); no linkage
+    across sub-datasets; Uwakwe paper supplementary windows/features are on an unlinkable numbering
+  true_participant_linkage_across_modalities: false
+  processed_outputs:
+  - participants__stanford_covid
+  - participant_conditions__stanford_covid
+  - participant_wearable_features__stanford_covid
+  - participant_wearable_daily__stanford_covid
+  - results/tables/stanford_reproduction_benchmark.csv
+  audit: data/raw/stanford_longcovid_wearables/DATA_AUDIT.md
+  ingestion_module: measure_it.ingestion.stanford_wearables
+  limitations:
+  - Only stanford_longcovid_uwakwe2025 (n=126, 31 positive) has a genuine Long COVID label; Mishra/Alavi are acute
+    COVID-19 cohorts
+  - 'Uwakwe release has no COVID-19 diagnosis date and no steps: no infection-aligned trajectories; HR-only and
+    combined models not reproducible'
+  - All dates are source-shifted; calendar effects not interpretable
+  - Alavi participants without a published positive record are not verified negatives
+  - 'phase-2 processing scope for this run: all'
+  sub_datasets:
+    stanford_covid_mishra2020:
+      citation: Mishra T, et al. Pre-symptomatic detection of COVID-19 from smartwatch data. Nat Biomed Eng. 2020;4:1208-1220.
+        doi:10.1038/s41551-020-00640-6
+      landing_url: https://www.nature.com/articles/s41551-020-00640-6
+    stanford_covid_alavi2022:
+      citation: Alavi A, et al. Real-time alerting system for COVID-19 and other stress events using wearable data.
+        Nat Med. 2022;28:175-184. doi:10.1038/s41591-021-01593-2
+      landing_url: https://www.nature.com/articles/s41591-021-01593-2
+    stanford_longcovid_uwakwe2025:
+      citation: 'Uwakwe CK, et al. Longitudinal wearable sensor data enhance precision of Long COVID detection.
+        PLOS Digit Health. 2025;4(11):e0001093. doi:10.1371/journal.pdig.0001093. Data: doi:10.25740/cb174pb4851'
+      landing_url: https://purl.stanford.edu/cb174pb4851
+  notes: Long COVID label = self-reported symptoms >=12 weeks after confirmed COVID-19 (CDC). RHR = Mishra/Wang
+    CuSum-code definition (step minute + 10 min excluded; no RHR on days with no recorded step) except Uwakwe (authors'
+    30-min mask).
+generated_at: '2026-10-07T21:46:53+00:00'
