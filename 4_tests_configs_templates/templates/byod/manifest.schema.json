@@ -1,0 +1,410 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://measure-it.local/byod/manifest.schema.json",
+  "title": "measure-it bring-your-own-data manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "dataset_id",
+    "title",
+    "owner",
+    "licence",
+    "data_use",
+    "labels",
+    "comparator",
+    "measurement",
+    "primary_analysis"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "dataset_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{2,40}$",
+      "description": "lower-case id; the engine dataset id becomes byod_<dataset_id>"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 2,
+      "description": "organisation responsible for the data"
+    },
+    "description": {
+      "type": "string"
+    },
+    "licence": {
+      "type": "string",
+      "minLength": 3,
+      "description": "licence or data-use statement"
+    },
+    "synthetic": {
+      "type": "boolean",
+      "description": "true only for generated (not real) data"
+    },
+    "demo": {
+      "type": "boolean",
+      "description": "true: the performance record is excluded from rankings unless deploy --demo"
+    },
+    "data_use": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "deidentified",
+        "use_permitted",
+        "statement"
+      ],
+      "properties": {
+        "deidentified": {
+          "const": true
+        },
+        "use_permitted": {
+          "const": true
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 10
+        },
+        "irb_or_dua_reference": {
+          "type": "string"
+        }
+      }
+    },
+    "labels": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "column",
+          "condition",
+          "definition",
+          "label_basis"
+        ],
+        "properties": {
+          "column": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{0,40}$"
+          },
+          "condition": {
+            "type": "string"
+          },
+          "definition": {
+            "type": "string",
+            "minLength": 10
+          },
+          "label_basis": {
+            "enum": [
+              "clinical_case_definition",
+              "clinical_diagnosis",
+              "ehr_codes",
+              "proxy",
+              "self_report"
+            ]
+          }
+        }
+      }
+    },
+    "comparator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "description"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "general_population",
+            "healthy",
+            "look_alike"
+          ]
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "class"
+      ],
+      "properties": {
+        "class": {
+          "type": "string"
+        },
+        "bundle": {
+          "type": "string"
+        },
+        "device": {
+          "type": "string"
+        }
+      }
+    },
+    "devices": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "measurement_class": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "adapter": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "module",
+              "class"
+            ],
+            "properties": {
+              "module": {
+                "type": "string"
+              },
+              "class": {
+                "type": "string"
+              },
+              "register_as": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{0,40}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "id_hashing": {
+      "enum": [
+        "none",
+        "salted_sha256"
+      ]
+    },
+    "min_group_size": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cases": {
+          "type": "integer",
+          "minimum": 5
+        },
+        "controls": {
+          "type": "integer",
+          "minimum": 5
+        }
+      }
+    },
+    "primary_analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "feature_blocks"
+      ],
+      "properties": {
+        "label": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{0,40}$"
+        },
+        "feature_blocks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "combined_blocks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "specificity": {
+          "type": "number",
+          "exclusiveMinimum": 0.5,
+          "maximum": 0.99
+        },
+        "covariates": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "age_band",
+              "sex"
+            ]
+          }
+        },
+        "n_splits": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 10
+        },
+        "n_repeats": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50
+        },
+        "n_permutations": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5000
+        },
+        "n_bootstrap": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 10000
+        },
+        "C": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "omics": {
+      "type": "object",
+      "description": "optional, per omics_<layer> file: the assay platform; platform nmr_nightingale with units nightingale_standard lets clinical-chemistry-equivalent measures meet NHANES labs as LOINC (configs/harmonize_nightingale_loinc.yaml)",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "platform": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{0,40}$"
+          },
+          "units": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "subgroup_analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "PRE-SPECIFIED device-defined subgroup inside a label's cases (`measure-it byod subgroup`)",
+      "required": [
+        "name",
+        "within_label",
+        "device_positive"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{0,40}$"
+        },
+        "description": {
+          "type": "string"
+        },
+        "within_label": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{0,40}$"
+        },
+        "device_positive": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "column": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]{0,40}$"
+            },
+            "block": {
+              "type": "string",
+              "pattern": "^device_[a-z][a-z0-9_]{0,40}$"
+            },
+            "feature": {
+              "type": "string"
+            },
+            "threshold": {
+              "type": "number"
+            },
+            "direction": {
+              "enum": [
+                ">=",
+                ">",
+                "<=",
+                "<"
+              ]
+            }
+          },
+          "oneOf": [
+            {
+              "required": [
+                "column"
+              ]
+            },
+            {
+              "required": [
+                "block",
+                "feature",
+                "threshold"
+              ]
+            }
+          ]
+        },
+        "ehr_domains": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "condition",
+              "demographic",
+              "drug",
+              "measurement",
+              "survey"
+            ]
+          }
+        },
+        "max_features": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "min_feature_participants": {
+          "type": "integer",
+          "minimum": 3
+        },
+        "exclude_feature_keys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "n_splits": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 10
+        },
+        "n_repeats": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50
+        },
+        "n_permutations": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5000
+        },
+        "n_bootstrap": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 10000
+        },
+        "C": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    }
+  }
+}

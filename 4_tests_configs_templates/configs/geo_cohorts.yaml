@@ -1,0 +1,625 @@
+# Public GEO case/control omics cohorts for Long COVID and ME/CFS (owner: measure_it.omics.geo_cohorts).
+#
+# Written 2026-09-24 from SAMPLE METADATA ONLY (GEO acc.cgi GSM text, series summaries and FTP file
+# listings). No expression value was read when these rules were fixed. The analysis plan that uses
+# them is docs/ANALYSIS_PLAN_GEO_COHORTS.md (written before any model was fitted).
+#
+# Screen universe: every row of geo_study_catalog with condition_id in {long_covid, me_cfs}
+# (89 rows, 88 GSE). Each GSE must appear below either with `subsets` (a label rule the code
+# evaluates: case/control subject counts, platform, tissue, matrix availability) or with
+# `exclude` (a metadata-based reason code + note). tests/test_geo_cohorts.py enforces coverage.
+#
+# Eligibility (all required):
+#   E1 human samples; person-level bulk profile (not in vitro, animal model, single-cell, autopsy)
+#   E2 an explicit case/control label in sample characteristics, title or source name:
+#      case = Long COVID / PASC (post-acute) or ME/CFS (CFS); control = healthy or recovered
+#   E3 >= 15 case SUBJECTS and >= 15 control SUBJECTS in the analysable subset (one sample per
+#      subject, a single platform, a single tissue, post-acute / baseline timepoint)
+#   E4 a processed sample x feature matrix (series-matrix values, supplementary matrix, or
+#      NCBI-generated counts) whose features were NOT constructed using the case/control labels
+# Preference (ranking only): blood-derived compartment (whole blood, PBMC, leukocytes, plasma,
+# serum, plasma cfRNA/EVs). Non-blood eligible subsets are used only if < 3 blood subsets pass.
+#
+# Selection rule (pre-specified): per condition, rank passing blood-derived subsets by analysable
+# n (cases + controls), ties by min(group), then accession; take the top 3 as PRIMARY. If none of
+# the primary subsets of a condition shares a compatibility class with another primary subset,
+# the largest passing subset of the same class as a primary subset is added as REPLICATION-ONLY
+# (used for cross-dataset transfer and signature overlap; its within-dataset classifier is also
+# reported). Compatibility classes: blood_leukocyte_transcriptome (whole blood / PBMC / PBL
+# mRNA on array, RNA-seq or NanoString), plasma_cfrna, tcell_methylation_450k, serum_somascan,
+# plasma_ev_mirna, pbmc_mirna_array.
+
+min_per_group: 15
+blood_compartments: [whole_blood, pbmc, leukocytes, plasma, serum, plasma_cfrna, plasma_ev, tcells_blood]
+max_primary_per_condition: 3
+
+series:
+  # ------------------------------------------------------------------ Long COVID: label rules
+  GSE226260:
+    subsets:
+      - id: GSE226260_wb
+        condition: long_covid
+        description: whole blood RNA-seq (GPL34284) of the Barouch cohort; 'current long_covid_status' PASC vs Recovered
+        filter: {platform_id: [GPL34284]}
+        label: {field: "c:current long_covid_status", case: [PASC], control: [Recovered]}
+        exclude_timepoints: {field: "c:time of_blood_draw", values: [Acute]}
+        subject: {from: title, regex: '^([^.]+)\.'}
+        one_per_subject: earliest_post_acute   # order by the day number in the title (2nd dot field)
+        order: {from: title, regex: '^[^.]+\.(\d+)\.', numeric: true}
+        compartment: whole_blood
+        assay: rnaseq_counts
+        compat_class: blood_leukocyte_transcriptome
+        matrix: {kind: suppl_csv, file: GSE226260_AdditionalSamples.rawCounts.csv.gz}
+        covariates: []
+        timing: "post-acute; blood drawn 3-6, 6-12 or >12 months after infection (4 'Acute' draws excluded)"
+      - id: GSE226260_pbmc
+        condition: long_covid
+        description: PBMC RNA-seq (GPL24676), 'pasc status' PASC vs NOPASC
+        filter: {platform_id: [GPL24676], source_name_ch1: [PBMC]}
+        label: {field: "c:pasc status", case: [PASC], control: [NOPASC]}
+        subject: {from: "c:subject id"}
+        compartment: pbmc
+        assay: rnaseq_counts
+        compat_class: blood_leukocyte_transcriptome
+        matrix: {kind: suppl_csv, file: GSE226260_combined.ExprData.updated.csv.gz}
+        covariates: ["c:gender", "c:age"]
+        timing: "serial draws; acute and convalescent"
+  GSE270045:
+    subsets:
+      - id: GSE270045
+        condition: long_covid
+        also_condition: me_cfs   # patients met ME/CFS criteria after SARS-CoV-2 infection (series summary)
+        description: whole blood RNA-seq (GPL34284); title 'Long Covid N' vs 'Healthy Control N'
+        label: {field: title, case_regex: '^Long Covid', control_regex: '^Healthy Control'}
+        subject: {from: "c:sample id"}
+        compartment: whole_blood
+        assay: rnaseq_counts
+        compat_class: blood_leukocyte_transcriptome
+        matrix: {kind: suppl_tsv, file: GSE270045_LC_counts.tsv.gz}
+        covariates: []
+        timing: "post-COVID ME/CFS (series summary); time since infection not in metadata"
+  GSE275334:
+    subsets:
+      - id: GSE275334_lc
+        condition: long_covid
+        description: PBMC NanoString nCounter Immune Exhaustion panel (785 genes); Long COVID vs healthy control
+        filter: {"c:disease": [Long COVID, Healthy control]}
+        label: {field: "c:disease", case: [Long COVID], control: [Healthy control]}
+        subject: {from: gsm}
+        compartment: pbmc
+        assay: nanostring
+        compat_class: blood_leukocyte_transcriptome
+        matrix: {kind: nanostring_rcc, file: GSE275334_RAW.tar}
+        covariates: ["c:Sex", "c:age (years)"]
+        timing: "WHO post COVID-19 condition definition (series summary)"
+      - id: GSE275334_mecfs
+        condition: me_cfs
+        description: same panel; ME/CFS (Canadian Consensus Criteria) vs healthy control
+        filter: {"c:disease": [ME/CFS, Healthy control]}
+        label: {field: "c:disease", case: [ME/CFS], control: [Healthy control]}
+        subject: {from: gsm}
+        compartment: pbmc
+        assay: nanostring
+        compat_class: blood_leukocyte_transcriptome
+        matrix: {kind: nanostring_rcc, file: GSE275334_RAW.tar}
+        covariates: ["c:Sex", "c:age (years)"]
+  GSE222128:
+    subsets:
+      - id: GSE222128
+        condition: long_covid
+        description: influenza-vaccination superseries; COVID-recovered with 'long-covid symptoms' Y vs healthy controls, pre-vaccination draws
+        filter: {"c:visit": [Day -7, Day 0], source_name_ch1: [Whole Blood]}
+        label: {field: "c:long-covid symptoms", case: [Y], control_field: "c:group", control: [HC]}
+        subject: {from: "c:subject id"}
+        compartment: whole_blood
+        assay: rnaseq_counts
+        compat_class: blood_leukocyte_transcriptome
+        matrix: {kind: none_checked}
+  GSE194378:
+    subsets:
+      - id: GSE194378
+        condition: long_covid
+        description: RNA-seq sub-series of GSE222128 (same subjects)
+        filter: {"c:visit": [Day -7, Day 0]}
+        label: {field: "c:long-covid symptoms", case: [Y], control_field: "c:group", control: [HC]}
+        subject: {from: "c:subject id"}
+        compartment: whole_blood
+        assay: rnaseq_counts
+        compat_class: blood_leukocyte_transcriptome
+        matrix: {kind: none_checked}
+  GSE297499:
+    subsets:
+      - id: GSE297499_pbmc
+        condition: long_covid
+        description: PBMC, neuropsychiatric Long COVID vs control
+        filter: {"c:tissue": [PBMC]}
+        label: {field: "c:treatment", case: [NP-Long COVID], control: [Control]}
+        subject: {from: gsm}
+        compartment: pbmc
+        assay: rnaseq
+        compat_class: blood_leukocyte_transcriptome
+        matrix: {kind: none_checked}
+      - id: GSE297499_csf
+        condition: long_covid
+        description: CSF cells, neuropsychiatric Long COVID vs control
+        filter: {"c:tissue": [Cerebrospinal Fluid]}
+        label: {field: "c:treatment", case: [NP-Long COVID], control: [Control]}
+        subject: {from: gsm}
+        compartment: csf
+        assay: rnaseq
+        compat_class: csf_cells
+        matrix: {kind: none_checked}
+  GSE225942:
+    subsets:
+      - id: GSE225942
+        condition: long_covid
+        description: PBMC; Neuro-PASC vs COVID convalescent (series type 'Other')
+        label: {field: "c:disease state", case: [Neuro-PASC], control: [COVID convalescent]}
+        subject: {from: gsm}
+        compartment: pbmc
+        assay: other
+        compat_class: other
+        matrix: {kind: none_checked}
+  GSE224615:
+    subsets:
+      - id: GSE224615
+        condition: long_covid
+        description: PBMC at 8 months; LC vs Non-LC
+        label: {field: "c:lc status", case: [LC], control: [Non-LC]}
+        subject: {from: "c:pid"}
+        compartment: pbmc
+        assay: rnaseq
+        compat_class: blood_leukocyte_transcriptome
+        matrix: {kind: none_checked}
+  GSE251849:
+    subsets:
+      - id: GSE251849
+        condition: long_covid
+        description: PBMC; Long COVID (+/- brain fog) vs healthy or convalescent
+        label: {field: "c:group", case: [Long COVID, Long COVID brain fog], control: [Healthy, COVID convalescent]}
+        subject: {from: gsm}
+        compartment: pbmc
+        assay: rnaseq
+        compat_class: blood_leukocyte_transcriptome
+        matrix: {kind: none_checked}
+  GSE339049:
+    subsets:
+      - id: GSE339049
+        condition: long_covid
+        description: monocyte ATAC-seq; severe + mild long COVID vs nonsymptomatic recovered donors
+        label: {field: "c:donor group", case: [Severe, Mild], control: [Nonsymptomatic]}
+        subject: {from: title, regex: '^([^_]+)_'}
+        compartment: monocytes_blood
+        assay: atac_peak_counts
+        compat_class: monocyte_atac
+        matrix: {kind: label_aware, file: GSE339049_Counts.tsv.gz,
+                 note: "GSM data_processing: peaks called on BAMs pooled PER PATIENT GROUP and filtered for >= 0.3 CPM in > 15 samples of a single patient group; the feature set was defined with the labels, which in-fold selection cannot undo (E4 fails)"}
+  # ------------------------------------------------------------------ ME/CFS: label rules
+  GSE293840:
+    subsets:
+      - id: GSE293840
+        condition: me_cfs
+        description: plasma cell-free RNA-seq; ME/CFS case vs healthy sedentary control
+        label: {field: "c:phenotype", case: [case], control: [control]}
+        subject: {from: title, regex: 'subject: ([^,]+),'}
+        compartment: plasma_cfrna
+        assay: rnaseq_counts
+        compat_class: plasma_cfrna
+        matrix: {kind: suppl_csv, file: GSE293840_raw_counts_all.csv.gz}
+        covariates: ["c:Sex", "c:age bin", "c:batch", "c:test site"]
+        timing: "established ME/CFS; single draw"
+  GSE156792:
+    subsets:
+      - id: GSE156792
+        condition: me_cfs
+        description: CD3+ T-cell DNA methylation (450K); CFS vs control
+        label: {field: "c:sample group", case: [CFS], control: [control]}
+        subject: {from: gsm}
+        compartment: tcells_blood
+        assay: methylation_450k
+        compat_class: tcell_methylation_450k
+        matrix: {kind: series_matrix, file: GSE156792_series_matrix.txt.gz, platform_annot: GPL13534_manifest}
+        # the M/U intensity files carry no probe ids (485,512 unlabelled rows), so the series-matrix beta values are used
+        covariates: []
+  GSE16059:
+    subsets:
+      - id: GSE16059
+        condition: me_cfs
+        description: peripheral blood leukocytes, Affymetrix U133 Plus 2.0; CFS vs unaffected monozygotic co-twin (ICF pairs excluded)
+        label: {field: "c:diagnonsis", case: [CFS], control: [unaffected]}
+        pair: {field: "c:twin pair"}   # controls kept only when their co-twin is a CFS case
+        subject: {from: gsm}
+        compartment: leukocytes
+        assay: affymetrix_gpl570
+        compat_class: blood_leukocyte_transcriptome
+        matrix: {kind: series_matrix, file: GSE16059_series_matrix.txt.gz, platform_annot: GPL570}
+        covariates: []   # sex is matched within twin pairs, so a covariate baseline is uninformative by design
+  GSE227375:
+    subsets:
+      - id: GSE227375
+        condition: me_cfs
+        description: PBMC RNA-seq at baseline (T0) before exercise challenge; single largest platform (GPL21290)
+        filter: {"c:time point in exercise": [T0 (baseline)], platform_id: [GPL21290]}
+        label: {field: "c:disease state", case: [ME/CFS patient, ME/CFS patients], control: [healthy control]}
+        subject: {from: gsm}
+        compartment: pbmc
+        assay: rnaseq_counts
+        compat_class: blood_leukocyte_transcriptome
+        matrix: {kind: ncbi_counts, file: GSE227375_raw_counts_GRCh38.p13_NCBI.tsv.gz}
+        covariates: ["c:Sex"]
+        timing: "baseline draw before a CPET challenge"
+  GSE128078:
+    subsets:
+      - id: GSE128078
+        condition: me_cfs
+        description: whole blood around CPET; ME/CFS vs control
+        filter: {"c:timepoint (day)": ["1"]}
+        label: {field: "c:disease state", case: [ME/CFS], control: [Control]}
+        subject: {from: "c:individual identifier"}
+        compartment: whole_blood
+        assay: rnaseq
+        compat_class: blood_leukocyte_transcriptome
+        matrix: {kind: none_checked}
+  GSE141770:
+    subsets:
+      - id: GSE141770_ev
+        condition: me_cfs
+        description: plasma extracellular-vesicle miRNA (NanoString); MECFS vs healthy
+        filter: {"c:pbmc/ev": [EV]}
+        label: {field: "c:condition", case: [MECFS], control: [Healthy Control]}
+        subject: {from: gsm}
+        compartment: plasma_ev
+        assay: nanostring_mirna
+        compat_class: plasma_ev_mirna
+        matrix: {kind: nanostring_rcc, file: GSE141770_RAW.tar}
+      - id: GSE141770_pbmc
+        condition: me_cfs
+        description: PBMC miRNA (NanoString); MECFS vs healthy
+        filter: {"c:pbmc/ev": [PBMC]}
+        label: {field: "c:condition", case: [MECFS], control: [Healthy Control]}
+        subject: {from: gsm}
+        compartment: pbmc
+        assay: nanostring_mirna
+        compat_class: pbmc_mirna
+        matrix: {kind: nanostring_rcc, file: GSE141770_RAW.tar}
+  GSE70371:
+    subsets:
+      - id: GSE70371
+        condition: me_cfs
+        description: PBMC miRNA array; CFS/ME vs control
+        label: {field: "c:disease state", case: [CFS/ME], control: [Control]}
+        subject: {from: gsm}
+        compartment: pbmc
+        assay: mirna_array
+        compat_class: pbmc_mirna_array
+        matrix: {kind: series_matrix, file: GSE70371_series_matrix.txt.gz}
+        covariates: ["c:Sex", "c:age"]
+  GSE254030:
+    subsets:
+      - id: GSE254030
+        condition: me_cfs
+        description: serum SomaScan (NIH PI-ME/CFS deep phenotyping); patient vs control
+        label: {field: "c:group", case: [Patient], control: [Control]}
+        subject: {from: gsm}
+        compartment: serum
+        assay: somascan
+        compat_class: serum_somascan
+        matrix: {kind: series_matrix, file: GSE254030_series_matrix.txt.gz}
+        covariates: ["c:Sex", "c:age"]
+  GSE251790:
+    subsets:
+      - id: GSE251790
+        condition: me_cfs
+        description: CSF SomaScan (NIH PI-ME/CFS); patient vs control
+        label: {field: "c:group", case: [Patient], control: [Control]}
+        subject: {from: gsm}
+        compartment: csf
+        assay: somascan
+        compat_class: csf_somascan
+        matrix: {kind: series_matrix, file: GSE251790_series_matrix.txt.gz}
+  GSE327255:
+    subsets:
+      - id: GSE327255
+        condition: me_cfs
+        description: saliva DNA methylation (EPIC); 'EM' (encefalomielitis mialgica, ME/CFS) vs healthy control
+        label: {field: "c:subject group", case: [EM], control: [Healthy control]}
+        subject: {from: gsm}
+        compartment: saliva
+        assay: methylation_epic
+        compat_class: saliva_methylation
+        matrix: {kind: suppl_csv, file: GSE327255_MatrixProcessedGEO_beta.csv.gz}
+  GSE269047:
+    subsets:
+      - id: GSE269047
+        condition: me_cfs
+        description: PBMC HERV array; ME/CFS vs healthy (FM and co-diagnosis groups not used)
+        label: {field: "c:diagnosis", case: [ME/CFS], control: [Healthy control]}
+        subject: {from: gsm}
+        compartment: pbmc
+        assay: array
+        compat_class: other
+        matrix: {kind: none_checked}
+  GSE130353:
+    subsets:
+      - id: GSE130353
+        condition: me_cfs
+        description: monocytes; CFS vs healthy (QFS groups not used)
+        label: {field: "c:subject status", case: [Chronic Fatigue Syndrome (FCS)], control: [Healthy control]}
+        subject: {from: "c:donor id"}
+        compartment: monocytes_blood
+        assay: rnaseq
+        compat_class: blood_leukocyte_transcriptome
+        matrix: {kind: none_checked}
+  GSE14577:
+    subsets:
+      - id: GSE14577
+        condition: me_cfs
+        description: PBMC, U133A/B; post-infectious CFS vs healthy (label in source name); two platforms, one sample per subject per platform
+        filter: {platform_id: [GPL96]}
+        label: {field: source_name_ch1, case: ["PBMC, CFS"], control: ["PBMC, control"]}
+        subject: {from: gsm}
+        compartment: pbmc
+        assay: affymetrix
+        compat_class: blood_leukocyte_transcriptome
+        matrix: {kind: none_checked}
+  GSE268212:
+    subsets:
+      - id: GSE268212
+        condition: me_cfs
+        description: sorted naive / effector-memory CD8 T cells; ME vs HC (one cell type at a time)
+        filter: {"c:cell type": [NVCD8]}
+        label: {field: "c:phenotype", case: [ME], control: [HC]}
+        subject: {from: gsm}
+        compartment: cd8_tcells_blood
+        assay: rnaseq
+        compat_class: other
+        matrix: {kind: none_checked}
+  GSE268223:
+    subsets:
+      - id: GSE268223
+        condition: me_cfs
+        description: CD8 T-cell ATAC; ME patient vs healthy control (one cell type at a time)
+        filter: {"c:cell type": [naive CD8+ T cell]}
+        label: {field: "c:phenotype", case: [ME patient], control: [Healthy Control]}
+        subject: {from: gsm}
+        compartment: cd8_tcells_blood
+        assay: atac
+        compat_class: other
+        matrix: {kind: none_checked}
+  GSE111183:
+    subsets:
+      - id: GSE111183
+        condition: me_cfs
+        description: PBMC methylation (EPIC); ME/CFS vs HC
+        label: {field: "c:disease state", case: ["Myalgic Encephalomyelitis/Chronic Fatigue Syndrome (ME/CFS)"], control: [Healthy Control (HC)]}
+        subject: {from: "c:subject id"}
+        compartment: pbmc
+        assay: methylation_epic
+        compat_class: other
+        matrix: {kind: none_checked}
+  GSE59489:
+    subsets:
+      - id: GSE59489
+        condition: me_cfs
+        description: PBMC methylation (450K); CFS vs control
+        label: {field: "c:disease state", case: [Chronic Fatigue Syndrome (CFS)], control: [Control]}
+        subject: {from: "c:subject id"}
+        compartment: pbmc
+        assay: methylation_450k
+        compat_class: other
+        matrix: {kind: none_checked}
+  GSE153667:
+    subsets:
+      - id: GSE153667
+        condition: me_cfs
+        description: PBMC reduced-representation methylation; patient vs control
+        label: {field: "c:disease state", case: [Patient], control: [Control]}
+        subject: {from: gsm}
+        compartment: pbmc
+        assay: methylation_seq
+        compat_class: other
+        matrix: {kind: none_checked}
+  GSE245661:
+    subsets:
+      - id: GSE245661
+        condition: me_cfs
+        description: vastus lateralis muscle RNA-seq (NIH PI-ME/CFS); PI-ME/CFS vs HV
+        label: {field: "c:subject status", case: ["post-infectious Myalgic encephalomyelitis/chronic fatigue syndrome (PI-ME/CFS) volunteer"], control: [healthy volunteer (HV)]}
+        subject: {from: gsm}
+        compartment: muscle
+        assay: rnaseq
+        compat_class: other
+        matrix: {kind: none_checked}
+  GSE166592:
+    subsets:
+      - id: GSE166592
+        condition: me_cfs
+        description: PBMC methylation, 2 patients + 1 control x 5 timepoints
+        label: {field: "c:disease state", case: [myalgic encephalomyelitis/chronic fatigue syndrome], control: [Control]}
+        subject: {from: "c:individual"}
+        compartment: pbmc
+        assay: methylation_seq
+        compat_class: other
+        matrix: {kind: none_checked}
+  GSE317067:
+    subsets:
+      - id: GSE317067
+        condition: me_cfs
+        description: plasma EV small RNA; CFS vs HC
+        label: {field: "c:treatment", case: [Chronic fatigue syndrome (CFS)], control: [Healthy control (HC)]}
+        subject: {from: gsm}
+        compartment: plasma_ev
+        assay: smallrna_seq
+        compat_class: other
+        matrix: {kind: none_checked}
+  GSE235050:
+    subsets:
+      - id: GSE235050
+        condition: long_covid
+        description: PBMC scRNA-seq; LC vs Non_LC (also fails E1, single-cell)
+        label: {field: "c:status", case: [LC], control: [Non_LC]}
+        subject: {from: gsm}
+        compartment: pbmc
+        assay: scrnaseq
+        compat_class: other
+        matrix: {kind: none_checked}
+        design_exclusion: SINGLE_CELL
+  GSE341094:
+    subsets:
+      - id: GSE341094
+        condition: long_covid
+        description: single-cell whole-genome methylation, PASC vs control
+        label: {field: "c:treatment", case: [Case (PASC)], control: [Control]}
+        subject: {from: gsm}
+        compartment: whole_blood
+        assay: sc_methylation
+        compat_class: other
+        matrix: {kind: none_checked}
+        design_exclusion: SINGLE_CELL
+  GSE290883:
+    subsets:
+      - id: GSE290883
+        condition: long_covid
+        description: olfactory epithelium; long-COVID vs control
+        label: {field: "c:treatment", case: [long-COVID], control: [control]}
+        subject: {from: gsm}
+        compartment: olfactory_epithelium
+        assay: rnaseq
+        compat_class: other
+        matrix: {kind: none_checked}
+  GSE290884:
+    subsets:
+      - id: GSE290884
+        condition: long_covid
+        description: olfactory epithelium (series type Other); long-COVID vs control
+        label: {field: "c:treatment", case: [long-COVID], control: [control]}
+        subject: {from: gsm}
+        compartment: olfactory_epithelium
+        assay: other
+        compat_class: other
+        matrix: {kind: none_checked}
+
+  # ------------------------------------------------------------------ excluded on design (metadata)
+  GSE215865: {exclude: ACUTE_SAMPLING_NO_LABEL, note: "whole blood drawn during ACUTE COVID-19 (T1 = first sample); long-term sequelae outcome is not a sample characteristic"}
+  GSE173590: {exclude: NOT_TARGET_CONDITION, note: "acute/convalescent mild-moderate COVID-19 vs healthy; no Long COVID label"}
+  GSE267625: {exclude: NO_CONTROL_GROUP, note: "all samples long-COVID patients at 3 and 12 months; no control label"}
+  GSE299837: {exclude: IN_VITRO, note: "primary bronchial epithelial cells infected in vitro"}
+  GSE275563: {exclude: ANIMAL_MODEL, note: "lung tissue from humanised (LoM) mice infected with SARS-CoV-2"}
+  GSE261777: {exclude: NO_CONTROL_GROUP, note: "nasal epithelium, all samples 'long COVID'"}
+  GSE228320: {exclude: NO_CONTROL_GROUP, note: "whole blood after COVID ARDS; DLCO is continuous, no case/control label"}
+  GSE290042: {exclude: IN_VITRO, note: "A549 cell line transfected with coronavirus nucleocapsids"}
+  GSE263817: {exclude: SINGLE_CELL, note: "scRNA-seq, human PBMC/BAL and mouse samples"}
+  GSE236562: {exclude: POSTMORTEM_TISSUE, note: "post-mortem brain; COVID vs control (not Long COVID)"}
+  GSE337369: {exclude: POSTMORTEM_TISSUE, note: "salivary glands from COVID-19 autopsies"}
+  GSE232627: {exclude: NO_CONTROL_GROUP, note: "sorted BAL macrophages / nasal epithelium, all COVID-19 positive"}
+  GSE241385: {exclude: SINGLE_CELL, note: "CSF scRNA-seq"}
+  GSE334857: {exclude: NO_CONTROL_GROUP, note: "PBMC T cells, severity moderate vs severe only"}
+  GSE206605: {exclude: NOT_TARGET_CONDITION, note: "H3K27ac ChIP-seq, SARS-CoV-2 patients (14) vs healthy (10); no post-acute label"}
+  GSE252448: {exclude: IN_VITRO, note: "iPSC cardiomyocyte/endothelial models plus 9 artery samples (3 long COVID)"}
+  GSE249438: {exclude: ANIMAL_MODEL, note: "humanised mouse (BLT-L) lungs"}
+  GSE227282: {exclude: IN_VITRO, note: "cardiac organoids / iPSCs"}
+  GSE297189: {exclude: NO_LABEL_IN_METADATA, note: "15 PBMC methylation samples; no case/control characteristic"}
+  GSE270479: {exclude: NO_LABEL_IN_METADATA, note: "15 PBMC samples; no case/control characteristic"}
+  GSE176201: {exclude: SINGLE_CELL, note: "CD3+ T-cell 10x 5' / VDJ"}
+  GSE265753: {exclude: SINGLE_CELL, note: "multiplexed whole-blood scRNA-seq pools"}
+  GSE286429: {exclude: NO_CONTROL_GROUP, note: "nasal epithelium, 12 samples all 3-6 months post-COVID"}
+  GSE227211: {exclude: IN_VITRO, note: "cardiac organoids"}
+  GSE174843: {exclude: IN_VITRO, note: "retinal organoids"}
+  GSE262861: {exclude: NO_LABEL_IN_METADATA, note: "11 PBMC samples by time only"}
+  GSE320507: {exclude: NO_LABEL_IN_METADATA, note: "9 samples, no case/control characteristic"}
+  GSE252444: {exclude: TOO_FEW, note: "artery tissue, 3 long COVID"}
+  GSE240694: {exclude: NOT_TARGET_CONDITION, note: "BA.2 breakthrough convalescent (5) vs healthy (4); not Long COVID"}
+  GSE224955: {exclude: NO_LABEL_IN_METADATA, note: "9 lung samples"}
+  GSE343379: {exclude: IN_VITRO, note: "endothelial cells exposed to pooled plasma"}
+  GSE304456: {exclude: SINGLE_CELL, note: "salivary epithelial scRNA-seq"}
+  GSE249111: {exclude: IN_VITRO, note: "iPSCs exposed to pseudovirus"}
+  GSE252445: {exclude: IN_VITRO, note: "live-virus iPSC organoids"}
+  GSE232616: {exclude: NO_CONTROL_GROUP, note: "8 sorted macrophage samples, COVID-negative only"}
+  GSE259276: {exclude: POSTMORTEM_TISSUE, note: "post-mortem frontal lobe"}
+  GSE299529: {exclude: IN_VITRO, note: "primary nasal cells treated with cytokines"}
+  GSE232623: {exclude: NO_CONTROL_GROUP, note: "8 nasal epithelium samples, COVID-negative only"}
+  GSE348165: {exclude: NOT_TARGET_CONDITION, note: "post-treatment Lyme disease syndrome, 6 samples"}
+  GSE252446: {exclude: IN_VITRO, note: "iPSC organoids"}
+  GSE219086: {exclude: SINGLE_CELL, note: "PBMC scRNA-seq around vaccination"}
+  GSE267226: {exclude: TOO_FEW, note: "5 lung samples"}
+  GSE235938: {exclude: TOO_FEW, note: "3 PBMC scRNA samples"}
+  GSE227280: {exclude: IN_VITRO, note: "cardiac organoid multiome"}
+  GSE248489: {exclude: TOO_FEW, note: "2 artery samples"}
+  GSE67311: {exclude: NOT_TARGET_CONDITION, note: "fibromyalgia vs healthy (10 samples carry a CFS comorbidity flag); not an ME/CFS case/control design"}
+  GSE251792: {exclude: SUPERSERIES, note: "NIH PI-ME/CFS superseries; its sub-series GSE245661, GSE251872, GSE254030, GSE251790 are screened individually"}
+  GSE39684: {exclude: NOT_TARGET_CONDITION, note: "XMRV in prostate biopsies and cell lines"}
+  GSE251872: {exclude: NO_LABEL_IN_METADATA, note: "27 PBMC RNA-seq samples (NIH PI-ME/CFS); case/control not in sample characteristics"}
+  GSE37787: {exclude: IN_VITRO, note: "XMRV infection of cell cultures"}
+  GSE37786: {exclude: IN_VITRO, note: "XMRV infection of cell cultures"}
+  GSE304805: {exclude: NO_LABEL_IN_METADATA, note: "21 PBMC methylation samples; no case/control characteristic"}
+  GSE274134: {exclude: NOT_TARGET_CONDITION, note: "fibromyalgia manual-therapy study, 12 PBMC samples"}
+
+# =====================================================================================================
+# PRE-SPECIFIED ANALYSIS PLAN (fixed 2026-09-24, after the metadata screen and matrix downloads and
+# BEFORE any model, test statistic or case/control comparison on expression/methylation/count values).
+# The code reads every parameter below; nothing is tuned. Anything not named here is post hoc.
+# (The harness does not allow writing docs/ANALYSIS_PLAN_GEO_COHORTS.md; this block is the plan.)
+# =====================================================================================================
+analysis_plan:
+  fixed_at: "2026-09-24T09:35:00+00:00"
+  question: >-
+    Do public case/control omics cohorts carry person-level signal for Long COVID or ME/CFS that replicates in an
+    independent cohort? Within-dataset discrimination is necessary, not sufficient (case/control batch confounding);
+    cross-cohort transfer is the decisive test. This is an omics question, not a device validation.
+  preprocessing:
+    rnaseq_counts: "NCBI Gene Homo_sapiens.gene_info (GeneID/Symbol/chromosome/Ensembl xref; GEO annot.tsv link served a reCAPTCHA page, switched before modelling); sum duplicate ids; keep CPM>=1 in >=20% of samples; log2(CPM+1), library size = all counted genes"
+    nanostring: "RCC: positive-control geomean scaling, then Housekeeping-class geomean scaling; Endogenous only; log2(count+1)"
+    affymetrix: "series-matrix VALUE; log2 if 99th percentile > 100; probe->symbol from GPL570.annot; per gene the probe with the highest mean"
+    methylation_450k: "series-matrix beta values (minfi; the M/U intensity files have no probe ids, switched before modelling); drop probes with any missing value and non-CpG 'rs' probes; beta clipped to [0.001, 0.999]; M-value = log2(beta / (1 - beta)); chromosome from the Illumina 450K v1.1 manifest"
+    all: "remove chrX, chrY and mitochondrial features before any analysis (features without chromosome annotation kept)"
+  cpm_min: 1.0
+  cpm_min_fraction: 0.20
+  classifier:
+    variance_filter_top: 5000          # label-blind, over all selected samples
+    k_features: 50                     # in-fold Welch |t|
+    C: 0.1                             # L2 logistic, class_weight balanced, in-fold z-scoring
+    n_folds: 5                         # StratifiedGroupKFold, groups = subject (twin pair for GSE16059)
+    n_repeats: 20                      # seeds SEED + r; estimate = mean AUROC of pooled OOF scores per repeat
+    n_bootstrap: 2000                  # subject/pair-cluster bootstrap of the repeat-averaged OOF score
+    n_permutations: 1000               # within-pair label swaps for GSE16059
+    permutation_repeats: 5             # statistic = mean AUROC over repeats 0-4, same seeds for observed and null
+    covariate_C: 1.0
+    alpha: 0.05                        # within-dataset signal = permutation p < alpha (Holm across subsets also reported)
+  covariates:                          # covariates-only baseline and DE adjustment
+    GSE293840: ["c:Sex", "c:batch", "c:test site"]   # 'age bin' dropped before modelling: batches 2023.08.25/2024.03.05 code bins 1-4, 2024.06.28 codes years, 1 missing
+    GSE275334_lc: ["c:Sex", "c:age (years)"]
+    GSE227375: ["c:Sex"]
+  numeric_covariates: ["c:age bin", "c:age (years)"]
+  de:
+    model: "per-feature OLS feature ~ label + covariates; GSE16059 paired t-test on within-pair differences (CFS minus co-twin)"
+    features: "all features passing preprocessing (not only the top 5000), autosomal"
+    fdr: "Benjamini-Hochberg"
+    report: "n q<0.05, n q<0.10, fraction p<0.05, genomic inflation lambda, top 25"
+  confounds:
+    crosstabs: "label x batch / site / sex / platform where recorded (Fisher exact 2x2, else chi-square)"
+    inferred_sex: "XIST and >=2 of RPS4Y1, DDX3Y, KDM5D, UTY, EIF1AY, USP9Y: score = mean z(Y) - z(XIST), male if > 0; computed before the sex-chromosome removal and used only for this audit"
+  transfer:
+    universe: "autosomal genes present after preprocessing in both cohorts; each cohort z-scored per gene over its own samples (label-blind)"
+    model: "the classifier above trained on the whole source cohort (variance filter on the source only)"
+    n_bootstrap: 2000
+    n_permutations: 1000
+    replicated_if: "target AUROC 95% CI lower bound > 0.5 AND permutation p < 0.05"
+    pairs:
+      - {source: GSE226260_wb, target: GSE270045, tier: primary}
+      - {source: GSE270045, target: GSE226260_wb, tier: primary}
+      - {source: GSE16059, target: GSE227375, tier: primary}
+      - {source: GSE227375, target: GSE16059, tier: primary}
+      - {source: GSE275334_lc, target: GSE226260_wb, tier: secondary}
+      - {source: GSE226260_wb, target: GSE275334_lc, tier: secondary}
+      - {source: GSE275334_lc, target: GSE270045, tier: secondary}
+      - {source: GSE270045, target: GSE275334_lc, tier: secondary}
+    untestable: {GSE293840: "no eligible plasma cfRNA partner", GSE156792: "no eligible T-cell methylation partner"}
+  overlap:
+    top_n: 100
+    n_null_draws: 10000
+    note: "random-gene null ignores gene-gene correlation (lenient); Spearman of DE t over the shared universe is descriptive only"
+  signatures:
+    write_if: "classifier permutation p < 0.05"
+    rows: "FDR-significant DE features (q < 0.05), at most 50 by p"
+    evidence_level: "dataset_specific, or replicated_transfer only if a primary transfer of that subset passes"
+  not_done: "no second classifier, no tuning of k/C/filter, no alternative normalisation, no re-selection of datasets, no subgroup analyses in the primary report"

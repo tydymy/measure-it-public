@@ -1,0 +1,4 @@
+participant_id,condition,icd10cm
+S001,Raynaud's phenomenon,
+S001,migraine,
+S002,hypothyroidism,E03.9

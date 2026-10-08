@@ -1,0 +1,127 @@
+# NHANES laboratory / exam variables -> LOINC (curated; measure_it.harmonize.nhanes).
+#
+# Only mappings that can be justified are listed. Every code below was looked up on 2026-10-07 in the NLM Clinical
+# Tables LOINC index (https://clinicaltables.nlm.nih.gov/api/loinc_items/v3/search, cached under data/_http_cache);
+# `loinc_name` is the LONG_COMMON_NAME returned there. `python -m measure_it.harmonize.audit --verify-codes` re-checks
+# them. Variables NOT listed here stay unmapped and are counted in docs/HARMONIZATION_AUDIT.md (never guessed).
+#
+# Fields
+#   variable      NHANES variable name (participant_labs*/participant_labs_extended `lab_variable`, or a column of
+#                 participant_clinical_features for exam measures: source: clinical_features)
+#   source        labs (participant_labs__*; default), labs_extended (participant_labs_extended__nhanes) or
+#                 clinical_features; a row without `source` applies to labs and labs_extended
+#   component_file_prefix  restricts the row to NHANES component files starting with it (NHANES reuses a few
+#                 variable names across files, e.g. LBXHCT = haematocrit in CBC, hydroxycotinine in COT_H)
+#   loinc         LOINC code;  loinc_name  LONG_COMMON_NAME (NLM Clinical Tables)
+#   unit          the unit kept for this LOINC code in NHANES (one unit per code per dataset)
+#   accept_units  unit spellings in the NHANES tables that denote the same unit (label normalisation, not conversion)
+#   confidence    high   = component, property, system and scale match the NHANES method description
+#                 medium = the LOINC term is method-unspecified, or the NHANES specimen/timing is narrower or broader
+#                 low    = defensible but with a known mismatch (stated in the rationale)
+#   rationale     why this code
+# Rows from several NHANES variables may share one LOINC code (e.g. total cholesterol from TCHOL and BIOPRO); the
+# per-participant feature is the median of the rows (contract section 1).
+mappings:
+  # ---------------------------------------------------------------- complete blood count (CBC_*, L25_C; Coulter)
+  - {variable: LBXWBCSI, loinc: 6690-2, loinc_name: "Leukocytes [#/volume] in Blood by Automated count", unit: "10*3/uL", accept_units: ["1000 cells/uL"], confidence: high, rationale: "NHANES CBC on a Coulter analyser (automated count); 1000 cells/uL = 10*3/uL"}
+  - {variable: LBXLYPCT, loinc: 736-9, loinc_name: "Lymphocytes/Leukocytes in Blood by Automated count", unit: "%", confidence: high, rationale: "automated differential percent"}
+  - {variable: LBXMOPCT, loinc: 5905-5, loinc_name: "Monocytes/Leukocytes in Blood by Automated count", unit: "%", confidence: high, rationale: "automated differential percent"}
+  - {variable: LBXNEPCT, loinc: 770-8, loinc_name: "Neutrophils/Leukocytes in Blood by Automated count", unit: "%", confidence: medium, rationale: "NHANES labels the automated neutrophil fraction 'segmented neutrophils'; the LOINC term is all neutrophils by automated count"}
+  - {variable: LBXEOPCT, loinc: 713-8, loinc_name: "Eosinophils/Leukocytes in Blood by Automated count", unit: "%", confidence: high, rationale: "automated differential percent"}
+  - {variable: LBXBAPCT, loinc: 706-2, loinc_name: "Basophils/Leukocytes in Blood by Automated count", unit: "%", confidence: high, rationale: "automated differential percent"}
+  - {variable: LBDLYMNO, loinc: 731-0, loinc_name: "Lymphocytes [#/volume] in Blood by Automated count", unit: "10*3/uL", accept_units: ["1000 cells/uL"], confidence: high, rationale: "automated absolute count"}
+  - {variable: LBDMONO, loinc: 742-7, loinc_name: "Monocytes [#/volume] in Blood by Automated count", unit: "10*3/uL", accept_units: ["1000 cells/uL"], confidence: high, rationale: "automated absolute count"}
+  - {variable: LBDNENO, loinc: 751-8, loinc_name: "Neutrophils [#/volume] in Blood by Automated count", unit: "10*3/uL", accept_units: ["1000 cell/uL", "1000 cells/uL"], confidence: medium, rationale: "'segmented neutrophils' automated count (see LBXNEPCT)"}
+  - {variable: LBDEONO, loinc: 711-2, loinc_name: "Eosinophils [#/volume] in Blood by Automated count", unit: "10*3/uL", accept_units: ["1000 cells/uL"], confidence: high, rationale: "automated absolute count"}
+  - {variable: LBDBANO, loinc: 704-7, loinc_name: "Basophils [#/volume] in Blood by Automated count", unit: "10*3/uL", accept_units: ["1000 cells/uL"], confidence: high, rationale: "automated absolute count"}
+  - {variable: LBXRBCSI, loinc: 789-8, loinc_name: "Erythrocytes [#/volume] in Blood by Automated count", unit: "10*6/uL", accept_units: ["million cells/uL"], confidence: high, rationale: "automated count"}
+  - {variable: LBXHGB, loinc: 718-7, loinc_name: "Hemoglobin [Mass/volume] in Blood", unit: "g/dL", confidence: high, rationale: "whole-blood haemoglobin"}
+  - {variable: LBXHCT, loinc: 4544-3, loinc_name: "Hematocrit [Volume Fraction] of Blood by Automated count", unit: "%", confidence: high, rationale: "Coulter haematocrit is computed by the analyser (automated)"}
+  - {variable: LBXMCVSI, loinc: 787-2, loinc_name: "MCV [Entitic mean volume] in Red Blood Cells by Automated count", unit: "fL", confidence: high, rationale: "automated MCV"}
+  - {variable: LBXMCHSI, loinc: 785-6, loinc_name: "MCH [Entitic mass] by Automated count", unit: "pg", confidence: high, rationale: "automated MCH"}
+  - {variable: LBXMC, loinc: 786-4, loinc_name: "MCHC [Entitic Mass/volume] in Red Blood Cells by Automated count", unit: "g/dL", confidence: high, rationale: "automated MCHC"}
+  - {variable: LBXRDW, loinc: 788-0, loinc_name: "Erythrocyte [DistWidth] in Blood by Automated count", unit: "%", confidence: high, rationale: "RDW (CV, percent)"}
+  - {variable: LBXPLTSI, loinc: 777-3, loinc_name: "Platelets [#/volume] in Blood by Automated count", unit: "10*3/uL", accept_units: ["1000 cells/uL"], confidence: high, rationale: "automated count"}
+  - {variable: LBXMPSI, loinc: 32623-1, loinc_name: "Platelet [Entitic mean volume] in Blood by Automated count", unit: "fL", confidence: high, rationale: "automated MPV"}
+  # ---------------------------------------------------------------- standard biochemistry profile (BIOPRO_*, L40_C)
+  - {variable: LBXSAL, loinc: 1751-7, loinc_name: "Albumin [Mass/volume] in Serum or Plasma", unit: "g/dL", confidence: high, rationale: "serum albumin (bromocresol purple on the DxC800)"}
+  - {variable: LBXSAPSI, loinc: 6768-6, loinc_name: "Alkaline phosphatase [Enzymatic activity/volume] in Serum or Plasma", unit: "U/L", accept_units: ["U/L", "IU/L"], confidence: high, rationale: "serum ALP; NHANES spells the unit U/L (2011-12) and IU/L (2013-14): the same unit for enzyme activity"}
+  - {variable: LBXSASSI, loinc: 1920-8, loinc_name: "Aspartate aminotransferase [Enzymatic activity/volume] in Serum or Plasma", unit: "U/L", confidence: high, rationale: "serum AST"}
+  - {variable: LBXSATSI, loinc: 1742-6, loinc_name: "Alanine aminotransferase [Enzymatic activity/volume] in Serum or Plasma", unit: "U/L", confidence: high, rationale: "serum ALT"}
+  - {variable: LBXSBU, loinc: 3094-0, loinc_name: "Urea nitrogen [Mass/volume] in Serum or Plasma", unit: "mg/dL", confidence: high, rationale: "serum BUN"}
+  - {variable: LBXSC3SI, loinc: 2028-9, loinc_name: "Carbon dioxide, total [Moles/volume] in Serum or Plasma", unit: "mmol/L", confidence: low, rationale: "NHANES calls it 'bicarbonate'; the DxC800 electrolyte method measures total CO2 (mostly bicarbonate). 1963-8 (Bicarbonate) would be the alternative; total CO2 is the analyte actually measured"}
+  - {variable: LBXSCA, loinc: 17861-6, loinc_name: "Calcium [Mass/volume] in Serum or Plasma", unit: "mg/dL", confidence: high, rationale: "total serum calcium"}
+  - {variable: LBXSCH, loinc: 2093-3, loinc_name: "Cholesterol [Mass/volume] in Serum or Plasma", unit: "mg/dL", confidence: medium, rationale: "total cholesterol in the biochemistry profile (refrigerated serum); same analyte as LBXTC, different assay run"}
+  - {variable: LBXSCK, loinc: 2157-6, loinc_name: "Creatine kinase [Enzymatic activity/volume] in Serum or Plasma", unit: "U/L", accept_units: ["IU/L"], confidence: high, rationale: "serum CPK"}
+  - {variable: LBXSCLSI, loinc: 2075-0, loinc_name: "Chloride [Moles/volume] in Serum or Plasma", unit: "mmol/L", confidence: high, rationale: "serum chloride"}
+  - {variable: LBXSCR, loinc: 2160-0, loinc_name: "Creatinine [Mass/volume] in Serum or Plasma", unit: "mg/dL", confidence: high, rationale: "serum creatinine (Jaffe; NHANES documents its calibration)"}
+  - {variable: LBXSGB, loinc: 10834-0, loinc_name: "Globulin [Mass/volume] in Serum by calculation", unit: "g/dL", confidence: high, rationale: "NHANES globulin = total protein - albumin"}
+  - {variable: LBXSGL, loinc: 2345-7, loinc_name: "Glucose [Mass/volume] in Serum or Plasma", unit: "mg/dL", confidence: medium, rationale: "serum glucose from the biochemistry profile; fasting status not controlled (the fasting subsample is LBXGLU)"}
+  - {variable: LBXSGTSI, loinc: 2324-2, loinc_name: "Gamma glutamyl transferase [Enzymatic activity/volume] in Serum or Plasma", unit: "U/L", confidence: high, rationale: "serum GGT"}
+  - {variable: LBXSIR, loinc: 2498-4, loinc_name: "Iron [Mass/volume] in Serum or Plasma", unit: "ug/dL", confidence: high, rationale: "serum iron"}
+  - {variable: LBXSKSI, loinc: 2823-3, loinc_name: "Potassium [Moles/volume] in Serum or Plasma", unit: "mmol/L", confidence: high, rationale: "serum potassium"}
+  - {variable: LBXSLDSI, loinc: 2532-0, loinc_name: "Lactate dehydrogenase [Enzymatic activity/volume] in Serum or Plasma", unit: "U/L", confidence: high, rationale: "serum LDH"}
+  - {variable: LBXSNASI, loinc: 2951-2, loinc_name: "Sodium [Moles/volume] in Serum or Plasma", unit: "mmol/L", confidence: high, rationale: "serum sodium"}
+  - {variable: LBXSPH, loinc: 2777-1, loinc_name: "Phosphate [Mass/volume] in Serum or Plasma", unit: "mg/dL", confidence: high, rationale: "serum (inorganic) phosphorus"}
+  - {variable: LBXSTB, loinc: 1975-2, loinc_name: "Bilirubin.total [Mass/volume] in Serum or Plasma", unit: "mg/dL", confidence: high, rationale: "total bilirubin"}
+  - {variable: LBXSTP, loinc: 2885-2, loinc_name: "Protein [Mass/volume] in Serum or Plasma", unit: "g/dL", confidence: high, rationale: "total serum protein"}
+  - {variable: LBXSTR, loinc: 2571-8, loinc_name: "Triglyceride [Mass/volume] in Serum or Plasma", unit: "mg/dL", confidence: medium, rationale: "biochemistry-profile triglycerides, fasting status not controlled; same LOINC as the fasting-subsample LBXTR (the LOINC term does not encode fasting)"}
+  - {variable: LBXSUA, loinc: 3084-1, loinc_name: "Urate [Mass/volume] in Serum or Plasma", unit: "mg/dL", confidence: high, rationale: "serum uric acid"}
+  # ---------------------------------------------------------------- lipids, glycaemia
+  - {variable: LBXTC, loinc: 2093-3, loinc_name: "Cholesterol [Mass/volume] in Serum or Plasma", unit: "mg/dL", confidence: high, rationale: "total cholesterol (TCHOL_*, L13_C)"}
+  - {variable: LBDHDD, loinc: 2085-9, loinc_name: "Cholesterol in HDL [Mass/volume] in Serum or Plasma", unit: "mg/dL", confidence: high, rationale: "direct HDL-C; the LOINC term is method-unspecified"}
+  - {variable: LBXHDD, loinc: 2085-9, loinc_name: "Cholesterol in HDL [Mass/volume] in Serum or Plasma", unit: "mg/dL", confidence: high, rationale: "direct HDL-C (2003-2004 variable name)"}
+  - {variable: LBDLDL, loinc: 13457-7, loinc_name: "Cholesterol in LDL [Mass/volume] in Serum or Plasma by calculation", unit: "mg/dL", confidence: high, rationale: "NHANES LDL-C is Friedewald-calculated in the fasting subsample"}
+  - {variable: LBXTR, loinc: 2571-8, loinc_name: "Triglyceride [Mass/volume] in Serum or Plasma", unit: "mg/dL", confidence: high, rationale: "fasting-subsample triglycerides"}
+  - {variable: LBXGH, loinc: 4548-4, loinc_name: "Hemoglobin A1c/Hemoglobin.total in Blood", unit: "%", confidence: high, rationale: "HbA1c (NGSP %)"}
+  - {variable: LBXGLU, loinc: 1558-6, loinc_name: "Fasting glucose [Mass/volume] in Serum or Plasma", unit: "mg/dL", confidence: high, rationale: "fasting plasma glucose (morning fasting subsample)"}
+  - {variable: LBXIN, loinc: 20448-7, loinc_name: "Insulin [Units/volume] in Serum or Plasma", unit: "u[IU]/mL", accept_units: ["uU/mL"], confidence: medium, rationale: "fasting-subsample insulin; uU/mL = uIU/mL"}
+  - {variable: LBXGLT, loinc: 20436-2, loinc_name: "Glucose [Mass/volume] in Serum or Plasma --2 hours post dose glucose", unit: "mg/dL", confidence: medium, rationale: "NHANES OGTT 2-hour glucose after a 75 g load; the LOINC term does not state the dose"}
+  - {variable: LBXAPB, loinc: 1884-6, loinc_name: "Apolipoprotein B [Mass/volume] in Serum or Plasma", unit: "mg/dL", confidence: high, rationale: "fasting-subsample apoB"}
+  # ---------------------------------------------------------------- vitamins, iron stores, inflammation
+  - {variable: LBXVIDMS, loinc: 68438-1, loinc_name: "25-Hydroxyvitamin D3+25-Hydroxyvitamin D2 [Moles/volume] in Serum or Plasma", unit: "nmol/L", confidence: high, rationale: "LC-MS/MS 25OHD2 + 25OHD3 in nmol/L (substance concentration)"}
+  - {variable: LBDVIDMS, loinc: 68438-1, loinc_name: "25-Hydroxyvitamin D3+25-Hydroxyvitamin D2 [Moles/volume] in Serum or Plasma", unit: "nmol/L", confidence: medium, rationale: "2003-2006 total 25OHD in nmol/L (NHANES LC-MS/MS-equivalent values)"}
+  - {variable: LBXB12, loinc: 2132-9, loinc_name: "Cobalamin (Vitamin B12) [Mass/volume] in Serum or Plasma", unit: "pg/mL", confidence: high, rationale: "serum vitamin B12"}
+  - {variable: LBDB12, loinc: 2132-9, loinc_name: "Cobalamin (Vitamin B12) [Mass/volume] in Serum or Plasma", unit: "pg/mL", confidence: high, rationale: "serum vitamin B12 (2013-14 variable name)"}
+  - {variable: LBXCRP, loinc: 1988-5, loinc_name: "C reactive protein [Mass/volume] in Serum or Plasma", unit: "mg/dL", confidence: medium, rationale: "latex-enhanced nephelometry CRP reported in mg/dL; the LOINC term is method-unspecified (a high-sensitivity code would overstate the method)"}
+  - {variable: LBXFER, loinc: 2276-4, loinc_name: "Ferritin [Mass/volume] in Serum or Plasma", unit: "ng/mL", confidence: high, rationale: "serum ferritin"}
+  - {variable: LBDFER, loinc: 2276-4, loinc_name: "Ferritin [Mass/volume] in Serum or Plasma", unit: "ng/mL", confidence: high, rationale: "serum ferritin (2003-04 variable name)"}
+  - {variable: LBDRFO, loinc: 2283-0, loinc_name: "Folate [Mass/volume] in Red Blood Cells", unit: "ng/mL", confidence: high, rationale: "RBC folate"}
+  - {variable: LBDFOT, loinc: 2284-8, loinc_name: "Folate [Mass/volume] in Serum or Plasma", unit: "ng/mL", confidence: high, rationale: "serum total folate (sum of LC-MS/MS forms) in ng/mL; the nmol/L twin LBDFOTSI is left unmapped as a duplicate"}
+  - {variable: LBXMMASI, loinc: 13964-2, loinc_name: "Methylmalonate [Moles/volume] in Serum or Plasma", unit: "nmol/L", confidence: high, rationale: "serum MMA"}
+  # ---------------------------------------------------------------- thyroid (THYROD_G subsample)
+  - {variable: LBXTSH1, loinc: 3016-3, loinc_name: "Thyrotropin [Units/volume] in Serum or Plasma", unit: "u[IU]/mL", accept_units: ["uIU/mL"], confidence: high, rationale: "serum TSH"}
+  - {variable: LBXT4F, loinc: 3024-7, loinc_name: "Thyroxine (T4) free [Mass/volume] in Serum or Plasma", unit: "ng/dL", confidence: high, rationale: "free T4"}
+  - {variable: LBXT3F, loinc: 3051-0, loinc_name: "Triiodothyronine (T3) Free [Mass/volume] in Serum or Plasma", unit: "pg/mL", confidence: high, rationale: "free T3"}
+  - {variable: LBXTT3, loinc: 3053-6, loinc_name: "Triiodothyronine (T3) [Mass/volume] in Serum or Plasma", unit: "ng/dL", confidence: high, rationale: "total T3"}
+  - {variable: LBXTT4, loinc: 3026-2, loinc_name: "Thyroxine (T4) [Mass/volume] in Serum or Plasma", unit: "ug/dL", confidence: high, rationale: "total T4"}
+  - {variable: LBXTPO, loinc: 8099-4, loinc_name: "Thyroperoxidase Ab [Units/volume] in Serum or Plasma", unit: "[IU]/mL", accept_units: ["IU/mL"], confidence: high, rationale: "anti-TPO"}
+  - {variable: LBXATG, loinc: 8098-6, loinc_name: "Thyroglobulin Ab [Units/volume] in Serum or Plasma", unit: "[IU]/mL", accept_units: ["IU/mL"], confidence: high, rationale: "anti-thyroglobulin"}
+  - {variable: LBXTGN, loinc: 3013-0, loinc_name: "Thyroglobulin [Mass/volume] in Serum or Plasma", unit: "ng/mL", confidence: high, rationale: "thyroglobulin"}
+  # ---------------------------------------------------------------- sex steroids (TST_G/H)
+  - {variable: LBXTST, loinc: 2986-8, loinc_name: "Testosterone [Mass/volume] in Serum or Plasma", unit: "ng/dL", confidence: high, rationale: "total testosterone (ID-LC-MS/MS)"}
+  - {variable: LBXEST, loinc: 2243-4, loinc_name: "Estradiol (E2) [Mass/volume] in Serum or Plasma", unit: "pg/mL", confidence: high, rationale: "estradiol (ID-LC-MS/MS)"}
+  - {variable: LBXSHBG, loinc: 13967-5, loinc_name: "Sex hormone binding globulin [Moles/volume] in Serum or Plasma", unit: "nmol/L", confidence: high, rationale: "SHBG"}
+  # ---------------------------------------------------------------- tobacco, urine, trace elements, surplus sera
+  - {variable: LBXCOT, loinc: 10365-5, loinc_name: "Cotinine [Mass/volume] in Serum or Plasma", unit: "ng/mL", confidence: high, rationale: "serum cotinine"}
+  - {variable: LBXHCT, source: labs_extended, component_file_prefix: COT_, loinc: 35140-3, loinc_name: "Trans-3-Hydroxycotinine [Mass/volume] in Serum or Plasma", unit: "ng/mL", confidence: high, rationale: "serum hydroxycotinine (COT_H; NHANES reuses the name LBXHCT, which is haematocrit in CBC: matched on component file)"}
+  - {variable: URDACT, loinc: 9318-7, loinc_name: "Albumin/Creatinine [Mass Ratio] in Urine", unit: "mg/g", confidence: high, rationale: "spot urine ACR"}
+  - {variable: URXUMS, loinc: 14957-5, loinc_name: "Microalbumin [Mass/volume] in Urine", unit: "mg/L", confidence: medium, rationale: "urine albumin (immunoturbidimetric) in mg/L; URXUMA is the same value in ug/mL and is left unmapped as a duplicate"}
+  - {variable: URXUCR, loinc: 2161-8, loinc_name: "Creatinine [Mass/volume] in Urine", unit: "mg/dL", confidence: high, rationale: "spot urine creatinine (reported with several urine panels; the median across panels is kept)"}
+  - {variable: URXUIO, loinc: 2495-0, loinc_name: "Iodine [Mass/volume] in Urine", unit: "ug/L", confidence: high, rationale: "spot urine iodine"}
+  - {variable: LBXBPB, loinc: 5671-3, loinc_name: "Lead [Mass/volume] in Blood", unit: "ug/dL", confidence: high, rationale: "whole-blood lead"}
+  - {variable: LBXBCD, loinc: 5609-3, loinc_name: "Cadmium [Mass/volume] in Blood", unit: "ug/L", confidence: high, rationale: "whole-blood cadmium"}
+  - {variable: LBXTHG, loinc: 5685-3, loinc_name: "Mercury [Mass/volume] in Blood", unit: "ug/L", confidence: high, rationale: "whole-blood total mercury"}
+  - {variable: LBXBSE, loinc: 5722-4, loinc_name: "Selenium [Mass/volume] in Blood", unit: "ug/L", confidence: high, rationale: "whole-blood selenium"}
+  - {variable: LBXBMN, loinc: 5681-2, loinc_name: "Manganese [Mass/volume] in Blood", unit: "ug/L", confidence: high, rationale: "whole-blood manganese"}
+  - {variable: LBXSCU, loinc: 5631-7, loinc_name: "Copper [Mass/volume] in Serum or Plasma", unit: "ug/dL", confidence: high, rationale: "serum copper"}
+  - {variable: LBXSZN, loinc: 5763-8, loinc_name: "Zinc [Mass/volume] in Serum or Plasma", unit: "ug/dL", confidence: high, rationale: "serum zinc"}
+  - {variable: SSSNFL, loinc: 101281-4, loinc_name: "Neurofilament light chain [Mass/volume] in Serum or Plasma by Immunoassay", unit: "pg/mL", accept_units: ["pg/ml"], confidence: medium, rationale: "surplus-serum NfL by immunoassay (research-use assay)"}
+  # ---------------------------------------------------------------- exam measures (participant_clinical_features)
+  - {variable: sbp_mean_mmhg, source: clinical_features, loinc: 8480-6, loinc_name: "Systolic blood pressure", unit: "mm[Hg]", confidence: medium, rationale: "mean of the MEC auscultatory readings (the LOINC term is a single reading)"}
+  - {variable: dbp_mean_mmhg, source: clinical_features, loinc: 8462-4, loinc_name: "Diastolic blood pressure", unit: "mm[Hg]", confidence: medium, rationale: "mean of the MEC readings"}
+  - {variable: exam_pulse_60s_bpm, source: clinical_features, loinc: 8867-4, loinc_name: "Heart rate", unit: "/min", confidence: medium, rationale: "60-second pulse at the MEC exam; LOINC 8867-4 is method-unspecified"}
+  - {variable: weight_kg, source: clinical_features, loinc: 29463-7, loinc_name: "Body weight", unit: "kg", confidence: high, rationale: "measured weight"}
+  - {variable: height_cm, source: clinical_features, loinc: 8302-2, loinc_name: "Body height", unit: "cm", confidence: high, rationale: "measured standing height"}
+  - {variable: bmi, source: clinical_features, loinc: 39156-5, loinc_name: "Body mass index (BMI) [Ratio]", unit: "kg/m2", confidence: high, rationale: "BMI from measured weight and height"}
+  - {variable: waist_cm, source: clinical_features, loinc: 56114-2, loinc_name: "Waist Circumference by NHANES", unit: "cm", confidence: high, rationale: "the LOINC term for the NHANES protocol (iliac crest)"}

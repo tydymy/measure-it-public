@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://measure-it.local/byod/computable_phenotype.schema.json",
+  "title": "measure-it computable phenotype (docs/HARMONIZATION_CONTRACT.md section 2)",
+  "description": "A device-defined subgroup inside a condition, expressed as a logistic model over harmonized features that public reference cohorts, OMOP cohorts or a clinic EHR can evaluate. Aggregate only: no participant ids, no geography. Produced by `measure-it byod subgroup`; scored by measure_it.harmonize.phenotype.score_phenotype.",
+  "type": "object",
+  "required": ["phenotype_id", "version", "condition_id", "base_population", "subgroup_definition", "model",
+               "intercept", "features", "decision_threshold", "performance", "strata_fractions", "plan_sha256",
+               "caveats"],
+  "properties": {
+    "phenotype_id": {"type": "string", "pattern": "^byod_[a-z][a-z0-9_]{2,40}:[a-z][a-z0-9_]{0,40}$"},
+    "version": {"type": "integer", "minimum": 1},
+    "dataset_id": {"type": "string"},
+    "condition_id": {"type": "string"},
+    "base_population": {
+      "type": "object",
+      "required": ["description", "icd10cm", "label_column"],
+      "properties": {
+        "description": {"type": "string"},
+        "icd10cm": {"type": "array", "items": {"type": "string"}},
+        "label_column": {"type": "string"},
+        "label_basis": {"type": "string"},
+        "n_cases": {"type": "integer"},
+        "n_cases_with_device_finding_defined": {"type": "integer"}
+      }
+    },
+    "subgroup_definition": {"type": "string"},
+    "model": {"enum": ["l1_logistic"]},
+    "intercept": {"type": "number"},
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["feature_key", "domain", "vocabulary", "codes", "transform", "coefficient", "label",
+                     "ehr_evaluable"],
+        "properties": {
+          "feature_key": {"type": "string", "pattern": "^(ICD10CM|LOINC|RXNORM|DEMOG|SURVEY):"},
+          "domain": {"enum": ["condition", "measurement", "drug", "demographic", "survey"]},
+          "vocabulary": {"enum": ["ICD10CM", "LOINC", "RXNORM", "DEMOG", "SURVEY"]},
+          "codes": {"type": "array", "items": {"type": "string"}},
+          "code_match": {"enum": ["category_prefix", "exact", "derived"]},
+          "transform": {"enum": ["presence", "standardized_value"]},
+          "center": {"type": "number"},
+          "scale": {"type": "number", "exclusiveMinimum": 0},
+          "unit": {"type": ["string", "null"]},
+          "coefficient": {"type": "number"},
+          "coefficient_standardized": {"type": "number"},
+          "label": {"type": "string"},
+          "ehr_evaluable": {"type": "boolean"},
+          "ehr_note": {"type": "string"},
+          "mapping_methods": {"type": "array", "items": {"type": "string"}},
+          "mapping_confidences": {"type": "array", "items": {"type": "string"}},
+          "platform": {"type": ["string", "null"]},
+          "reference_crosswalk": {"type": "array"}
+        },
+        "allOf": [
+          {"if": {"properties": {"transform": {"const": "standardized_value"}}},
+           "then": {"required": ["center", "scale"]}}
+        ]
+      }
+    },
+    "decision_threshold": {"type": "number", "minimum": 0, "maximum": 1},
+    "decision_threshold_rule": {"type": "string"},
+    "performance": {
+      "type": "object",
+      "required": ["auroc", "auroc_ci_low", "auroc_ci_high", "n_positive", "n_negative", "comparator"],
+      "properties": {
+        "auroc": {"type": "number"},
+        "auroc_ci_low": {"type": "number"},
+        "auroc_ci_high": {"type": "number"},
+        "n_positive": {"type": "integer"},
+        "n_negative": {"type": "integer"},
+        "comparator": {"type": "string"},
+        "perm_p": {"type": ["number", "null"]},
+        "decision": {"enum": ["supported", "null"]}
+      }
+    },
+    "strata_fractions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["age_band", "sex", "n_cases", "n_positive", "fraction", "ci_low", "ci_high", "suppressed"],
+        "properties": {
+          "age_band": {"type": "string"},
+          "sex": {"type": "string"},
+          "n_cases": {"type": ["integer", "null"]},
+          "n_positive": {"type": ["integer", "null"]},
+          "fraction": {"type": ["number", "null"]},
+          "ci_low": {"type": ["number", "null"]},
+          "ci_high": {"type": ["number", "null"]},
+          "suppressed": {"type": "boolean"}
+        }
+      },
+      "contains": {"type": "object", "properties": {"age_band": {"const": "all"}, "sex": {"const": "all"}}}
+    },
+    "ehr_evaluable_summary": {"type": "object"},
+    "plan_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "caveats": {"type": "array", "items": {"type": "string"}},
+    "synthetic": {"type": "boolean"},
+    "demo": {"type": "boolean"}
+  }
+}

@@ -1,0 +1,3 @@
+participant_id,loinc,value,unit,lab_name,day_index
+S001,1988-5,3.4,mg/L,C reactive protein,0
+S002,718-7,14.1,g/dL,Hemoglobin,2

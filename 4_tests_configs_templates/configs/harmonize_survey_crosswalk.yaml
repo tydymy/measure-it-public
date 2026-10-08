@@ -1,0 +1,54 @@
+# Patient-reported outcome (PRO) instruments and survey items: SURVEY concept codes and an honest crosswalk between
+# study instruments and items that reference cohorts (NHANES; BRFSS for the CDC Healthy Days core) actually ask.
+# (curated; measure_it.harmonize.survey)
+#
+# SURVEY concept codes are "<INSTRUMENT>:<item or score>" (contract section 0/1), e.g. COMPASS31:total, PHQ9:total.
+#
+# 1. reference_items: NHANES columns of participant_clinical_features__nhanes / __nhanes0306 emitted as SURVEY rows.
+# 2. instruments: BYOD file names survey_<name>.csv -> instrument code. Columns of the file become items
+#    ("<CODE>:<column>"). An instrument not listed here keeps its upper-cased file name as the code (no crosswalk).
+# 3. crosswalk: study instrument item -> reference item, with match_quality
+#      same_item          identical wording and response scale (values comparable as they are)
+#      same_construct     same construct, different wording / scale (compare ranks or thresholds, not raw values)
+#      related_construct  overlapping but different construct (use as a weak proxy only, say so)
+#      none               no reference item exists (listed so the gap is explicit)
+#    and direction (+1: higher on both means worse; -1: opposite polarity). Nothing is forced: most MAESTRO PROs have
+#    no counterpart in NHANES (orthostatic intolerance, post-exertional malaise, vasomotor symptoms are not asked).
+reference_items:
+  - {column: phq9_total, code: "PHQ9:total", label: "PHQ-9 total score (0-27)", datasets: [nhanes, nhanes0306], note: "DPQ010-DPQ090"}
+  - {column: phq9_item3_sleep_0to3, code: "PHQ9:item3_sleep", label: "PHQ-9 item 3: trouble sleeping (0-3)", datasets: [nhanes, nhanes0306], note: "DPQ030"}
+  - {column: phq9_item4_tired_little_energy_0to3, code: "PHQ9:item4_tired", label: "PHQ-9 item 4: feeling tired or little energy (0-3)", datasets: [nhanes, nhanes0306], note: "DPQ040"}
+  - {column: self_rated_health_mec_1excellent_5poor, code: "CDC_HRQOL4:general_health", label: "Self-rated general health (1 excellent - 5 poor)", datasets: [nhanes, nhanes0306], note: "HSD010; CDC Healthy Days item 1, also asked in BRFSS (GENHLTH)"}
+  - {column: physically_unhealthy_days_30d, code: "CDC_HRQOL4:physically_unhealthy_days", label: "Physically unhealthy days, past 30", datasets: [nhanes, nhanes0306], note: "HSQ470; BRFSS PHYSHLTH"}
+  - {column: mentally_unhealthy_days_30d, code: "CDC_HRQOL4:mentally_unhealthy_days", label: "Mentally unhealthy days, past 30", datasets: [nhanes, nhanes0306], note: "HSQ480; BRFSS MENTHLTH"}
+  - {column: inactive_days_due_to_health_30d, code: "CDC_HRQOL4:activity_limitation_days", label: "Days health kept you from usual activities, past 30", datasets: [nhanes, nhanes0306], note: "HSQ490; BRFSS POORHLTH"}
+  - {column: any_functional_limitation_pfq, code: "NHANES_PFQ:any_limitation", label: "Any physical functioning limitation (PFQ)", datasets: [nhanes, nhanes0306], note: "derived from PFQ049-PFQ061"}
+  - {column: pfq061_n_items_some_difficulty_or_worse, code: "NHANES_PFQ:n_items_difficulty", label: "Number of PFQ061 activities with at least some difficulty", datasets: [nhanes], note: "PFQ061A-T (2011-2014 processing)"}
+  - {column: confusion_or_memory_problems, code: "NHANES_PFQ:confusion_memory_limitation", label: "Limited because of difficulty remembering or confusion", datasets: [nhanes, nhanes0306], note: "PFQ057"}
+  - {column: serious_difficulty_concentrating, code: "NHANES_DLQ:difficulty_concentrating", label: "Serious difficulty concentrating, remembering or making decisions", datasets: [nhanes], note: "DLQ040 (2013-2014)"}
+  - {column: sleep_hours_weekday_selfreport, code: "NHANES_SLQ:sleep_hours", label: "Usual sleep hours (weekday / workday)", datasets: [nhanes, nhanes0306], note: "SLD010H / SLD012"}
+  - {column: told_doctor_trouble_sleeping, code: "NHANES_SLQ:told_doctor_trouble_sleeping", label: "Ever told a doctor about trouble sleeping", datasets: [nhanes, nhanes0306], note: "SLQ050"}
+instruments:
+  - {code: COMPASS31, file_names: [compass31, compass_31], label: "Composite Autonomic Symptom Score 31 (weighted 0-100; six domains)"}
+  - {code: FSS9, file_names: [fss9, fss, fss_9], label: "Fatigue Severity Scale (9 items, mean 1-7)"}
+  - {code: DSQPEM, file_names: [dsqpem, dsq_pem, dsq], label: "DePaul Symptom Questionnaire, post-exertional malaise items"}
+  - {code: PROMIS_COG, file_names: [promis_cog, promis_cognitive, promis_cognitive_function], label: "PROMIS Cognitive Function (T-score; higher = better)"}
+  - {code: FUNCAP27, file_names: [funcap27, funcap, funcap_27], label: "FUNCAP27 functional capacity (higher = better function)"}
+  - {code: BIVSS, file_names: [bivss], label: "Brief Index of Vestibular Symptom Severity (study instrument)"}
+  - {code: VAFS, file_names: [vafs], label: "Visual analogue fatigue scale"}
+  - {code: THRIVE, file_names: [thrive], label: "THRIVE questionnaire (study instrument)"}
+  - {code: PHQ9, file_names: [phq9, phq_9], label: "Patient Health Questionnaire-9"}
+  - {code: CDC_HRQOL4, file_names: [hrqol4, cdc_hrqol4, healthy_days], label: "CDC Healthy Days (HRQOL-4)"}
+crosswalk:
+  - {item: "PHQ9:*", reference: "PHQ9:*", match_quality: same_item, direction: 1, rationale: "same instrument"}
+  - {item: "CDC_HRQOL4:*", reference: "CDC_HRQOL4:*", match_quality: same_item, direction: 1, rationale: "same instrument (NHANES HSQ and BRFSS core)"}
+  - {item: "FSS9:total", reference: "PHQ9:item4_tired", match_quality: related_construct, direction: 1, rationale: "fatigue severity/impact vs frequency of tiredness in 2 weeks; ranks only"}
+  - {item: "VAFS:*", reference: "PHQ9:item4_tired", match_quality: related_construct, direction: 1, rationale: "fatigue intensity vs frequency of tiredness"}
+  - {item: "PROMIS_COG:*", reference: "NHANES_DLQ:difficulty_concentrating", match_quality: related_construct, direction: -1, rationale: "perceived cognitive function (higher = better) vs a binary serious-difficulty item"}
+  - {item: "PROMIS_COG:*", reference: "NHANES_PFQ:confusion_memory_limitation", match_quality: related_construct, direction: -1, rationale: "functional limitation due to memory/confusion; much more severe threshold"}
+  - {item: "FUNCAP27:*", reference: "NHANES_PFQ:any_limitation", match_quality: related_construct, direction: -1, rationale: "functional capacity (higher = better) vs any physical limitation"}
+  - {item: "FUNCAP27:*", reference: "CDC_HRQOL4:activity_limitation_days", match_quality: related_construct, direction: -1, rationale: "capacity vs days kept from usual activities"}
+  - {item: "DSQPEM:*", reference: null, match_quality: none, direction: null, rationale: "post-exertional malaise is not asked in NHANES or BRFSS"}
+  - {item: "COMPASS31:*", reference: null, match_quality: none, direction: null, rationale: "no autonomic-symptom instrument in NHANES 2003-2014 (orthostatic, vasomotor, secretomotor, pupillomotor items absent)"}
+  - {item: "BIVSS:*", reference: null, match_quality: none, direction: null, rationale: "no vestibular-symptom item in the processed NHANES tables (the NHANES balance questionnaire of 1999-2004 is not ingested here)"}
+  - {item: "THRIVE:*", reference: null, match_quality: none, direction: null, rationale: "no counterpart"}

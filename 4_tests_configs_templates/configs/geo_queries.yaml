@@ -1,0 +1,143 @@
+# Curated NCBI GEO / SRA queries per registry condition (owner: measure_it.omics.geo_sra).
+#
+# Reviewed 2026-09-23 against live Entrez counts. Rules:
+# * Multi-word phrases are quoted only when Entrez's GEO phrase index knows them. Entrez
+#   answers an unindexed quoted phrase with "quotedphrasesnotfound" and silently drops it,
+#   e.g. "postural orthostatic tachycardia syndrome", "post-acute sequelae of SARS-CoV-2",
+#   "systemic exertion intolerance disease" and "long haul COVID" all return nothing as
+#   phrases in db=gds. Such concepts are written as AND-ed words instead. The module logs
+#   every phrase Entrez reports as not found, so a silently dropped phrase is visible.
+# * No bare acronyms: PASC alone also means pancreatic adenosquamous carcinoma (5 of the
+#   first 25 GEO hits on 2026-09-23 were pancreatic cancer series); POTS alone matches pot
+#   experiments. PASC is used only together with COVID-19 / SARS-CoV-2.
+# * GEO: Homo sapiens series (gse entry type). The study-type restriction in
+#   `geo_study_types` (expression, methylation, non-coding RNA, protein profiling) is applied
+#   to the esummary `gdstype` after retrieval and stored as `study_type_in_scope`, not in the
+#   Entrez term: filtered in the term, POTS had 0 series (its only series has another type)
+#   and the excluded series would be invisible.
+# * SRA: human organism only; every hit is an experiment package, aggregated to its study
+#   (SRP/ERP/DRP) and BioProject in the module.
+# * Each query has an id, the database, the concept clause and a one-line rationale.
+#   `geo_filter` / `sra_filter` are appended by the module, so the stored term is exactly
+#   what was sent.
+
+geo_filter: '"Homo sapiens"[Organism] AND "gse"[Entry Type]'
+geo_study_types:
+  - Expression profiling by array
+  - Expression profiling by high throughput sequencing
+  - Expression profiling by RT-PCR
+  - Methylation profiling by array
+  - Methylation profiling by high throughput sequencing
+  - Methylation profiling by genome tiling array
+  - Non-coding RNA profiling by array
+  - Non-coding RNA profiling by high throughput sequencing
+  - Protein profiling by protein array
+  - Protein profiling by Mass Spec
+sra_filter: '"Homo sapiens"[Organism]'
+
+# Case-insensitive regexes: does the GEO title+summary / SRA study title actually mention the
+# condition? A cheap automatic QC flag (`mentions_condition`), separate from the manual
+# precision review in data/raw/ncbi_geo_sra/precision_review.yaml.
+qc_patterns:
+  long_covid: ['long[ -]?covid', 'post[- ]?acute sequelae', 'post[- ]?acute covid', '\bPASC\b', 'post[- ]?covid', 'long[- ]haul']
+  me_cfs: ['myalgic encephalomyelitis', 'chronic fatigue syndrome', '\bME/CFS\b', '\bCFS\b', 'SEID']
+  pots: ['postural (orthostatic )?tachycardia', '\bPOTS\b']
+  dysautonomia: ['dysautonomia', 'autonomic (dysfunction|neuropathy|failure|nervous system disorder)', 'orthostatic intolerance']
+  fibromyalgia: ['fibromyalgia']
+  eds_hsd: ['ehlers[- ]danlos', 'hypermobility']
+  mcas: ['mast cell activation (syndrome|disorder)', '\bMCAS\b']
+  lyme_disease: ['lyme']
+  ptlds: ['post[- ]?treatment lyme', 'PTLDS', 'persistent .*lyme', 'lyme .*persistent']
+  post_infectious_syndrome: ['post[- ]?infectious', 'post[- ]?viral']
+  migraine: ['migraine']
+  ibs: ['irritable bowel']
+  gastroparesis: ['gastroparesis']
+  endometriosis: ['endometrio']
+
+conditions:
+  long_covid:
+    - id: long_covid_phrase
+      db: [gds, sra]
+      term: '"long COVID"[All Fields]'
+      rationale: indexed phrase; the most common label in series titles
+    - id: long_covid_post_acute_sequelae
+      db: [gds, sra]
+      term: '(post-acute[All Fields] AND sequelae[All Fields] AND (COVID-19[All Fields] OR SARS-CoV-2[All Fields]))'
+      rationale: '"post-acute sequelae of SARS-CoV-2" is not in the GEO phrase index; AND-ed words'
+    - id: long_covid_pasc_with_covid
+      db: [gds, sra]
+      term: '(PASC[All Fields] AND (COVID-19[All Fields] OR SARS-CoV-2[All Fields]))'
+      rationale: PASC only with a COVID term (bare PASC hits pancreatic adenosquamous carcinoma)
+    - id: long_covid_post_covid_syndrome
+      db: [gds, sra]
+      term: '("post COVID syndrome"[All Fields] OR "post-COVID-19 condition"[All Fields] OR "post-COVID-19 syndrome"[All Fields])'
+      rationale: registry search phrases; indexed in db=gds, but db=sra reports "post COVID syndrome" and "post-COVID-19 syndrome" as not found (query_log.json), so this query adds nothing in SRA
+  me_cfs:
+    - id: me_cfs_phrases
+      db: [gds, sra]
+      term: '("myalgic encephalomyelitis"[All Fields] OR "chronic fatigue syndrome"[All Fields])'
+      rationale: registry search phrases (both indexed); ME/CFS acronym is covered by the phrases
+  pots:
+    - id: pots_postural_tachycardia
+      db: [gds, sra]
+      term: '(postural[All Fields] AND tachycardia[All Fields])'
+      rationale: '"postural orthostatic tachycardia syndrome" is not in the GEO phrase index; AND-ed words'
+  dysautonomia:
+    - id: dysautonomia_terms
+      db: [gds, sra]
+      term: '(dysautonomia[All Fields] OR "autonomic dysfunction"[All Fields] OR "autonomic neuropathy"[All Fields] OR (orthostatic[All Fields] AND intolerance[All Fields]))'
+      rationale: registry search phrases; orthostatic intolerance as AND-ed words
+  fibromyalgia:
+    - id: fibromyalgia_term
+      db: [gds, sra]
+      term: 'fibromyalgia[All Fields]'
+      rationale: single unambiguous word
+  eds_hsd:
+    - id: eds_terms
+      db: [gds, sra]
+      term: '("Ehlers-Danlos"[All Fields] OR (hypermobility[All Fields] AND (syndrome[All Fields] OR disorder[All Fields] OR spectrum[All Fields])))'
+      rationale: registry search phrases; bare EDS excluded (also excessive daytime sleepiness)
+  mcas:
+    - id: mcas_terms
+      db: [gds, sra]
+      term: '(mast[All Fields] AND cell[All Fields] AND activation[All Fields] AND syndrome[All Fields])'
+      rationale: >-
+        "mast cell activation syndrome"/"disorder" are not indexed phrases (0 hits); bare MCAS is an ovarian-cancer
+        cell line (25 GEO hits, all cell-line series); the earlier "... AND (syndrome OR disorder)" variant returned
+        16 series of which 0 mentioned MCAS (generic mast-cell activation experiments), so it was tightened to
+        require "syndrome" (reviewed 2026-09-23)
+  lyme_disease:
+    - id: lyme_terms
+      db: [gds, sra]
+      term: '("Lyme disease"[All Fields] OR "Lyme borreliosis"[All Fields] OR (Lyme[All Fields] AND arthritis[All Fields]))'
+      rationale: registry search phrases plus Lyme arthritis; pathogen-only (in vitro Borrelia) studies not targeted
+  ptlds:
+    - id: ptlds_terms
+      db: [gds, sra]
+      term: '((Lyme[All Fields] AND (post-treatment[All Fields] OR persistent[All Fields]) AND (syndrome[All Fields] OR symptoms[All Fields])) OR PTLDS[All Fields])'
+      rationale: registry search phrases as AND-ed words ("post-Lyme" is not an indexed phrase); PTLDS acronym is specific
+  post_infectious_syndrome:
+    - id: post_infectious_terms
+      db: [gds, sra]
+      term: '((post-infectious[All Fields] OR postinfectious[All Fields] OR post-viral[All Fields] OR postviral[All Fields]) AND (fatigue[All Fields] OR syndrome[All Fields]))'
+      rationale: grouping concept; post-infectious/post-viral fatigue or syndrome
+  migraine:
+    - id: migraine_term
+      db: [gds, sra]
+      term: 'migraine[All Fields]'
+      rationale: single unambiguous word
+  ibs:
+    - id: ibs_phrase
+      db: [gds, sra]
+      term: '"irritable bowel syndrome"[All Fields]'
+      rationale: indexed phrase; bare IBS excluded (also inflammatory breast signature etc.)
+  gastroparesis:
+    - id: gastroparesis_term
+      db: [gds, sra]
+      term: 'gastroparesis[All Fields]'
+      rationale: single unambiguous word
+  endometriosis:
+    - id: endometriosis_term
+      db: [gds, sra]
+      term: 'endometriosis[All Fields]'
+      rationale: single unambiguous word

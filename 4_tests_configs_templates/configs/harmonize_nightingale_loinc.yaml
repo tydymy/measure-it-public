@@ -1,0 +1,39 @@
+# Nightingale Health blood NMR measures -> LOINC (curated; measure_it.harmonize.byod).
+#
+# platform: nmr_nightingale. Applies to a BYOD omics layer whose manifest entry says
+#   omics: {<layer>: {platform: nmr_nightingale, units: nightingale_standard}}
+# i.e. the file holds Nightingale's own reporting units (lipids, glucose, GlycA in mmol/L; apolipoproteins and albumin
+# in g/L; creatinine in umol/L). Without `units: nightingale_standard` nothing is mapped (units are never guessed).
+#
+# Only clinical-chemistry-equivalent measures are listed. They become person_concepts rows with domain measurement,
+# vocabulary LOINC, mapping_method curated_map, platform nmr_nightingale, so that they can meet NHANES labs; every
+# other Nightingale measure (lipoprotein subclasses, fatty acids, amino acids, ketones, ...) stays OMICS.
+#
+# Units: NHANES and US clinic EHRs report these analytes in conventional mass units, so each row converts EXPLICITLY
+# with a stated factor (molar mass) into the unit of the LOINC term used by NHANES; the factor and the original unit are
+# recorded on every row (person_concepts.platform note). This is the only unit conversion in the harmonizer and it is
+# declared here, never applied silently.
+#
+# Confidence is at most medium: NMR-based quantification correlates closely with enzymatic clinical chemistry for the
+# major lipids and glucose but values are not interchangeable without calibration (different methods, different
+# biases; e.g. Nightingale "Clinical_LDL_C" is an NMR-derived estimate, not Friedewald or a direct assay).
+#
+# Matching of column names: case-insensitive after removing non-alphanumerics (e.g. Total_C, total-c, TOTAL_C).
+# Codes looked up on 2026-10-07 in the NLM Clinical Tables LOINC index (loinc_name = LONG_COMMON_NAME).
+platform: nmr_nightingale
+units_flag: nightingale_standard
+mappings:
+  - {measure: Total_C, aliases: [Total_C, TotalC, Total_cholesterol], source_unit: mmol/L, loinc: 2093-3, loinc_name: "Cholesterol [Mass/volume] in Serum or Plasma", unit: mg/dL, factor: 38.67, confidence: medium, rationale: "total cholesterol; 1 mmol/L = 38.67 mg/dL (M = 386.65 g/mol)"}
+  - {measure: HDL_C, aliases: [HDL_C, HDLC, HDL_cholesterol], source_unit: mmol/L, loinc: 2085-9, loinc_name: "Cholesterol in HDL [Mass/volume] in Serum or Plasma", unit: mg/dL, factor: 38.67, confidence: medium, rationale: "total cholesterol in HDL particles; method-unspecified LOINC term (NHANES uses a direct assay)"}
+  - {measure: Clinical_LDL_C, aliases: [Clinical_LDL_C, ClinicalLDLC], source_unit: mmol/L, loinc: 2089-1, loinc_name: "Cholesterol in LDL [Mass/volume] in Serum or Plasma", unit: mg/dL, factor: 38.67, confidence: medium, rationale: "Nightingale's clinical-equivalent LDL-C; NOT the NHANES Friedewald code 13457-7 (by calculation), so it does not meet NHANES LDL-C. Nightingale 'LDL_C' (LDL-particle cholesterol without IDL) is left unmapped"}
+  - {measure: Total_TG, aliases: [Total_TG, TotalTG, Triglycerides, Total_triglycerides], source_unit: mmol/L, loinc: 2571-8, loinc_name: "Triglyceride [Mass/volume] in Serum or Plasma", unit: mg/dL, factor: 88.57, confidence: medium, rationale: "total triglycerides; 1 mmol/L = 88.57 mg/dL (triolein, M = 885.7 g/mol)"}
+  - {measure: Glucose, aliases: [Glucose, Glc], source_unit: mmol/L, loinc: 2345-7, loinc_name: "Glucose [Mass/volume] in Serum or Plasma", unit: mg/dL, factor: 18.016, confidence: medium, rationale: "serum/plasma glucose, fasting status as in the study protocol; 1 mmol/L = 18.016 mg/dL. Sample handling (glycolysis before NMR) can lower values"}
+  - {measure: Creatinine, aliases: [Creatinine, Crea], source_unit: umol/L, loinc: 2160-0, loinc_name: "Creatinine [Mass/volume] in Serum or Plasma", unit: mg/dL, factor: 0.011312, confidence: medium, rationale: "1 umol/L = 0.011312 mg/dL (M = 113.12 g/mol)"}
+  - {measure: Albumin, aliases: [Albumin, Alb], source_unit: g/L, loinc: 1751-7, loinc_name: "Albumin [Mass/volume] in Serum or Plasma", unit: g/dL, factor: 0.1, confidence: low, rationale: "NMR albumin is a weaker proxy of the dye-binding clinical assay than the lipid measures; 1 g/L = 0.1 g/dL"}
+  - {measure: ApoB, aliases: [ApoB, Apolipoprotein_B], source_unit: g/L, loinc: 1884-6, loinc_name: "Apolipoprotein B [Mass/volume] in Serum or Plasma", unit: mg/dL, factor: 100.0, confidence: medium, rationale: "1 g/L = 100 mg/dL; NHANES has apoB in the fasting subsample (LBXAPB)"}
+  - {measure: ApoA1, aliases: [ApoA1, Apolipoprotein_A1, ApoA_I], source_unit: g/L, loinc: 1869-7, loinc_name: "Apolipoprotein A-I [Mass/volume] in Serum or Plasma", unit: mg/dL, factor: 100.0, confidence: medium, rationale: "1 g/L = 100 mg/dL (not measured in NHANES 2011-2014)"}
+  - {measure: GlycA, aliases: [GlycA, Glycoprotein_acetyls], source_unit: mmol/L, loinc: 82730-3, loinc_name: "GlycA [Moles/volume] in Serum or Plasma", unit: mmol/L, factor: 1.0, confidence: low, rationale: "glycoprotein acetyls; the LOINC term exists for the clinical NMR GlycA test (another NMR platform with its own calibration). Not measured in NHANES; a clinic EHR has it only where that test is ordered"}
+unmapped:
+  - {measure: LDL_C, reason: "Nightingale LDL_C is cholesterol in LDL particles as defined by NMR size classes (excludes IDL); no clinical LOINC equivalent"}
+  - {measure: Remnant_C, reason: "no clinical LOINC term with the same definition"}
+  - {measure: "lipoprotein subclasses, fatty acids, amino acids, ketone bodies, glycolysis metabolites, fluid balance (other than those above)", reason: "kept as OMICS: no clinical-chemistry equivalent that meets NHANES or a clinic EHR"}

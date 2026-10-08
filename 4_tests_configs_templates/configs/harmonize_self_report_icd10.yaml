@@ -1,0 +1,58 @@
+# Self-reported medical history (free-text condition names) -> ICD-10-CM (curated; measure_it.harmonize.self_report).
+#
+# Used for BYOD `self_report_history.csv` (participant_id, condition[, icd10cm][, day_index]). Matching is EXACT on a
+# normalised string (lower case; apostrophes removed; every other non-alphanumeric run -> one space; trimmed), against
+# `aliases`; nothing is fuzzy-matched, so an unlisted wording stays unmapped and is counted in the dataset's audit.
+# A row that already carries an `icd10cm` code keeps that code (mapping_method self_report_map, the code was given by
+# the participant or the study team, not by a clinician's EHR).
+#
+# Self-report caps mapping_confidence at medium: a remembered diagnosis is weaker evidence than a coded encounter.
+#   medium = the wording names one disease that sits in one ICD-10-CM category or subcategory
+#   low    = broader / narrower than the code, or a contested label (rationale says how)
+# Codes are the most specific header the wording supports (a category like J45 or a subcategory like I73.0), never an
+# invented leaf; all are checked against the CMS FY2026 ICD-10-CM code list by `measure_it.harmonize.audit`.
+mappings:
+  - {icd10cm: I73.0, label: "Raynaud's syndrome", confidence: medium, aliases: [raynaud, raynauds, raynaud syndrome, raynauds syndrome, raynaud phenomenon, raynauds phenomenon, raynauds disease, raynaud disease], rationale: "Raynaud's syndrome is I73.0- (with/without gangrene not reported)"}
+  - {icd10cm: G90.A, label: "Postural orthostatic tachycardia syndrome [POTS]", confidence: medium, aliases: [pots, postural orthostatic tachycardia syndrome, postural tachycardia syndrome], rationale: "G90.A (POTS) exists from FY2023"}
+  - {icd10cm: G93.32, label: "Myalgic encephalomyelitis/chronic fatigue syndrome", confidence: medium, aliases: [me cfs, mecfs, me, chronic fatigue syndrome, myalgic encephalomyelitis, myalgic encephalomyelitis chronic fatigue syndrome, cfs], rationale: "G93.32 (FY2023)"}
+  - {icd10cm: U09.9, label: "Post COVID-19 condition, unspecified", confidence: medium, aliases: [long covid, long covid 19, post covid condition, post covid 19 condition, pasc, post acute sequelae of covid, post covid syndrome], rationale: "U09.9 is the only post-COVID-19 condition code"}
+  - {icd10cm: Z86.16, label: "Personal history of COVID-19", confidence: medium, aliases: [covid, covid 19, covid19, prior covid, covid infection, sars cov 2 infection], rationale: "a reported past COVID-19 infection is a personal history (Z86.16), not the acute U07.1"}
+  - {icd10cm: A69.2, label: "Lyme disease", confidence: medium, aliases: [lyme, lyme disease, lyme borreliosis, borreliosis], rationale: "Lyme disease is A69.2- (manifestation not reported)"}
+  - {icd10cm: A69.2, label: "Lyme disease", confidence: low, aliases: [chronic lyme, chronic lyme disease, post treatment lyme disease syndrome, ptlds, post lyme syndrome, post lyme disease syndrome], rationale: "persistent symptoms after Lyme have no ICD-10-CM code of their own; only the antecedent infection (A69.2-) is codeable. Contested label (chronic Lyme)"}
+  - {icd10cm: M79.7, label: "Fibromyalgia", confidence: medium, aliases: [fibromyalgia, fibromyalgia syndrome, fms], rationale: "M79.7"}
+  - {icd10cm: Q79.62, label: "Hypermobile Ehlers-Danlos syndrome", confidence: medium, aliases: [heds, hypermobile eds, hypermobile ehlers danlos, hypermobile ehlers danlos syndrome], rationale: "Q79.62 (FY2023)"}
+  - {icd10cm: Q79.6, label: "Ehlers-Danlos syndromes", confidence: low, aliases: [eds, ehlers danlos, ehlers danlos syndrome], rationale: "type not reported: subcategory Q79.6-"}
+  - {icd10cm: M35.7, label: "Hypermobility syndrome", confidence: low, aliases: [hypermobility spectrum disorder, hsd, joint hypermobility syndrome, hypermobility syndrome], rationale: "HSD is usually coded M35.7 (hypermobility syndrome)"}
+  - {icd10cm: D89.4, label: "Mast cell activation syndrome and related disorders", confidence: low, aliases: [mcas, mast cell activation syndrome, mast cell activation disorder], rationale: "D89.4- subcategory; MCAS criteria are contested"}
+  - {icd10cm: G43, label: "Migraine", confidence: medium, aliases: [migraine, migraines, migraine headache, migraine headaches, chronic migraine], rationale: "migraine is G43"}
+  - {icd10cm: K58, label: "Irritable bowel syndrome", confidence: medium, aliases: [ibs, irritable bowel syndrome, irritable bowel], rationale: "IBS is K58"}
+  - {icd10cm: K31.84, label: "Gastroparesis", confidence: medium, aliases: [gastroparesis], rationale: "K31.84"}
+  - {icd10cm: N80, label: "Endometriosis", confidence: medium, aliases: [endometriosis], rationale: "N80"}
+  - {icd10cm: K90.0, label: "Celiac disease", confidence: medium, aliases: [celiac, celiac disease, coeliac, coeliac disease], rationale: "K90.0-"}
+  - {icd10cm: J45, label: "Asthma", confidence: medium, aliases: [asthma], rationale: "J45"}
+  - {icd10cm: I10, label: "Essential (primary) hypertension", confidence: medium, aliases: [hypertension, high blood pressure], rationale: "I10"}
+  - {icd10cm: E78, label: "Disorders of lipoprotein metabolism and other lipidemias", confidence: low, aliases: [high cholesterol, hypercholesterolemia, hyperlipidemia, dyslipidemia], rationale: "category E78 (subtype not reported)"}
+  - {icd10cm: E10, label: "Type 1 diabetes mellitus", confidence: medium, aliases: [type 1 diabetes, t1d, type i diabetes], rationale: "E10"}
+  - {icd10cm: E11, label: "Type 2 diabetes mellitus", confidence: medium, aliases: [type 2 diabetes, t2d, type ii diabetes], rationale: "E11"}
+  - {icd10cm: E11, label: "Type 2 diabetes mellitus", confidence: low, aliases: [diabetes, diabetes mellitus], rationale: "type not reported; type 2 is the large majority of adult diabetes (see harmonize_nhanes_conditions.yaml dx_diabetes)"}
+  - {icd10cm: R73.03, label: "Prediabetes", confidence: medium, aliases: [prediabetes, pre diabetes], rationale: "R73.03"}
+  - {icd10cm: E03.9, label: "Hypothyroidism, unspecified", confidence: medium, aliases: [hypothyroidism, underactive thyroid], rationale: "E03.9 (cause not reported)"}
+  - {icd10cm: E06.3, label: "Autoimmune thyroiditis", confidence: medium, aliases: [hashimoto, hashimotos, hashimoto thyroiditis, hashimotos thyroiditis, hashimotos disease], rationale: "E06.3"}
+  - {icd10cm: E05, label: "Thyrotoxicosis [hyperthyroidism]", confidence: medium, aliases: [hyperthyroidism, overactive thyroid, graves disease, graves], rationale: "E05 (Graves E05.0- inside it)"}
+  - {icd10cm: F32.A, label: "Depression, unspecified", confidence: low, aliases: [depression, depressive disorder, major depression], rationale: "F32.A (FY2022) is the unspecified-depression code; episode type not reported"}
+  - {icd10cm: F41.9, label: "Anxiety disorder, unspecified", confidence: low, aliases: [anxiety, anxiety disorder, generalized anxiety disorder, gad], rationale: "F41.9 unspecified (GAD would be F41.1; not separable from casual use of 'anxiety')"}
+  - {icd10cm: G47.33, label: "Obstructive sleep apnea (adult) (pediatric)", confidence: medium, aliases: [sleep apnea, obstructive sleep apnea, osa, sleep apnoea], rationale: "G47.33 (central apnoea is rare and seldom self-reported as 'sleep apnea')"}
+  - {icd10cm: K21, label: "Gastro-esophageal reflux disease", confidence: medium, aliases: [gerd, acid reflux, reflux, gastroesophageal reflux disease], rationale: "K21"}
+  - {icd10cm: H93.1, label: "Tinnitus", confidence: medium, aliases: [tinnitus], rationale: "H93.1-"}
+  - {icd10cm: N30.1, label: "Interstitial cystitis (chronic)", confidence: medium, aliases: [interstitial cystitis, painful bladder syndrome], rationale: "N30.1-"}
+  - {icd10cm: G62.9, label: "Polyneuropathy, unspecified", confidence: low, aliases: [small fiber neuropathy, small fibre neuropathy, sfn, peripheral neuropathy, neuropathy], rationale: "small-fiber neuropathy has no ICD-10-CM code of its own; G62.9 is how it is usually coded"}
+  - {icd10cm: M06, label: "Other rheumatoid arthritis", confidence: low, aliases: [rheumatoid arthritis, ra], rationale: "serostatus not reported (M05 vs M06)"}
+  - {icd10cm: M32, label: "Systemic lupus erythematosus (SLE)", confidence: medium, aliases: [lupus, sle, systemic lupus erythematosus], rationale: "M32"}
+  - {icd10cm: M35.0, label: "Sjogren syndrome", confidence: medium, aliases: [sjogren, sjogrens, sjogren syndrome, sjogrens syndrome], rationale: "M35.0-"}
+  - {icd10cm: L40, label: "Psoriasis", confidence: medium, aliases: [psoriasis], rationale: "L40"}
+  - {icd10cm: G35, label: "Multiple sclerosis", confidence: medium, aliases: [multiple sclerosis, ms], rationale: "G35 (FY2026 adds subcodes under G35)"}
+  - {icd10cm: D50, label: "Iron deficiency anemia", confidence: medium, aliases: [iron deficiency anemia, iron deficiency anaemia, iron deficiency], rationale: "D50"}
+  - {icd10cm: D64.9, label: "Anemia, unspecified", confidence: low, aliases: [anemia, anaemia], rationale: "type not reported"}
+  - {icd10cm: I95.1, label: "Orthostatic hypotension", confidence: medium, aliases: [orthostatic hypotension], rationale: "I95.1"}
+  - {icd10cm: G90.9, label: "Disorder of the autonomic nervous system, unspecified", confidence: low, aliases: [dysautonomia, autonomic dysfunction], rationale: "G90.9; the specific disorder is not reported"}
+  - {icd10cm: R55, label: "Syncope and collapse", confidence: low, aliases: [fainting, syncope, vasovagal syncope], rationale: "R55 (a symptom code)"}

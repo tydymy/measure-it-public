@@ -1,0 +1,269 @@
+# HCPCS/CPT codes whose Medicare billing indicates that a clinician PERFORMS or INTERPRETS a measurement (stage F,
+# created 2026-10-07; evidence_type curated_config). Read by measure_it.ingestion.cms_physician_service (which pulls
+# exactly these codes from "Medicare Physician & Other Practitioners - by Provider and Service") and by
+# measure_it.facilities.activity / measure_it.outreach. Keys are the measurement class ids of
+# configs/measurements.yaml; bundles (configs/relevance.yaml measurement_bundles) are the union of their members.
+# A new measurement is a new entry here, not code.
+#
+# Roles
+#   codes:          dedicated codes: billing them means the clinician performed/interpreted THIS measurement.
+#   related_codes:  less specific, technical-only, or shared codes (role `related`); entries with `proxy: true` are
+#                   indirect signals for a measurement that has NO code of its own (role `proxy`), always labelled.
+#   confidence:     high / medium / low that billing the code means performing/interpreting the measurement.
+# The geography capacity uses the best role a measurement has (dedicated > related > proxy > none).
+#
+# How codes were verified (2026-10-07): every code below exists in the CMS CY2026 Physician Fee Schedule RVU file
+# (RVU26D, https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d) and/or has
+# a CMS descriptor in the 2024 by-Provider-and-Service file; per-code row counts are in
+# data/raw/cms_physician_service/DATA_AUDIT.md. Long descriptors are paraphrased from the cited payer/society pages.
+# Codes added in 2025-2026 are listed (future data years) and have 0 rows in data year 2024.
+# The physician file has no modifier field: global, -26 (professional) and -TC (technical) are merged; codes that are
+# technical-only by design (PFS PC/TC indicator 3) are `related`, never dedicated.
+# Lab codes (80000-89999) are billed by the performing laboratory, so lab/omics classes have no clinician signal.
+
+source:
+  dataset: "Medicare Physician & Other Practitioners - by Provider and Service"
+  slug_path: "/provider-summary-by-type-of-service/medicare-physician-other-practitioners/medicare-physician-other-practitioners-by-provider-and-service"
+  match_column: HCPCS_Cd
+  methodology: "https://data.cms.gov/sites/default/files/2025-04/MUP_PHY_RY25_202350312_Methodology_508.pdf"
+  pfs_rvu_2026: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"
+
+measurements:
+  autonomic_testing:
+    summary: "Dedicated CPT codes 95921-95924 (cardiovagal, adrenergic with tilt, sudomotor, combined with tilt). 95943 (time-frequency HRV) was deleted 1/1/2022 and is not used. No separate code for the active stand test (the 30:15 ratio is a component of 95921)."
+    codes:
+      - {code: "95924", descriptor: "ANS testing: combined parasympathetic and sympathetic adrenergic function, including >= 5 min passive tilt", confidence: high, rationale: "Formal autonomic lab study with tilt (autonomic neurology / cardiology labs).", source: "https://static.cigna.com/assets/chcp/pdf/coveragePolicies/medical/mm_0506_coveragepositioncriteria_autonomic_nerve_function_testing.pdf"}
+      - {code: "95922", descriptor: "ANS testing: vasomotor adrenergic (sympathetic) function, beat-to-beat BP and R-R during Valsalva and >= 5 min passive tilt", confidence: high, rationale: "Tilt-based adrenergic testing; low Medicare volume.", source: "https://static.cigna.com/assets/chcp/pdf/coveragePolicies/medical/mm_0506_coveragepositioncriteria_autonomic_nerve_function_testing.pdf"}
+      - {code: "95921", descriptor: "ANS testing: cardiovagal innervation (parasympathetic), >= 2 of HR response to deep breathing, Valsalva ratio, 30:15 ratio", confidence: medium, rationale: "Cardiovagal reflex testing. 2024 billers are dominated by internal medicine, NPs and family practice (office ANS-device programmes), not autonomic labs: it shows the clinician runs autonomic reflex tests, not that the testing is lab grade.", source: "https://www.aapc.com/codes/cpt-codes/95921"}
+      - {code: "95923", descriptor: "ANS testing: sudomotor function (QSART, silastic sweat imprint, thermoregulatory sweat test or sympathetic skin response)", confidence: medium, rationale: "QSART is part of the autonomic reflex screen, but 2024 billers include podiatry, pain management and primary care using automated sudomotor devices; Novitas A54954 says devices such as Sudoscan do NOT meet 95923 (report 95999).", source: "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleId=54954"}
+    considered_not_used:
+      - {code: "95943", reason: "deleted from CPT 1/1/2022 (AAPC deleted-code page; Novitas A54954)", source: "https://www.aapc.com/codes/cpt_code/deleted_cpt_code/95943"}
+
+  small_fiber_testing:
+    summary: "No dedicated code: skin-biopsy IENFD is billed as a generic punch biopsy (11104/11105, dominated by dermatology) plus pathology (88305/88342/88356, billed by the reading lab). Only 88356 (morphometric analysis, nerve) and QSART 95923 are used, as related codes. Corneal confocal microscopy has no code (AAO: 92285 or unlisted 92499). Sudoscan has no code (Novitas: unlisted 95999)."
+    related_codes:
+      - {code: "88356", descriptor: "Morphometric analysis; nerve", confidence: low, rationale: "Closest IENFD-specific pathology code (Mayo SPBX lists it) but also sural-nerve morphometry; billed by pathologists, not the ordering clinician.", source: "https://testcatalog.org/show/SPBX"}
+      - {code: "95923", descriptor: "ANS testing: sudomotor function incl. QSART", confidence: low, rationale: "QSART tests small-fibre sudomotor axons; shared with autonomic_testing and subject to the same device caveat.", source: "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleId=54954"}
+    considered_not_used:
+      - {code: "11104", reason: "punch biopsy, any lesion: dominated by dermatology, would mark every dermatologist", source: "https://www.aetna.com/cpb/medical/data/700_799/0774.html"}
+      - {code: "88305", reason: "generic surgical pathology", source: "https://testcatalog.org/show/SPBX"}
+      - {code: "92285", reason: "external ocular photography; AAO route for corneal confocal microscopy but high-volume general ophthalmology", source: "https://aao.org/practice-management/news-detail/confocal-imaging-without-endothelial-count"}
+
+  cpet:
+    summary: "Dedicated code 94621 (CPET incl. VE, VCO2, VO2 and ECG). 6MWT/pulmonary stress (94618) and expired-gas codes are related only; cardiovascular stress tests 93015-93018 are not CPET and are not used."
+    codes:
+      - {code: "94621", descriptor: "Cardiopulmonary exercise testing, including measurements of minute ventilation, CO2 production, O2 uptake, and electrocardiographic recordings", confidence: high, rationale: "The CPET code (revised 2018 when 94620 was deleted); 2024 billers are pulmonology and cardiology.", source: "https://www.aapc.com/codes/coding-newsletters/my-pulmonology-coding-alert/pulmonology-coding-navigate-cardiopulmonary-exercise-testing-cpt-codes-180660-article"}
+    related_codes:
+      - {code: "94618", descriptor: "Pulmonary stress testing (e.g. 6-minute walk test), incl. HR, oximetry and O2 titration when performed", confidence: low, rationale: "Exercise testing without gas exchange.", source: "https://www.aapc.com/codes/coding-newsletters/my-pulmonology-coding-alert/pulmonology-coding-navigate-cardiopulmonary-exercise-testing-cpt-codes-180660-article"}
+      - {code: "94680", descriptor: "Oxygen uptake, expired gas analysis; rest and exercise, direct, simple", confidence: low, rationale: "Gas-exchange measurement without the full CPET protocol.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "94681", descriptor: "Oxygen uptake, expired gas analysis; including CO2 output, percentage oxygen extracted", confidence: low, rationale: "As 94680.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "94690", descriptor: "Oxygen uptake, expired gas analysis; rest, indirect (separate procedure)", confidence: low, rationale: "Resting gas exchange.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+    considered_not_used:
+      - {code: "93015", reason: "cardiovascular stress test (93015-93018) without gas exchange: not CPET, very high volume", source: "https://www.aapc.com/codes/coding-newsletters/my-pulmonology-coding-alert/pulmonology-coding-navigate-cardiopulmonary-exercise-testing-cpt-codes-180660-article"}
+
+  ecg_ambulatory:
+    summary: "Dedicated codes for ambulatory ECG with professional review/interpretation (Holter <= 48 h, extended external ECG > 48 h to 15 days, mobile cardiac telemetry, event recorders, insertable loop recorders). Recording/scanning-only codes are technical (IDTF/vendor) and only related. 0937T-0940T (external ECG > 15-30 days) are Category III from 2025."
+    codes:
+      - {code: "93224", descriptor: "External ECG up to 48 h: recording, scanning analysis, review and interpretation (global)", confidence: high, rationale: "Holter including interpretation.", source: "https://ams-gateway.uhcprovider.com/content/dam/provider/docs/public/policies/medadv-mp/ambulatory-ecg-monitoring.pdf"}
+      - {code: "93227", descriptor: "External ECG up to 48 h: review and interpretation", confidence: high, rationale: "Holter interpretation.", source: "https://ams-gateway.uhcprovider.com/content/dam/provider/docs/public/policies/medadv-mp/ambulatory-ecg-monitoring.pdf"}
+      - {code: "93241", descriptor: "External ECG > 48 h to 7 days: recording, scanning, report, review and interpretation (global)", confidence: high, rationale: "Patch monitoring incl. interpretation (codes effective 2021).", source: "https://ams-gateway.uhcprovider.com/content/dam/provider/docs/public/policies/medadv-mp/ambulatory-ecg-monitoring.pdf"}
+      - {code: "93244", descriptor: "External ECG > 48 h to 7 days: review and interpretation", confidence: high, rationale: "Patch interpretation.", source: "https://ams-gateway.uhcprovider.com/content/dam/provider/docs/public/policies/medadv-mp/ambulatory-ecg-monitoring.pdf"}
+      - {code: "93245", descriptor: "External ECG > 7 to 15 days: recording, scanning, report, review and interpretation (global)", confidence: high, rationale: "Extended patch incl. interpretation.", source: "https://ams-gateway.uhcprovider.com/content/dam/provider/docs/public/policies/medadv-mp/ambulatory-ecg-monitoring.pdf"}
+      - {code: "93248", descriptor: "External ECG > 7 to 15 days: review and interpretation", confidence: high, rationale: "Extended patch interpretation.", source: "https://ams-gateway.uhcprovider.com/content/dam/provider/docs/public/policies/medadv-mp/ambulatory-ecg-monitoring.pdf"}
+      - {code: "93228", descriptor: "Mobile cardiovascular telemetry up to 30 days: review and interpretation with report", confidence: high, rationale: "MCT interpretation by the physician.", source: "https://ams-gateway.uhcprovider.com/content/dam/provider/docs/public/policies/medadv-mp/ambulatory-ecg-monitoring.pdf"}
+      - {code: "93268", descriptor: "External patient/event-activated ECG recording up to 30 days, incl. transmission, review and interpretation (global)", confidence: high, rationale: "Event recorder incl. interpretation.", source: "https://ams-gateway.uhcprovider.com/content/dam/provider/docs/public/policies/medadv-mp/ambulatory-ecg-monitoring.pdf"}
+      - {code: "93272", descriptor: "External event recorder up to 30 days: review and interpretation", confidence: high, rationale: "Event recorder interpretation.", source: "https://ams-gateway.uhcprovider.com/content/dam/provider/docs/public/policies/medadv-mp/ambulatory-ecg-monitoring.pdf"}
+      - {code: "33285", descriptor: "Insertion, subcutaneous cardiac rhythm monitor, including programming", confidence: high, rationale: "Insertable loop recorder implant (EP/cardiology).", source: "https://www.bostonscientific.com/content/dam/bostonscientific/Reimbursement/RhythmManagement/pdf/Subcutaneous%20Cardiac%20Rhythm%20Monitor%20Coding%20and%20Payment%20Quick%20Reference_Final.pdf"}
+      - {code: "93285", descriptor: "Programming device evaluation (in person), subcutaneous cardiac rhythm monitor system", confidence: high, rationale: "ILR follow-up.", source: "https://www.bostonscientific.com/content/dam/bostonscientific/Reimbursement/RhythmManagement/pdf/Subcutaneous%20Cardiac%20Rhythm%20Monitor%20Coding%20and%20Payment%20Quick%20Reference_Final.pdf"}
+      - {code: "93291", descriptor: "Interrogation device evaluation (in person), subcutaneous cardiac rhythm monitor system", confidence: high, rationale: "ILR follow-up.", source: "https://www.bostonscientific.com/content/dam/bostonscientific/Reimbursement/RhythmManagement/pdf/Subcutaneous%20Cardiac%20Rhythm%20Monitor%20Coding%20and%20Payment%20Quick%20Reference_Final.pdf"}
+      - {code: "93298", descriptor: "Interrogation device evaluation(s) (remote) up to 30 days, subcutaneous cardiac rhythm monitor system", confidence: high, rationale: "Remote ILR review.", source: "https://www.bostonscientific.com/content/dam/bostonscientific/Reimbursement/RhythmManagement/pdf/Subcutaneous%20Cardiac%20Rhythm%20Monitor%20Coding%20and%20Payment%20Quick%20Reference_Final.pdf"}
+      - {code: "0937T", descriptor: "External ECG > 15 to 30 days (global; Category III, effective 2025)", confidence: medium, rationale: "Category III, carrier-priced; absent from 2024 data.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "0940T", descriptor: "External ECG > 15 to 30 days: review and interpretation (Category III, effective 2025)", confidence: medium, rationale: "Category III; absent from 2024 data.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+    related_codes:
+      - {code: "93225", descriptor: "External ECG up to 48 h: recording (technical)", confidence: low, rationale: "Technical-only (PC/TC indicator 3): device hook-up/vendor, no interpretation.", source: "https://ams-gateway.uhcprovider.com/content/dam/provider/docs/public/policies/medadv-mp/ambulatory-ecg-monitoring.pdf"}
+      - {code: "93226", descriptor: "External ECG up to 48 h: scanning analysis with report (technical)", confidence: low, rationale: "Technical-only.", source: "https://ams-gateway.uhcprovider.com/content/dam/provider/docs/public/policies/medadv-mp/ambulatory-ecg-monitoring.pdf"}
+      - {code: "93242", descriptor: "External ECG > 48 h to 7 days: recording (technical)", confidence: low, rationale: "Technical-only.", source: "https://ams-gateway.uhcprovider.com/content/dam/provider/docs/public/policies/medadv-mp/ambulatory-ecg-monitoring.pdf"}
+      - {code: "93243", descriptor: "External ECG > 48 h to 7 days: scanning analysis with report (technical)", confidence: low, rationale: "Technical-only.", source: "https://ams-gateway.uhcprovider.com/content/dam/provider/docs/public/policies/medadv-mp/ambulatory-ecg-monitoring.pdf"}
+      - {code: "93246", descriptor: "External ECG > 7 to 15 days: recording (technical)", confidence: low, rationale: "Technical-only.", source: "https://ams-gateway.uhcprovider.com/content/dam/provider/docs/public/policies/medadv-mp/ambulatory-ecg-monitoring.pdf"}
+      - {code: "93247", descriptor: "External ECG > 7 to 15 days: scanning analysis with report (technical)", confidence: low, rationale: "Technical-only.", source: "https://ams-gateway.uhcprovider.com/content/dam/provider/docs/public/policies/medadv-mp/ambulatory-ecg-monitoring.pdf"}
+      - {code: "93229", descriptor: "Mobile cardiovascular telemetry up to 30 days: technical support", confidence: low, rationale: "Technical-only (monitoring centre).", source: "https://ams-gateway.uhcprovider.com/content/dam/provider/docs/public/policies/medadv-mp/ambulatory-ecg-monitoring.pdf"}
+      - {code: "93270", descriptor: "External event recorder up to 30 days: recording (technical)", confidence: low, rationale: "Technical-only.", source: "https://ams-gateway.uhcprovider.com/content/dam/provider/docs/public/policies/medadv-mp/ambulatory-ecg-monitoring.pdf"}
+      - {code: "93271", descriptor: "External event recorder up to 30 days: transmission and analysis (technical)", confidence: low, rationale: "Technical-only.", source: "https://ams-gateway.uhcprovider.com/content/dam/provider/docs/public/policies/medadv-mp/ambulatory-ecg-monitoring.pdf"}
+
+  hrv:
+    summary: "No HRV-specific CPT/HCPCS code exists (none among the 2026 PFS Category I/III codes). 95921 measures R-R variation during deep breathing and is used as a related code; 95943 was deleted in 2022 and its HRV analysis is considered part of E/M (Wellpoint A57024)."
+    related_codes:
+      - {code: "95921", descriptor: "ANS testing: cardiovagal innervation incl. HR response to deep breathing with recorded R-R interval", confidence: low, rationale: "Beat-to-beat R-R variation is an HRV-type measure; the code is an autonomic reflex test, not HRV monitoring.", source: "https://www.aapc.com/codes/cpt-codes/95921"}
+
+  accelerometry:
+    summary: "Actigraphy has a dedicated code (95803) with almost no Medicare volume (bundled into sleep studies; contractor-dependent coverage). Wrist-accelerometer movement-disorder codes 0533T-0536T were deleted 1/1/2024. RTM musculoskeletal device supply is related only."
+    codes:
+      - {code: "95803", descriptor: "Actigraphy testing, recording, analysis, interpretation and report (minimum 72 h to 14 consecutive days)", confidence: high, rationale: "Specific to actigraphy; 3 NPI rows in 2024.", source: "https://sleepeducation.org/wp-content/uploads/2023/01/CPT-Code-Resource.pdf"}
+    related_codes:
+      - {code: "98977", descriptor: "Remote therapeutic monitoring device supply, musculoskeletal system, 16-30 days", confidence: low, rationale: "Device data on MSK status/therapy adherence; not specific to accelerometry.", source: "https://www.anthem.com/medpolicies/abcbs/active/gl_pw_e001871.html"}
+      - {code: "98985", descriptor: "Remote therapeutic monitoring device supply, musculoskeletal system, 2-15 days (new 2026)", confidence: low, rationale: "As 98977; absent from 2024 data.", source: "https://www.ama-assn.org/press-center/ama-press-releases/ama-releases-cpt-2026-code-set"}
+
+  wearable_heart_rate:
+    summary: "No code specific to wearable heart-rate monitoring. Remote physiologic monitoring (RPM) codes are related only: their descriptor names weight, blood pressure, pulse oximetry and respiratory flow rate as examples and they are not modality specific; device supply codes are practice-expense codes and management time can be clinical staff."
+    related_codes: &rpm_related
+      - {code: "99453", descriptor: "RPM: initial set-up and patient education on equipment", confidence: low, rationale: "Clinic runs an RPM programme; sensor unknown.", source: "https://www.anthem.com/medpolicies/abcbs/active/gl_pw_e001871.html"}
+      - {code: "99454", descriptor: "RPM: device supply with daily recordings or programmed alert transmission, 16-30 days (revised 2026; previously each 30 days)", confidence: low, rationale: "As 99453.", source: "https://www.anthem.com/medpolicies/abcbs/active/gl_pw_e001871.html"}
+      - {code: "99445", descriptor: "RPM: device supply, 2-15 days in 30 days (new 2026)", confidence: low, rationale: "As 99453; absent from 2024 data.", source: "https://www.ama-assn.org/press-center/ama-press-releases/ama-releases-cpt-2026-code-set"}
+      - {code: "99457", descriptor: "RPM treatment management services, first 20 minutes per calendar month", confidence: low, rationale: "Management of RPM data; sensor unknown.", source: "https://www.anthem.com/medpolicies/abcbs/active/gl_pw_e001871.html"}
+      - {code: "99458", descriptor: "RPM treatment management services, each additional 20 minutes", confidence: low, rationale: "As 99457.", source: "https://www.anthem.com/medpolicies/abcbs/active/gl_pw_e001871.html"}
+      - {code: "99470", descriptor: "RPM treatment management services, first 10 minutes (new 2026)", confidence: low, rationale: "As 99457; absent from 2024 data.", source: "https://www.ama-assn.org/press-center/ama-press-releases/ama-releases-cpt-2026-code-set"}
+      - {code: "99091", descriptor: "Collection and interpretation of physiologic data by physician/QHP, >= 30 minutes per 30 days", confidence: low, rationale: "Physician review of digitally stored physiologic data; sensor unknown.", source: "https://www.anthem.com/medpolicies/abcbs/active/gl_pw_e001871.html"}
+
+  ppg:
+    summary: "No PPG-specific code. RPM codes are related only (not modality specific)."
+    related_codes: *rpm_related
+
+  posture_detection:
+    summary: "No code for posture/upright-time detection exists; no claims signal (capacity_basis none)."
+
+  continuous_spo2:
+    summary: "Overnight continuous oximetry has its own code (94762) but it is technical-only (PC/TC indicator 3: often billed by IDTFs/DME suppliers), so it is related, not dedicated. Spot-check oximetry 94760/94761 is not used."
+    related_codes:
+      - {code: "94762", descriptor: "Noninvasive ear or pulse oximetry for oxygen saturation; by continuous overnight monitoring (separate procedure)", confidence: medium, rationale: "Specific to continuous overnight oximetry; technical-only, so the billing NPI may be a supplier rather than an interpreting clinician.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+    considered_not_used:
+      - {code: "94760", reason: "single spot-check determination; status T (bundled)", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+
+  respiratory_rate:
+    summary: "No code for continuous respiratory-rate monitoring (RPM examples name respiratory flow rate; 1050T-1053T, effective 7/2026, are heart-failure subcutaneous monitors). No claims signal (capacity_basis none)."
+
+  sleep_objective:
+    summary: "Dedicated codes for polysomnography and home sleep testing (AASM CPT resource), plus actigraphy 95803."
+    codes:
+      - {code: "95810", descriptor: "Polysomnography, age >= 6, >= 4 additional parameters, attended", confidence: high, rationale: "In-lab PSG.", source: "https://sleepeducation.org/wp-content/uploads/2023/01/CPT-Code-Resource.pdf"}
+      - {code: "95811", descriptor: "Polysomnography, age >= 6, with CPAP initiation/titration, attended", confidence: high, rationale: "In-lab PSG with titration.", source: "https://sleepeducation.org/wp-content/uploads/2023/01/CPT-Code-Resource.pdf"}
+      - {code: "95782", descriptor: "Polysomnography, younger than 6 years, attended", confidence: high, rationale: "Pediatric PSG (no Medicare volume expected).", source: "https://sleepeducation.org/wp-content/uploads/2023/01/CPT-Code-Resource.pdf"}
+      - {code: "95783", descriptor: "Polysomnography, younger than 6 years, with CPAP titration", confidence: high, rationale: "Pediatric PSG.", source: "https://sleepeducation.org/wp-content/uploads/2023/01/CPT-Code-Resource.pdf"}
+      - {code: "95807", descriptor: "Sleep study, simultaneous recording of ventilation, respiratory effort, ECG/HR and oxygen saturation, attended", confidence: high, rationale: "Attended cardiorespiratory sleep study.", source: "https://sleepeducation.org/wp-content/uploads/2023/01/CPT-Code-Resource.pdf"}
+      - {code: "95808", descriptor: "Polysomnography, any age, 1-3 additional parameters, attended", confidence: high, rationale: "Attended PSG.", source: "https://sleepeducation.org/wp-content/uploads/2023/01/CPT-Code-Resource.pdf"}
+      - {code: "95800", descriptor: "Sleep study, unattended: HR, SpO2, respiratory analysis and sleep time", confidence: high, rationale: "Home sleep test.", source: "https://sleepeducation.org/wp-content/uploads/2023/01/CPT-Code-Resource.pdf"}
+      - {code: "95801", descriptor: "Sleep study, unattended: minimum HR, SpO2 and respiratory analysis", confidence: high, rationale: "Home sleep test.", source: "https://sleepeducation.org/wp-content/uploads/2023/01/CPT-Code-Resource.pdf"}
+      - {code: "95806", descriptor: "Sleep study, unattended: HR, SpO2, respiratory airflow and respiratory effort", confidence: high, rationale: "Home sleep test.", source: "https://sleepeducation.org/wp-content/uploads/2023/01/CPT-Code-Resource.pdf"}
+      - {code: "G0398", descriptor: "Home sleep study test with type II portable monitor, unattended, >= 7 channels", confidence: high, rationale: "Medicare HST code.", source: "https://sleepeducation.org/wp-content/uploads/2023/01/CPT-Code-Resource.pdf"}
+      - {code: "G0399", descriptor: "Home sleep test with type III portable monitor, unattended, >= 4 channels", confidence: high, rationale: "Medicare HST code.", source: "https://sleepeducation.org/wp-content/uploads/2023/01/CPT-Code-Resource.pdf"}
+      - {code: "G0400", descriptor: "Home sleep test with type IV portable monitor, unattended, >= 3 channels", confidence: high, rationale: "Medicare HST code.", source: "https://sleepeducation.org/wp-content/uploads/2023/01/CPT-Code-Resource.pdf"}
+      - {code: "95803", descriptor: "Actigraphy testing, recording, analysis, interpretation and report", confidence: high, rationale: "Wearable sleep-wake estimation.", source: "https://sleepeducation.org/wp-content/uploads/2023/01/CPT-Code-Resource.pdf"}
+
+  continuous_temperature:
+    summary: "No code for continuous skin/core temperature monitoring; no claims signal (capacity_basis none)."
+
+  endothelial_function:
+    summary: "No dedicated code: the brachial FMD Category III code 0337T was deleted 1/1/2019 and AMA directs FMD / peripheral arterial tonometry (EndoPAT) to the unlisted noninvasive vascular code 93998, which cannot be attributed to a procedure (8 NPI rows in 2024)."
+    related_codes:
+      - {code: "93998", descriptor: "Unlisted noninvasive vascular diagnostic study", confidence: low, rationale: "The reporting route for FMD/EndoPAT after 0337T was deleted; any unlisted vascular study.", source: "https://www.aapc.com/codes/cpt_code/deleted_cpt_code/0337T"}
+      - {code: "93050", descriptor: "Arterial pressure waveform analysis for assessment of central arterial pressures", confidence: low, rationale: "Arterial-stiffness adjacent, not endothelial function.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+
+  vascular_imaging:
+    summary: "Dedicated imaging codes (echocardiography, carotid/limb arterial duplex, transcranial Doppler, cardiac MRI, SPECT/PET myocardial perfusion); limb physiologic studies 93922-93924 are related."
+    codes:
+      - {code: "93306", descriptor: "Transthoracic echocardiography, complete, with spectral and color flow Doppler", confidence: high, rationale: "Cardiac imaging.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "93880", descriptor: "Duplex scan of extracranial arteries; complete bilateral", confidence: high, rationale: "Vascular ultrasound.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "93882", descriptor: "Duplex scan of extracranial arteries; unilateral or limited", confidence: high, rationale: "Vascular ultrasound.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "93886", descriptor: "Transcranial Doppler study of the intracranial arteries; complete", confidence: high, rationale: "Cerebral blood-flow velocity (relevant to orthostatic cerebral hypoperfusion research).", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "93888", descriptor: "Transcranial Doppler study of the intracranial arteries; limited", confidence: high, rationale: "As 93886.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "93925", descriptor: "Duplex scan of lower extremity arteries or arterial bypass grafts; complete bilateral", confidence: high, rationale: "Vascular ultrasound.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "93926", descriptor: "Duplex scan of lower extremity arteries or arterial bypass grafts; unilateral or limited", confidence: high, rationale: "Vascular ultrasound.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "75557", descriptor: "Cardiac MRI for morphology and function without contrast", confidence: high, rationale: "Cardiac MRI.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "75561", descriptor: "Cardiac MRI for morphology and function without contrast followed by contrast", confidence: high, rationale: "Cardiac MRI.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "78451", descriptor: "Myocardial perfusion imaging, SPECT, single study", confidence: high, rationale: "Perfusion imaging.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "78452", descriptor: "Myocardial perfusion imaging, SPECT, multiple studies (rest and/or stress)", confidence: high, rationale: "Perfusion imaging.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "78491", descriptor: "Myocardial perfusion imaging, PET, single study", confidence: high, rationale: "Perfusion PET (carrier-priced).", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "78492", descriptor: "Myocardial perfusion imaging, PET, multiple studies", confidence: high, rationale: "Perfusion PET (carrier-priced).", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+    related_codes:
+      - {code: "93922", descriptor: "Limited bilateral noninvasive physiologic studies of upper or lower extremity arteries (ABI + Doppler waveform, PVR or TcPO2, 1-2 levels)", confidence: low, rationale: "Vascular lab physiology, not imaging.", source: "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleId=57593"}
+      - {code: "93923", descriptor: "Complete bilateral noninvasive physiologic studies of extremity arteries, 3+ levels, or single level with provocative functional maneuvers", confidence: low, rationale: "As 93922.", source: "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleId=57593"}
+
+  capillaroscopy:
+    summary: "NO CPT or HCPCS code exists for nailfold (video)capillaroscopy: no Category I, III or HCPCS Level II descriptor in the CMS 2026 PFS mentions capillaroscopy or nailfold (the only 'capillary' code is 36416, capillary blood draw), none in the AMA Category III long-descriptor list, and US pediatric rheumatologists name 'inability to bill for procedure' as a barrier (Savani et al., CARRA survey, ACR 2020 abstract). It is absorbed into the E/M visit or billed as an unlisted code that cannot be attributed. Medicare claims therefore cannot show who performs it. The codes below are labelled PROXIES only: noninvasive extremity arterial physiologic studies, for which Raynaud phenomenon (I73.00/I73.01) is a covered indication (WPS A57593); 2024 billers are overwhelmingly cardiology/vascular (only ~4 rheumatology NPI rows each), so they mark vascular-lab capacity, not rheumatology capillaroscopy. The measurement's specialty tier (rheumatology, configs/relevance.yaml) is the main outreach signal."
+    references:
+      - "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"
+      - "https://www.ama-assn.org/system/files/cpt-category3-codes-long-descriptors.pdf"
+      - "https://acrabstracts.org/abstract/nailing-down-nailfold-capillaroscopy-practices-a-survey-of-pediatric-rheumatologists-within-the-childhood-arthritis-and-rheumatology-research-alliance-carra-network/"
+    related_codes:
+      - {code: "93922", proxy: true, descriptor: "Limited bilateral noninvasive physiologic studies of extremity arteries", confidence: low, rationale: "PROXY: peripheral vascular physiology for which Raynaud is a covered indication; not capillaroscopy.", source: "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleId=57593"}
+      - {code: "93923", proxy: true, descriptor: "Complete bilateral noninvasive physiologic studies of extremity arteries, or single level with provocative functional maneuvers", confidence: low, rationale: "PROXY: as 93922; provocative maneuvers make digital cold-stress studies plausible but no explicit coding instruction was found.", source: "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleId=57593"}
+    considered_not_used:
+      - {code: "96931", reason: "96931-96936 are reflectance confocal microscopy of skin lesions, not dermoscopy or capillaroscopy", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "96999", reason: "unlisted dermatological procedure: 0 rows in 2024 and not attributable", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "Part D nintedanib (SSc-ILD)", reason: "considered as a systemic-sclerosis prescribing proxy: 4,284 prescriber rows in 2024 but only 34 rheumatology (pulmonology dominates, IPF); too few to help", source: "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=4d017c42-a823-452d-bc6f-0491dd9823e3"}
+
+  microvascular_function:
+    summary: "No code for laser Doppler/speckle microvascular reactivity was found. Noncontact near-infrared tissue oximetry has Category III codes (0640T first site, 0859T each additional; mostly wound care); TcPO2 is inside the limb physiologic study codes 93922/93923. All related, not dedicated."
+    related_codes:
+      - {code: "0640T", descriptor: "Noncontact near-infrared spectroscopy (tissue oxygenation, StO2), other than for PAD screening, image acquisition, interpretation and report; first anatomic site", confidence: medium, rationale: "A microvascular oxygenation measurement; in practice wound care.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "0859T", descriptor: "Noncontact near-infrared spectroscopy; each additional anatomic site", confidence: medium, rationale: "As 0640T.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "93922", descriptor: "Limited bilateral noninvasive physiologic studies of extremity arteries (may use TcPO2)", confidence: low, rationale: "TcPO2/PVR component; mostly macrovascular PAD testing.", source: "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleId=57593"}
+      - {code: "93923", descriptor: "Complete noninvasive physiologic studies of extremity arteries, incl. reactive hyperemia maneuvers", confidence: low, rationale: "Reactive hyperemia / TcPO2 component; mostly PAD testing.", source: "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleId=57593"}
+
+  retinal_imaging:
+    summary: "Dedicated codes for OCT (retina, optic nerve/RNFL), OCT angiography (92137, new 2025), fundus photography and physician-read remote retinal imaging; technical/autonomous-AI remote imaging is related."
+    codes:
+      - {code: "92134", descriptor: "Ophthalmic diagnostic imaging (OCT), posterior segment, with interpretation and report; retina", confidence: high, rationale: "Retinal OCT.", source: "https://retinatoday.com/articles/2025-mar/oct-what-to-know-for-2025"}
+      - {code: "92133", descriptor: "Ophthalmic diagnostic imaging (OCT), posterior segment; optic nerve", confidence: high, rationale: "Optic nerve / RNFL OCT.", source: "https://retinatoday.com/articles/2025-mar/oct-what-to-know-for-2025"}
+      - {code: "92137", descriptor: "Ophthalmic imaging, retina, including OCT angiography, with interpretation and report (new 2025)", confidence: high, rationale: "OCT-A of retinal microvasculature; absent from 2024 data.", source: "https://retinatoday.com/articles/2025-mar/oct-what-to-know-for-2025"}
+      - {code: "92250", descriptor: "Fundus photography with interpretation and report", confidence: high, rationale: "Fundus imaging.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "92228", descriptor: "Imaging of retina for detection or monitoring of disease; with remote physician review and report", confidence: high, rationale: "Physician-read remote retinal imaging.", source: "https://www.aao.org/Assets/769678b5-a32f-4a17-a9df-5abacc892a5d/638092225390530000/noridian-a58914-r3-upd121622-eff010123-pdf?inline=1"}
+    related_codes:
+      - {code: "92227", descriptor: "Imaging of retina; with remote clinical staff review and report", confidence: low, rationale: "Technical-only.", source: "https://www.aao.org/Assets/769678b5-a32f-4a17-a9df-5abacc892a5d/638092225390530000/noridian-a58914-r3-upd121622-eff010123-pdf?inline=1"}
+      - {code: "92229", descriptor: "Imaging of retina; point-of-care automated analysis and report", confidence: low, rationale: "Technical-only autonomous AI; primary care can bill it without an eye-care reader.", source: "https://www.aao.org/Assets/769678b5-a32f-4a17-a9df-5abacc892a5d/638092225390530000/noridian-a58914-r3-upd121622-eff010123-pdf?inline=1"}
+
+  digital_gait:
+    summary: "No wearable-gait code. Computer-based motion analysis codes exist (96000/96001, physician review 96004; markerless 0693T) with very low Medicare volume; related only."
+    related_codes:
+      - {code: "96000", descriptor: "Comprehensive computer-based motion analysis by video-taping and 3D kinematics", confidence: low, rationale: "Gait-lab motion analysis, not wearable.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "96001", descriptor: "Computer-based motion analysis with dynamic plantar pressure measurements during walking", confidence: low, rationale: "As 96000.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "96004", descriptor: "Review and interpretation by physician of comprehensive computer-based motion analysis", confidence: low, rationale: "Physician reading of gait-lab study.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+      - {code: "0693T", descriptor: "Comprehensive full-body computer-based markerless 3D kinematic and kinetic motion analysis (Category III)", confidence: low, rationale: "0 rows in 2024.", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+
+  digital_cognitive:
+    summary: "No code for digital cognitive testing as such. 96146 (single standardized instrument via electronic platform with automated result) is the closest and is related; neuropsychological evaluation (96132) and cognitive assessment (99483) are not digital specific and are not used."
+    related_codes:
+      - {code: "96146", descriptor: "Psychological or neuropsychological test administration, single standardized instrument via electronic platform, automated result only", confidence: medium, rationale: "Electronic-platform testing; instrument unknown (may be a mood questionnaire).", source: "https://www.cms.gov/medicare/payment/fee-schedules/physician/pfs-relative-value-files/rvu26d"}
+
+  blood_biomarkers:
+    summary: "Laboratory codes (80000-89999) are billed by the performing laboratory; the physician file shows a clinician only for in-office testing. No clinician signal (capacity_basis none)."
+  metabolomics:
+    summary: "Research assay without a clinical code; no clinician signal (capacity_basis none)."
+  proteomics:
+    summary: "Research assay without a clinical code; no clinician signal (capacity_basis none)."
+  transcriptomics:
+    summary: "Research assay without a clinical code; no clinician signal (capacity_basis none)."
+  immune_assays:
+    summary: "Laboratory codes are billed by the performing laboratory; no clinician signal (capacity_basis none)."
+
+  remote_patient_monitoring:
+    summary: "Dedicated RPM codes (set-up, device supply, management, physician data interpretation; 99445/99470 new in 2026); remote therapeutic monitoring (RTM) codes are related."
+    codes:
+      - {code: "99453", descriptor: "RPM: initial set-up and patient education on equipment", confidence: high, rationale: "Runs an RPM programme.", source: "https://www.anthem.com/medpolicies/abcbs/active/gl_pw_e001871.html"}
+      - {code: "99454", descriptor: "RPM: device supply with daily recordings/alerts, 16-30 days", confidence: high, rationale: "Runs an RPM programme.", source: "https://www.anthem.com/medpolicies/abcbs/active/gl_pw_e001871.html"}
+      - {code: "99445", descriptor: "RPM: device supply, 2-15 days (new 2026)", confidence: high, rationale: "Absent from 2024 data.", source: "https://www.ama-assn.org/press-center/ama-press-releases/ama-releases-cpt-2026-code-set"}
+      - {code: "99457", descriptor: "RPM treatment management, first 20 minutes per month", confidence: high, rationale: "Manages RPM data.", source: "https://www.anthem.com/medpolicies/abcbs/active/gl_pw_e001871.html"}
+      - {code: "99458", descriptor: "RPM treatment management, each additional 20 minutes", confidence: high, rationale: "Manages RPM data.", source: "https://www.anthem.com/medpolicies/abcbs/active/gl_pw_e001871.html"}
+      - {code: "99470", descriptor: "RPM treatment management, first 10 minutes (new 2026)", confidence: high, rationale: "Absent from 2024 data.", source: "https://www.ama-assn.org/press-center/ama-press-releases/ama-releases-cpt-2026-code-set"}
+      - {code: "99091", descriptor: "Collection and interpretation of physiologic data, >= 30 minutes per 30 days", confidence: medium, rationale: "Physician interpretation of remotely collected data.", source: "https://www.anthem.com/medpolicies/abcbs/active/gl_pw_e001871.html"}
+    related_codes:
+      - {code: "98975", descriptor: "RTM: initial set-up and patient education", confidence: low, rationale: "Therapeutic (not physiologic) monitoring.", source: "https://www.anthem.com/medpolicies/abcbs/active/gl_pw_e001871.html"}
+      - {code: "98976", descriptor: "RTM device supply, respiratory system, 16-30 days", confidence: low, rationale: "Therapy monitoring.", source: "https://www.anthem.com/medpolicies/abcbs/active/gl_pw_e001871.html"}
+      - {code: "98977", descriptor: "RTM device supply, musculoskeletal system, 16-30 days", confidence: low, rationale: "Therapy monitoring.", source: "https://www.anthem.com/medpolicies/abcbs/active/gl_pw_e001871.html"}
+      - {code: "98978", descriptor: "RTM device supply, cognitive behavioral therapy, 16-30 days", confidence: low, rationale: "Therapy monitoring.", source: "https://www.anthem.com/medpolicies/abcbs/active/gl_pw_e001871.html"}
+      - {code: "98980", descriptor: "RTM treatment management, first 20 minutes", confidence: low, rationale: "Therapy monitoring.", source: "https://www.anthem.com/medpolicies/abcbs/active/gl_pw_e001871.html"}
+      - {code: "98981", descriptor: "RTM treatment management, each additional 20 minutes", confidence: low, rationale: "Therapy monitoring.", source: "https://www.anthem.com/medpolicies/abcbs/active/gl_pw_e001871.html"}
+      - {code: "98979", descriptor: "RTM treatment management, first 10 minutes (new 2026)", confidence: low, rationale: "Absent from 2024 data.", source: "https://www.ama-assn.org/press-center/ama-press-releases/ama-releases-cpt-2026-code-set"}
+      - {code: "98984", descriptor: "RTM device supply, respiratory system, 2-15 days (new 2026)", confidence: low, rationale: "Absent from 2024 data.", source: "https://www.ama-assn.org/press-center/ama-press-releases/ama-releases-cpt-2026-code-set"}
+      - {code: "98985", descriptor: "RTM device supply, musculoskeletal system, 2-15 days (new 2026)", confidence: low, rationale: "Absent from 2024 data.", source: "https://www.ama-assn.org/press-center/ama-press-releases/ama-releases-cpt-2026-code-set"}
+      - {code: "98986", descriptor: "RTM device supply, cognitive behavioral therapy, 2-15 days (new 2026)", confidence: low, rationale: "Absent from 2024 data.", source: "https://www.ama-assn.org/press-center/ama-press-releases/ama-releases-cpt-2026-code-set"}
+
+# Bundles resolve to their members (configs/relevance.yaml); notes say what their capacity therefore measures.
+bundles:
+  wearable_autonomic_activity_monitoring:
+    note: "Dedicated basis = ambulatory ECG monitoring with interpretation (ecg_ambulatory) + actigraphy (accelerometry, near zero volume). Heart-rate/PPG/HRV wearables have no code; RPM is related only. Capacity therefore measures cardiac rhythm-monitoring practice, not consumer-wearable programmes."
+  nailfold_capillaroscopy:
+    note: "Capillaroscopy has NO code; its proxies and microvascular_function's related codes (NIR tissue oximetry 0640T/0859T, limb physiologic studies 93922/93923) give the bundle a 'related' basis that measures vascular-lab and wound-care practice, not capillaroscopy. Read the capacity as indirect; outreach relies mainly on specialty (rheumatology) and experience sites."
+  autonomic_function_testing:
+    note: "Dedicated basis = 95921-95924 (autonomic_testing); 95921/95923 billing is dominated by office device programmes (internal medicine, NPs, podiatry), 95924 by neurology."
+  exercise_capacity_testing:
+    note: "Dedicated basis = 94621 CPET (pulmonology, cardiology)."

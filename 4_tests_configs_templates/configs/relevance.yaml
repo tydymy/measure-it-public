@@ -1,0 +1,120 @@
+# Curated relevance maps (evidence_type = curated_config). These encode clinical
+# judgement about WHO could plausibly implement a measurement or see patients
+# with a condition. They are assumptions, not data: every downstream score that
+# uses them must say so, and the sensitivity analysis should vary them.
+#
+# Specialty/facility group ids are those in configs/specialty_groups.yaml.
+
+# Which clinician groups commonly evaluate or manage each condition (implementation
+# partners and referral sources). An NPI specialty does NOT mean a provider treats it.
+condition_specialties:
+  long_covid:
+    core: [primary_care, pulmonology, cardiology, neurology, pmr, infectious_disease]
+    rationale: "Post-COVID clinics are typically run by primary care, pulmonology or PM&R, with cardiology/neurology for dysautonomia and cognitive symptoms (CDC clinical considerations, AAPM&R PASC consensus statements)."
+  me_cfs:
+    core: [primary_care, neurology, rheumatology, pmr, infectious_disease]
+    rationale: "No single owning specialty; diagnosis is largely in primary care (IOM 2015), with neurology/rheumatology/ID for differential diagnosis."
+  pots:
+    core: [cardiology, electrophysiology, neurology, primary_care]
+    rationale: "Autonomic evaluation is done by cardiology/electrophysiology and autonomic neurology."
+  dysautonomia:
+    core: [neurology, cardiology, electrophysiology, primary_care]
+    rationale: "Autonomic neurology and cardiology."
+  fibromyalgia:
+    core: [rheumatology, primary_care, pain_medicine, pmr]
+    rationale: "Rheumatology and primary care diagnose; pain medicine/PM&R manage."
+  eds_hsd:
+    core: [rheumatology, primary_care, pmr]
+    rationale: "Genetics is not an NPPES group here; rheumatology/PM&R/primary care evaluate hypermobility."
+  mcas:
+    core: [immunology_allergy, primary_care]
+    rationale: "Allergy/immunology."
+  lyme_disease:
+    core: [primary_care, infectious_disease]
+    rationale: "Primary care and infectious disease."
+  ptlds:
+    core: [primary_care, infectious_disease, rheumatology, neurology]
+    rationale: "Persistent symptoms after treated Lyme are seen across these groups."
+  post_infectious_syndrome:
+    core: [primary_care, infectious_disease, neurology, pmr]
+    rationale: "Grouping node; union of post-infectious conditions."
+  migraine:
+    core: [neurology, primary_care]
+    rationale: "Neurology and primary care."
+  ibs:
+    core: [gastroenterology, primary_care]
+    rationale: "Gastroenterology and primary care."
+  gastroparesis:
+    core: [gastroenterology, primary_care]
+    rationale: "Gastroenterology (gastric emptying study)."
+  endometriosis:
+    core: [gynecology, primary_care]
+    rationale: "Gynecology."
+
+# Which clinician/facility groups could plausibly deploy each measurement class,
+# and how complex deployment is (ordinal 1 = home/consumer device, 5 = specialist lab
+# procedure). deployment_complexity is a curated ordinal with a stated reason.
+measurement_implementers:
+  accelerometry:         {groups: [primary_care, pmr, neurology, rheumatology, fqhc, community_health_clinic, rehabilitation_facility], deployment_complexity: 1, reason: "Wrist/hip device worn at home; analysis centralised"}
+  wearable_heart_rate:   {groups: [primary_care, cardiology, electrophysiology, pmr, fqhc, community_health_clinic], deployment_complexity: 1, reason: "Consumer or clinical wearable worn at home"}
+  hrv:                   {groups: [cardiology, electrophysiology, neurology, primary_care, pmr], deployment_complexity: 2, reason: "Needs ECG/PPG with validated HRV processing"}
+  ecg_ambulatory:        {groups: [cardiology, electrophysiology, primary_care, physiological_laboratory, fqhc], deployment_complexity: 2, reason: "Patch/Holter applied in clinic, worn at home, read by cardiology"}
+  ppg:                   {groups: [primary_care, cardiology, electrophysiology, fqhc], deployment_complexity: 1, reason: "Consumer wearable sensor"}
+  posture_detection:     {groups: [pmr, neurology, cardiology, rehabilitation_facility], deployment_complexity: 2, reason: "Thigh/chest-worn sensor; research-grade processing"}
+  continuous_spo2:       {groups: [pulmonology, primary_care, sleep_disorder_center, fqhc], deployment_complexity: 1, reason: "Home oximetry"}
+  respiratory_rate:      {groups: [pulmonology, primary_care, sleep_disorder_center], deployment_complexity: 2, reason: "Wearable or patch sensor"}
+  sleep_objective:       {groups: [sleep_disorder_center, pulmonology, neurology], deployment_complexity: 3, reason: "Home sleep test or lab PSG"}
+  continuous_temperature: {groups: [primary_care, gynecology, fqhc], deployment_complexity: 1, reason: "Wearable temperature sensor"}
+  cpet:                  {groups: [pulmonology, cardiology, pmr, cardiac_rehabilitation, physiological_laboratory], deployment_complexity: 4, reason: "Metabolic cart, supervised maximal exercise; 2-day protocol carries PEM risk"}
+  autonomic_testing:     {groups: [neurology, cardiology, electrophysiology, physiological_laboratory], deployment_complexity: 4, reason: "Tilt table / QSART lab; active-stand test is simpler (complexity 2)"}
+  small_fiber_testing:   {groups: [neurology, physiological_laboratory], deployment_complexity: 3, reason: "Skin punch biopsy + specialised pathology"}
+  endothelial_function:  {groups: [cardiology, vascular, physiological_laboratory], deployment_complexity: 3, reason: "FMD ultrasound or peripheral arterial tonometry"}
+  vascular_imaging:      {groups: [cardiology, vascular, general_acute_care_hospital], deployment_complexity: 4, reason: "Imaging suite"}
+  capillaroscopy:        {groups: [rheumatology, vascular, primary_care, fqhc], deployment_complexity: 2, reason: "Point-of-care nailfold imaging; image analysis centralised (the future CAPRIO adapter)"}
+  microvascular_function: {groups: [vascular, cardiology, physiological_laboratory], deployment_complexity: 3, reason: "Laser Doppler/NIRS lab equipment"}
+  retinal_imaging:       {groups: [primary_care, fqhc, general_acute_care_hospital], deployment_complexity: 2, reason: "Fundus/OCT cameras exist in primary-care diabetic screening"}
+  digital_gait:          {groups: [pmr, neurology, rehabilitation_facility], deployment_complexity: 2, reason: "Wearable IMU or smartphone"}
+  digital_cognitive:     {groups: [neurology, primary_care, pmr], deployment_complexity: 1, reason: "Tablet/computer test"}
+  blood_biomarkers:      {groups: [primary_care, clinical_laboratory, fqhc], deployment_complexity: 1, reason: "Standard phlebotomy"}
+  metabolomics:          {groups: [clinical_research, clinical_laboratory], deployment_complexity: 3, reason: "Research assay; not a clinical test"}
+  proteomics:            {groups: [clinical_research, clinical_laboratory], deployment_complexity: 3, reason: "Research assay; not a clinical test"}
+  transcriptomics:       {groups: [clinical_research, clinical_laboratory], deployment_complexity: 3, reason: "Research assay; not a clinical test"}
+  immune_assays:         {groups: [immunology_allergy, clinical_laboratory, clinical_research], deployment_complexity: 3, reason: "Specialised immunology lab"}
+  remote_patient_monitoring: {groups: [primary_care, cardiology, fqhc, community_health_clinic], deployment_complexity: 1, reason: "Connected-device programme"}
+
+# Named measurement bundles used by the demo queries. A bundle is resolved to its
+# member measurement classes everywhere (search, evidence, scoring, MCP).
+# A bundle names its MeasurementAdapter(s) (measure_it.measurements.adapters registry names) with
+# `adapters: [a, b, ...]` (the first is the primary adapter) or, for one adapter, the older
+# `adapter: name` form; `adapter: null` / no key = no adapter. Both forms are read by
+# measure_it.measurements.adapters.bundle_adapter_names.
+measurement_bundles:
+  wearable_autonomic_activity_monitoring:
+    label: "Wearable autonomic / activity monitoring"
+    aliases: ["wearable autonomic monitoring", "wearable autonomic or activity monitoring", "wearable monitoring", "wearables",
+              "wearable monitoring of autonomic/activity abnormalities", "wearable", "wearable device", "wearable devices"]
+    members: [accelerometry, wearable_heart_rate, hrv, ecg_ambulatory, ppg, posture_detection]
+    # accelerometry (NHANES-referenced WearableAdapter) + resting heart rate vs personal baseline (WearableHeartRateAdapter)
+    adapters: [wearable, wearable_heart_rate]
+  nailfold_capillaroscopy:
+    label: "Nailfold capillaroscopy (future CAPRIO adapter)"
+    aliases: ["capillaroscopy", "nailfold capillaroscopy", "CAPRIO"]
+    members: [capillaroscopy, microvascular_function]
+    adapter: capillaroscopy
+  autonomic_function_testing:
+    label: "Clinic autonomic function testing"
+    aliases: ["autonomic testing", "tilt table"]
+    members: [autonomic_testing, hrv, small_fiber_testing]
+    adapter: null
+  exercise_capacity_testing:
+    label: "Cardiopulmonary exercise testing"
+    aliases: ["CPET", "2-day CPET"]
+    members: [cpet]
+    adapter: null
+
+# Curated extra names for phenotype axes (phenotype_axes, built by measure_it.ontology.build_registry), used by the
+# phenotype resolver (measure_it.measurements.query.resolve_phenotype) and the deployment agent's phenotype spans.
+# An exact alias counts as an exact axis match. Added 2026-09-24; abbreviations only where they are standard usage.
+phenotype_axis_aliases:
+  post_exertional_malaise: ["PEM", "PESE", "post-exertional symptom exacerbation", "postexertional malaise"]
+  decreased_hrv: ["reduced heart rate variability", "low heart rate variability", "reduced HRV", "low HRV"]

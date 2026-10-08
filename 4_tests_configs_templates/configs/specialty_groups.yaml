@@ -1,0 +1,758 @@
+# Specialty and facility groups over NUCC Health Care Provider Taxonomy codes.
+#
+# Codes were chosen by hand from the NUCC v26.1 CSV
+# (data/raw/nucc_taxonomy/nucc_taxonomy_261.csv, https://www.nucc.org/images/stories/CSV/nucc_taxonomy_261.csv);
+# display names are copied verbatim from that file and tests/test_nppes.py checks every code and name against it.
+#
+# Semantics
+#   * An NPI matches a group if ANY of its (up to 15) NPPES taxonomy codes is listed here; it matches the group
+#     as primary if its primary taxonomy (Primary Taxonomy Switch = Y) is listed.
+#   * Groups overlap by design (e.g. 207RC0001X is in cardiology and electrophysiology; 2081P2900X in pain_medicine
+#     and pmr). Never sum counts across groups.
+#   * role: physician / nurse_practitioner / physician_assistant / other_individual / facility, from NUCC grouping.
+#   * spec_listed: true for the 13 SPEC section F groups; false for the extra facility/research groups.
+#   * excluded_considered: codes that were considered and deliberately left out, with the reason.
+#
+# CAVEAT: an NPI taxonomy is self-reported and does NOT mean that a provider evaluates or treats Long COVID,
+# ME/CFS, POTS or any other invisible illness.
+version: 1
+nucc_version: '26.1'
+nucc_file: nucc_taxonomy_261.csv
+nucc_url: https://www.nucc.org/images/stories/CSV/nucc_taxonomy_261.csv
+created: '2026-09-23'
+groups:
+  cardiology:
+    label: Cardiology
+    group_type: specialty
+    spec_listed: true
+    codes:
+    - code: 207RC0000X
+      display_name: Cardiovascular Disease Physician
+      role: physician
+    - code: 207RI0011X
+      display_name: Interventional Cardiology Physician
+      role: physician
+    - code: 207RA0001X
+      display_name: Advanced Heart Failure and Transplant Cardiology Physician
+      role: physician
+    - code: 207RA0002X
+      display_name: Adult Congenital Heart Disease Physician
+      role: physician
+    - code: 207RC0001X
+      display_name: Clinical Cardiac Electrophysiology Physician
+      role: physician
+    - code: 2080P0202X
+      display_name: Pediatric Cardiology Physician
+      role: physician
+    notes: 'Internal-medicine cardiology classifications plus pediatric cardiology. Clinical Cardiac Electrophysiology (207RC0001X)
+      is ALSO in the electrophysiology group: groups overlap by design.'
+    excluded_considered:
+    - code: 207RH0005X
+      display_name: Hypertension Specialist Physician
+      reason: hypertension specialists are not necessarily cardiologists
+    - code: 207UN0901X
+      display_name: Nuclear Cardiology Physician
+      reason: nuclear-medicine physicians reading cardiac imaging; rarely longitudinal outpatient care
+    - code: 208G00000X
+      display_name: Thoracic Surgery (Cardiothoracic Vascular Surgery) Physician
+      reason: cardiothoracic surgeons, surgical not medical cardiology
+    - code: 246X00000X
+      display_name: Cardiovascular Specialist/Technologist
+      reason: technologist, not a treating clinician
+    - code: 246W00000X
+      display_name: Cardiology Technician
+      reason: technician, not a treating clinician
+    - code: 261QR0404X
+      display_name: Cardiac Rehabilitation Clinic/Center
+      reason: facility code; see facility group cardiac_rehabilitation
+  electrophysiology:
+    label: Cardiac electrophysiology
+    group_type: specialty
+    spec_listed: true
+    codes:
+    - code: 207RC0001X
+      display_name: Clinical Cardiac Electrophysiology Physician
+      role: physician
+    notes: Cardiac electrophysiology only (the SPEC context is autonomic/ECG measurement). Neurophysiology codes (2084N0600X
+      Clinical Neurophysiology, 204R00000X Electrodiagnostic Medicine) are placed in neurology, not here. NUCC has no separate
+      pediatric EP code.
+    excluded_considered:
+    - code: 2084N0600X
+      display_name: Clinical Neurophysiology Physician
+      reason: clinical NEURO-physiology (EEG/EMG/autonomic); counted under neurology
+    - code: 204R00000X
+      display_name: Electrodiagnostic Medicine Physician
+      reason: electrodiagnostic medicine (EMG/nerve conduction); counted under neurology
+    - code: 2251E1300X
+      display_name: Clinical Electrophysiology Physical Therapist
+      reason: physical therapist performing electrophysiologic (EMG) testing; not cardiac EP
+    - code: 246ZE0600X
+      display_name: Electroneurodiagnostic Specialist/Technologist
+      reason: electroneurodiagnostic technologist; not a treating clinician
+  neurology:
+    label: Neurology (incl. clinical neurophysiology)
+    group_type: specialty
+    spec_listed: true
+    codes:
+    - code: 2084N0400X
+      display_name: Neurology Physician
+      role: physician
+    - code: 2084N0402X
+      display_name: Neurology with Special Qualifications in Child Neurology Physician
+      role: physician
+    - code: 2084V0102X
+      display_name: Vascular Neurology Physician
+      role: physician
+    - code: 2084E0001X
+      display_name: Epilepsy Physician
+      role: physician
+    - code: 2084N0008X
+      display_name: Neuromuscular Medicine (Psychiatry & Neurology) Physician
+      role: physician
+    - code: 2084N0600X
+      display_name: Clinical Neurophysiology Physician
+      role: physician
+    - code: 204R00000X
+      display_name: Electrodiagnostic Medicine Physician
+      role: physician
+    - code: 2084A2900X
+      display_name: Neurocritical Care Physician
+      role: physician
+    - code: 2084B0040X
+      display_name: Behavioral Neurology & Neuropsychiatry Physician
+      role: physician
+    notes: Psychiatry & Neurology classifications that are neurological, plus Electrodiagnostic Medicine. Clinical Neurophysiology
+      is included because its NUCC definition covers 'central, peripheral, and autonomic nervous system disorders' diagnosed
+      with electrophysiologic testing; Electrodiagnostic Medicine is ambiguous (its NUCC definition covers neurologic, neuromuscular
+      and muscular impairments, a field shared with PM&R) and is placed here only.
+    excluded_considered:
+    - code: 207T00000X
+      display_name: Neurological Surgery Physician
+      reason: neurological surgery, surgical
+    - code: 2081N0008X
+      display_name: Neuromuscular Medicine (Physical Medicine & Rehabilitation) Physician
+      reason: neuromuscular medicine under PM&R; counted under pmr
+    - code: 2084P0005X
+      display_name: Neurodevelopmental Disabilities Physician
+      reason: neurodevelopmental disabilities; pediatric developmental focus, ambiguous
+    - code: 2084P0301X
+      display_name: Brain Injury Medicine (Psychiatry & Neurology) Physician
+      reason: brain injury medicine (P&N); may be psychiatrists
+    - code: 2084D0003X
+      display_name: Diagnostic Neuroimaging (Psychiatry & Neurology) Physician
+      reason: diagnostic neuroimaging; imaging not clinic care
+    - code: 2084S0012X
+      display_name: Sleep Medicine (Psychiatry & Neurology) Physician
+      reason: sleep medicine (P&N); sleep medicine is not a SPEC group
+    - code: 2084P2900X
+      display_name: Pain Medicine (Psychiatry & Neurology) Physician
+      reason: pain medicine (P&N); counted under pain_medicine
+    - code: 207WX0109X
+      display_name: Neuro-ophthalmology Physician
+      reason: neuro-ophthalmology; ophthalmologists
+    - code: 2251N0400X
+      display_name: Neurology Physical Therapist
+      reason: neurology physical therapist; not a physician
+    - code: 364SN0800X
+      display_name: Neuroscience Clinical Nurse Specialist
+      reason: neuroscience clinical nurse specialist; not an independent practitioner code
+  rheumatology:
+    label: Rheumatology
+    group_type: specialty
+    spec_listed: true
+    codes:
+    - code: 207RR0500X
+      display_name: Rheumatology Physician
+      role: physician
+    - code: 2080P0216X
+      display_name: Pediatric Rheumatology Physician
+      role: physician
+    notes: Adult and pediatric rheumatology.
+    excluded_considered: []
+  immunology_allergy:
+    label: Allergy & immunology
+    group_type: specialty
+    spec_listed: true
+    codes:
+    - code: 207K00000X
+      display_name: Allergy & Immunology Physician
+      role: physician
+    - code: 207KA0200X
+      display_name: Allergy Physician
+      role: physician
+    - code: 207KI0005X
+      display_name: Clinical & Laboratory Immunology (Allergy & Immunology) Physician
+      role: physician
+    - code: 207RA0201X
+      display_name: Allergy & Immunology (Internal Medicine) Physician
+      role: physician
+    - code: 207RI0001X
+      display_name: Clinical & Laboratory Immunology (Internal Medicine) Physician
+      role: physician
+    - code: 2080P0201X
+      display_name: Pediatric Allergy/Immunology Physician
+      role: physician
+    - code: 2080I0007X
+      display_name: Pediatric Clinical & Laboratory Immunology Physician
+      role: physician
+    notes: All Allergy & Immunology classification codes plus the internal-medicine and pediatric allergy/immunology codes.
+    excluded_considered:
+    - code: 207YX0602X
+      display_name: Otolaryngic Allergy Physician
+      reason: otolaryngic allergy; ENT surgeons
+    - code: 207NI0002X
+      display_name: Clinical & Laboratory Dermatological Immunology Physician
+      reason: dermatological immunology; dermatologists
+    - code: 207ZI0100X
+      display_name: Immunopathology Physician
+      reason: immunopathology; pathologists, no patient care
+  infectious_disease:
+    label: Infectious disease
+    group_type: specialty
+    spec_listed: true
+    codes:
+    - code: 207RI0200X
+      display_name: Infectious Disease Physician
+      role: physician
+    - code: 2080P0208X
+      display_name: Pediatric Infectious Diseases Physician
+      role: physician
+    notes: Adult and pediatric infectious disease.
+    excluded_considered:
+    - code: 207ZM0300X
+      display_name: Medical Microbiology Physician
+      reason: medical microbiology; pathologists, no patient care
+  pulmonology:
+    label: Pulmonology
+    group_type: specialty
+    spec_listed: true
+    codes:
+    - code: 207RP1001X
+      display_name: Pulmonary Disease Physician
+      role: physician
+    - code: 2080P0214X
+      display_name: Pediatric Pulmonology Physician
+      role: physician
+    notes: Adult and pediatric pulmonology. Critical care (207RC0200X) is excluded; pulmonary/critical-care physicians who
+      also list Pulmonary Disease are still captured through 207RP1001X.
+    excluded_considered:
+    - code: 207RC0200X
+      display_name: Critical Care Medicine (Internal Medicine) Physician
+      reason: critical care medicine (IM); ICU-based
+    - code: 227900000X
+      display_name: Registered Respiratory Therapist
+      reason: registered respiratory therapist; not a physician
+    - code: 225B00000X
+      display_name: Pulmonary Function Technologist
+      reason: pulmonary function technologist; not a treating clinician
+    - code: 2251C2600X
+      display_name: Cardiopulmonary Physical Therapist
+      reason: cardiopulmonary physical therapist; not a physician
+  gastroenterology:
+    label: Gastroenterology & hepatology
+    group_type: specialty
+    spec_listed: true
+    codes:
+    - code: 207RG0100X
+      display_name: Gastroenterology Physician
+      role: physician
+    - code: 2080P0206X
+      display_name: Pediatric Gastroenterology Physician
+      role: physician
+    - code: 207RI0008X
+      display_name: Hepatology Physician
+      role: physician
+    - code: 207RT0003X
+      display_name: Transplant Hepatology Physician
+      role: physician
+    - code: 2080T0004X
+      display_name: Pediatric Transplant Hepatology Physician
+      role: physician
+    notes: Gastroenterology plus hepatology subspecialties (ABIM/ABP GI-board subspecialties).
+    excluded_considered:
+    - code: 208C00000X
+      display_name: Colon & Rectal Surgery Physician
+      reason: colon & rectal surgery; surgical
+    - code: 261QE0800X
+      display_name: Endoscopy Clinic/Center
+      reason: endoscopy clinic/center; facility code
+  pain_medicine:
+    label: Pain medicine
+    group_type: specialty
+    spec_listed: true
+    codes:
+    - code: 208VP0000X
+      display_name: Pain Medicine Physician
+      role: physician
+    - code: 208VP0014X
+      display_name: Interventional Pain Medicine Physician
+      role: physician
+    - code: 207LP2900X
+      display_name: Pain Medicine (Anesthesiology) Physician
+      role: physician
+    - code: 2081P2900X
+      display_name: Pain Medicine (Physical Medicine & Rehabilitation) Physician
+      role: physician
+    - code: 2084P2900X
+      display_name: Pain Medicine (Psychiatry & Neurology) Physician
+      role: physician
+    notes: Pain medicine under every parent classification that offers it (Pain Medicine, Anesthesiology, PM&R, Psychiatry
+      & Neurology). 2081P2900X is also in pmr.
+    excluded_considered:
+    - code: 261QP3300X
+      display_name: Pain Clinic/Center
+      reason: pain clinic/center; facility code, see facility group pain_clinic
+  pmr:
+    label: Physical medicine & rehabilitation
+    group_type: specialty
+    spec_listed: true
+    codes:
+    - code: 208100000X
+      display_name: Physical Medicine & Rehabilitation Physician
+      role: physician
+    - code: 2081P0301X
+      display_name: Brain Injury Medicine (Physical Medicine & Rehabilitation) Physician
+      role: physician
+    - code: 2081H0002X
+      display_name: Hospice and Palliative Medicine (Physical Medicine & Rehabilitation) Physician
+      role: physician
+    - code: 2081N0008X
+      display_name: Neuromuscular Medicine (Physical Medicine & Rehabilitation) Physician
+      role: physician
+    - code: 2081P2900X
+      display_name: Pain Medicine (Physical Medicine & Rehabilitation) Physician
+      role: physician
+    - code: 2081P0010X
+      display_name: Pediatric Rehabilitation Medicine Physician
+      role: physician
+    - code: 2081P0004X
+      display_name: Spinal Cord Injury Medicine Physician
+      role: physician
+    - code: 2081S0010X
+      display_name: Sports Medicine (Physical Medicine & Rehabilitation) Physician
+      role: physician
+    notes: Every NUCC code whose classification is Physical Medicine & Rehabilitation (physiatrists). Physical and occupational
+      therapists are NOT included (they are not physicians; see DATA_AUDIT for their measured NPI counts).
+    excluded_considered:
+    - code: 225100000X
+      display_name: Physical Therapist
+      reason: physical therapist; not a physiatrist
+    - code: 225X00000X
+      display_name: Occupational Therapist
+      reason: occupational therapist; not a physiatrist
+    - code: 204D00000X
+      display_name: Neuromusculoskeletal Medicine & OMM Physician
+      reason: neuromuscular medicine & OMM (osteopathic manipulative medicine); not PM&R
+    - code: 204C00000X
+      display_name: Sports Medicine (Neuromusculoskeletal Medicine) Physician
+      reason: sports medicine (neuromusculoskeletal medicine); not PM&R
+    - code: 283X00000X
+      display_name: Rehabilitation Hospital
+      reason: rehabilitation hospital; facility code, see rehabilitation_facility
+  primary_care:
+    label: Primary care (physicians + primary-care NPs)
+    group_type: specialty
+    spec_listed: true
+    codes:
+    - code: 207Q00000X
+      display_name: Family Medicine Physician
+      role: physician
+    - code: 207QA0505X
+      display_name: Adult Medicine Physician
+      role: physician
+    - code: 207QG0300X
+      display_name: Geriatric Medicine (Family Medicine) Physician
+      role: physician
+    - code: 207QA0000X
+      display_name: Adolescent Medicine (Family Medicine) Physician
+      role: physician
+    - code: 208D00000X
+      display_name: General Practice Physician
+      role: physician
+    - code: 207R00000X
+      display_name: Internal Medicine Physician
+      role: physician
+    - code: 207RG0300X
+      display_name: Geriatric Medicine (Internal Medicine) Physician
+      role: physician
+    - code: 207RA0000X
+      display_name: Adolescent Medicine (Internal Medicine) Physician
+      role: physician
+    - code: 208000000X
+      display_name: Pediatrics Physician
+      role: physician
+    - code: 2080A0000X
+      display_name: Pediatric Adolescent Medicine Physician
+      role: physician
+    - code: 363LF0000X
+      display_name: Family Nurse Practitioner
+      role: nurse_practitioner
+    - code: 363LP2300X
+      display_name: Primary Care Nurse Practitioner
+      role: nurse_practitioner
+    - code: 363LA2200X
+      display_name: Adult Health Nurse Practitioner
+      role: nurse_practitioner
+    - code: 363LG0600X
+      display_name: Gerontology Nurse Practitioner
+      role: nurse_practitioner
+    - code: 363LP0200X
+      display_name: Pediatric Nurse Practitioner
+      role: nurse_practitioner
+    - code: 363LC1500X
+      display_name: Community Health Nurse Practitioner
+      role: nurse_practitioner
+    notes: 'Physicians: family medicine, general practice, general internal medicine, general pediatrics, and their geriatric/adolescent/adult-medicine
+      specialisations. Nurse practitioners are included ONLY when their NUCC population focus is primary-care-like (family,
+      primary care, adult health, gerontology, pediatrics, community health). Generic NP (363L00000X) and all physician-assistant
+      codes are excluded because NUCC does not encode their specialty. Use the role / n_individual_physicians columns to restrict
+      to physicians. NOTE: 207R00000X Internal Medicine is also the base code many hospital-based internists and subspecialists
+      carry, so primary_care counts are an upper bound on outpatient primary care.'
+    excluded_considered:
+    - code: 208M00000X
+      display_name: Hospitalist Physician
+      reason: hospitalist; inpatient care
+    - code: 363L00000X
+      display_name: Nurse Practitioner
+      reason: nurse practitioner with no population focus; specialty unknown
+    - code: 363A00000X
+      display_name: Physician Assistant
+      reason: physician assistant; NUCC does not encode PA specialty
+    - code: 363AM0700X
+      display_name: Medical Physician Assistant
+      reason: medical physician assistant; NUCC does not encode PA specialty
+    - code: 207QS0010X
+      display_name: Sports Medicine (Family Medicine) Physician
+      reason: sports medicine (FM); subspecialty
+    - code: 207QS1201X
+      display_name: Sleep Medicine (Family Medicine) Physician
+      reason: sleep medicine (FM); subspecialty
+    - code: 2083P0901X
+      display_name: Public Health & General Preventive Medicine Physician
+      reason: public health & general preventive medicine; not direct primary care
+    - code: 364SF0001X
+      display_name: Family Health Clinical Nurse Specialist
+      reason: family health clinical nurse specialist; not an independent practitioner code
+    - code: 261QP2300X
+      display_name: Primary Care Clinic/Center
+      reason: primary care clinic/center; facility code, see primary_care_clinic
+  gynecology:
+    label: Gynecology
+    group_type: specialty
+    spec_listed: true
+    codes:
+    - code: 207V00000X
+      display_name: Obstetrics & Gynecology Physician
+      role: physician
+    - code: 207VG0400X
+      display_name: Gynecology Physician
+      role: physician
+    - code: 207VE0102X
+      display_name: Reproductive Endocrinology Physician
+      role: physician
+    - code: 207VF0040X
+      display_name: Urogynecology and Reconstructive Pelvic Surgery (Obstetrics & Gynecology) Physician
+      role: physician
+    - code: 2088F0040X
+      display_name: Urogynecology and Reconstructive Pelvic Surgery (Urology) Physician
+      role: physician
+    - code: 207VC0300X
+      display_name: Complex Family Planning Physician
+      role: physician
+    - code: 363LX0001X
+      display_name: Obstetrics & Gynecology Nurse Practitioner
+      role: nurse_practitioner
+    - code: 363LW0102X
+      display_name: Women's Health Nurse Practitioner
+      role: nurse_practitioner
+    notes: OB/GYN base code, gynecology, reproductive endocrinology (endometriosis/infertility care), urogynecology (OB/GYN
+      and urology parents), complex family planning, and OB/GYN and women's-health nurse practitioners. Obstetrics-only codes
+      are excluded.
+    excluded_considered:
+    - code: 207VX0000X
+      display_name: Obstetrics Physician
+      reason: obstetrics only
+    - code: 207VM0101X
+      display_name: Maternal & Fetal Medicine Physician
+      reason: maternal & fetal medicine; obstetric
+    - code: 207VX0201X
+      display_name: Gynecologic Oncology Physician
+      reason: gynecologic oncology; cancer surgery focus
+    - code: 207VC0200X
+      display_name: Critical Care Medicine (Obstetrics & Gynecology) Physician
+      reason: critical care (OB/GYN)
+    - code: 367A00000X
+      display_name: Advanced Practice Midwife
+      reason: advanced practice midwife; primarily obstetric care, ambiguous
+    - code: 176B00000X
+      display_name: Midwife
+      reason: midwife; primarily obstetric care
+    - code: 364SW0102X
+      display_name: Women's Health Clinical Nurse Specialist
+      reason: women's health clinical nurse specialist; not an independent practitioner code
+  vascular:
+    label: Vascular medicine / surgery
+    group_type: specialty
+    spec_listed: true
+    codes:
+    - code: 2086S0129X
+      display_name: Vascular Surgery Physician
+      role: physician
+    - code: 202K00000X
+      display_name: Phlebology Physician
+      role: physician
+    - code: 2085R0204X
+      display_name: Vascular & Interventional Radiology Physician
+      role: physician
+    notes: 'Vascular surgery, phlebology (venous disease) and vascular & interventional radiology. NUCC has NO vascular-medicine
+      physician code: vascular-medicine specialists register as Cardiovascular Disease or Internal Medicine and cannot be
+      separated from those groups.'
+    excluded_considered:
+    - code: 208G00000X
+      display_name: Thoracic Surgery (Cardiothoracic Vascular Surgery) Physician
+      reason: thoracic (cardiothoracic vascular) surgery; mostly cardiac/thoracic operations
+    - code: 2084V0102X
+      display_name: Vascular Neurology Physician
+      reason: vascular neurology is stroke neurology; counted under neurology
+    - code: 207RH0005X
+      display_name: Hypertension Specialist Physician
+      reason: hypertension specialist; not vascular medicine
+    - code: 246XC2903X
+      display_name: Vascular Specialist/Technologist Cardiovascular
+      reason: vascular specialist/technologist; not a treating clinician
+    - code: 2471V0105X
+      display_name: Vascular Sonography Radiologic Technologist
+      reason: vascular sonography technologist; not a treating clinician
+  fqhc:
+    label: Federally Qualified Health Center (FQHC)
+    group_type: facility
+    spec_listed: false
+    codes:
+    - code: 261QF0400X
+      display_name: Federally Qualified Health Center (FQHC)
+      role: facility
+    notes: Self-reported NPPES taxonomy. HRSA's own site list (hrsa_health_centers) is the authoritative FQHC roster; this
+      group is a cross-check.
+    excluded_considered: []
+  rural_health_clinic:
+    label: Rural health clinic
+    group_type: facility
+    spec_listed: false
+    codes:
+    - code: 261QR1300X
+      display_name: Rural Health Clinic/Center
+      role: facility
+    notes: Self-reported NPPES taxonomy; not the CMS RHC certification list.
+    excluded_considered: []
+  community_health_clinic:
+    label: Community / migrant health clinic
+    group_type: facility
+    spec_listed: false
+    codes:
+    - code: 261QC1500X
+      display_name: Community Health Clinic/Center
+      role: facility
+    - code: 261QM1000X
+      display_name: Migrant Health Clinic/Center
+      role: facility
+    notes: Community health and migrant health clinic/center codes (distinct from the FQHC code).
+    excluded_considered: []
+  primary_care_clinic:
+    label: Primary care clinic/center
+    group_type: facility
+    spec_listed: false
+    codes:
+    - code: 261QP2300X
+      display_name: Primary Care Clinic/Center
+      role: facility
+    notes: ''
+    excluded_considered: []
+  specialty_clinic:
+    label: Medical-specialty or multi-specialty clinic/center
+    group_type: facility
+    spec_listed: false
+    codes:
+    - code: 261QM2500X
+      display_name: Medical Specialty Clinic/Center
+      role: facility
+    - code: 261QM1300X
+      display_name: Multi-Specialty Clinic/Center
+      role: facility
+    notes: ''
+    excluded_considered: []
+  general_acute_care_hospital:
+    label: General acute care hospital (all NUCC subtypes)
+    group_type: facility
+    spec_listed: false
+    codes:
+    - code: 282N00000X
+      display_name: General Acute Care Hospital
+      role: facility
+    - code: 282NC2000X
+      display_name: Children's Hospital
+      role: facility
+    - code: 282NC0060X
+      display_name: Critical Access Hospital
+      role: facility
+    - code: 282NR1301X
+      display_name: Rural Acute Care Hospital
+      role: facility
+    - code: 282NW0100X
+      display_name: Women's Hospital
+      role: facility
+    notes: Includes children's, critical-access, rural and women's subtypes; critical-access hospitals are also a separate
+      group.
+    excluded_considered:
+    - code: 2865M2000X
+      display_name: Military General Acute Care Hospital
+      reason: military general acute care hospital; restricted population
+  critical_access_hospital:
+    label: Critical access hospital
+    group_type: facility
+    spec_listed: false
+    codes:
+    - code: 282NC0060X
+      display_name: Critical Access Hospital
+      role: facility
+    - code: 261QC0050X
+      display_name: Critical Access Hospital Clinic/Center
+      role: facility
+    notes: Hospital code plus the critical-access-hospital clinic/center code.
+    excluded_considered: []
+  rehabilitation_facility:
+    label: Rehabilitation hospital/unit/clinic
+    group_type: facility
+    spec_listed: false
+    codes:
+    - code: 283X00000X
+      display_name: Rehabilitation Hospital
+      role: facility
+    - code: 283XC2000X
+      display_name: Children's Rehabilitation Hospital
+      role: facility
+    - code: 273Y00000X
+      display_name: Rehabilitation Hospital Unit
+      role: facility
+    - code: 261QR0400X
+      display_name: Rehabilitation Clinic/Center
+      role: facility
+    - code: 261QR0401X
+      display_name: Comprehensive Outpatient Rehabilitation Facility (CORF)
+      role: facility
+    notes: ''
+    excluded_considered:
+    - code: 261QR0405X
+      display_name: Substance Use Disorder Rehabilitation Clinic/Center
+      reason: substance use disorder rehabilitation
+    - code: 276400000X
+      display_name: Substance Use Disorder Rehabilitation Hospital Unit
+      reason: substance use disorder unit
+  cardiac_rehabilitation:
+    label: Cardiac rehabilitation clinic/center
+    group_type: facility
+    spec_listed: false
+    codes:
+    - code: 261QR0404X
+      display_name: Cardiac Rehabilitation Clinic/Center
+      role: facility
+    notes: ''
+    excluded_considered: []
+  sleep_disorder_center:
+    label: Sleep disorder diagnostic clinic/center
+    group_type: facility
+    spec_listed: false
+    codes:
+    - code: 261QS1200X
+      display_name: Sleep Disorder Diagnostic Clinic/Center
+      role: facility
+    notes: ''
+    excluded_considered: []
+  physiological_laboratory:
+    label: Independent physiological laboratory (EEG/EKG etc.)
+    group_type: facility
+    spec_listed: false
+    codes:
+    - code: 293D00000X
+      display_name: Physiological Laboratory
+      role: facility
+    notes: 'NUCC: laboratory furnishing physiological diagnostic services such as EEGs and EKGs.'
+    excluded_considered: []
+  clinical_laboratory:
+    label: Clinical medical laboratory
+    group_type: facility
+    spec_listed: false
+    codes:
+    - code: 291U00000X
+      display_name: Clinical Medical Laboratory
+      role: facility
+    notes: ''
+    excluded_considered:
+    - code: 291900000X
+      display_name: Military Clinical Medical Laboratory
+      reason: military clinical medical laboratory
+  pain_clinic:
+    label: Pain clinic/center
+    group_type: facility
+    spec_listed: false
+    codes:
+    - code: 261QP3300X
+      display_name: Pain Clinic/Center
+      role: facility
+    notes: ''
+    excluded_considered: []
+  infusion_center:
+    label: Infusion therapy clinic/center
+    group_type: facility
+    spec_listed: false
+    codes:
+    - code: 261QI0500X
+      display_name: Infusion Therapy Clinic/Center
+      role: facility
+    notes: ''
+    excluded_considered:
+    - code: 251F00000X
+      display_name: Home Infusion Agency
+      reason: home infusion agency; home-based
+  public_health_clinic:
+    label: Federal / state / local public health clinic
+    group_type: facility
+    spec_listed: false
+    codes:
+    - code: 261QP0904X
+      display_name: Federal Public Health Clinic/Center
+      role: facility
+    - code: 261QP0905X
+      display_name: State or Local Public Health Clinic/Center
+      role: facility
+    notes: ''
+    excluded_considered: []
+  va_clinic:
+    label: VA clinic/center
+    group_type: facility
+    spec_listed: false
+    codes:
+    - code: 261QV0200X
+      display_name: VA Clinic/Center
+      role: facility
+    notes: Veterans Affairs clinic/center code; serves the veteran population only.
+    excluded_considered: []
+  clinical_research:
+    label: Clinical research taxonomies
+    group_type: research
+    spec_listed: false
+    codes:
+    - code: 261QR1100X
+      display_name: Research Clinic/Center
+      role: facility
+    - code: 1744R1102X
+      display_name: Research Study Specialist
+      role: other_individual
+    notes: 'The only research-specific NUCC codes: Research Clinic/Center (organisations) and Research Study Specialist (individuals).
+      Very few NPIs use them; research readiness should come from ClinicalTrials.gov and NIH RePORTER, not from these codes.'
+    excluded_considered:
+    - code: 1744R1103X
+      display_name: Research Study Abstracter/Coder
+      reason: research data abstracter/coder; not a site
+    - code: 174MM1900X
+      display_name: Medical Research Veterinarian
+      reason: medical research veterinarian

@@ -1,0 +1,957 @@
+# Curated map: measurement class (configs/measurements.yaml) -> FDA product codes.
+#
+# Created by the openfda_device ingestion (measure_it.ingestion.openfda). Every code was
+# returned by a recorded openFDA query (query_that_found_it; see
+# data/raw/openfda_device/QUERY_LOG.json) and kept only if its FDA device_name/definition
+# genuinely describes the measurement, or - for a generic code - if named-device records
+# under it do, in which case the code is mapped only with a device_filter and every count is
+# restricted to that filter. validate_code_map() in the module re-checks all of this on run.
+#
+# mapping_confidence: high = FDA name/definition states the measurement;
+#   medium = category holds the measurement but is broader or names it indirectly;
+#   low = partial/indirect match, or a generic code restricted by device_filter.
+# Classes with no category carry an explicit 'no specific product code found' entry with
+# the queries tried.
+#
+# A regulatory record is a deployment-readiness signal, not evidence that the technology
+# diagnoses the target illness.
+version: 1
+created: '2026-09-23'
+measurements:
+  accelerometry:
+  - product_code: LEL
+    device_name: Device, Sleep Assessment
+    device_class: '2'
+    regulation_number: '882.5050'
+    medical_specialty_description: Neurology
+    mapping_confidence: medium
+    mapping_rationale: 'Wrist actigraphs are cleared in this category: the device_name actigraph* search returned
+      ActiGraph CentrePoint Insight Watch and ActiGraph LEAP under LEL. The FDA name describes sleep assessment,
+      not activity measurement in general, hence medium.'
+    query_that_found_it: '510k: device_name:actigraph*'
+  - product_code: GWQ
+    device_name: Full-Montage Standard Electroencephalograph
+    device_class: '2'
+    regulation_number: '882.1400'
+    medical_specialty_description: Neurology
+    mapping_confidence: low
+    mapping_rationale: 'Early actigraphs (Actiwatch, wrist actigraph) were cleared under the EEG code GWQ. Generic
+      code: counted only for records whose device name contains actigraph*/actiwatch*.'
+    query_that_found_it: '510k: device_name:actiwatch*'
+    device_filter: (device_name:actigraph* OR device_name:actiwatch*)
+  - product_code: ISD
+    device_name: Exerciser, Measuring
+    device_class: '2'
+    regulation_number: '890.5360'
+    medical_specialty_description: Physical Medicine
+    mapping_confidence: low
+    mapping_rationale: 'ActiGraph''s ActiTrainer was cleared under ''Exerciser, Measuring''. Generic code: counted
+      only for ActiGraph as applicant.'
+    query_that_found_it: '510k: applicant:actigraph'
+    device_filter: applicant:actigraph
+  wearable_heart_rate:
+  - product_code: DRT
+    device_name: Monitor, Cardiac (Incl. Cardiotachometer & Rate Alarm)
+    device_class: '2'
+    regulation_number: '870.2300'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: medium
+    mapping_rationale: Heart-rate monitor category (cardiotachometer and rate alarm, 21 CFR 870.2300). Mostly clinical
+      cardiac monitors; not specific to consumer wearables.
+    query_that_found_it: 'classification: device_name:cardiotachometer definition:cardiotachometer'
+  - product_code: OCH
+    device_name: Oximeter, Infrared, Sporting, Aviation
+    device_class: '2'
+    regulation_number: '870.2700'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: medium
+    mapping_rationale: 'FDA definition: ''Intended to monitor heart rate during exercise'' (sporting/aviation oximeter).'
+    query_that_found_it: 'classification: device_name:"heart rate" definition:"heart rate"'
+  - product_code: QDB
+    device_name: Photoplethysmograph Analysis Software For Over-The-Counter Use
+    device_class: '2'
+    regulation_number: '870.2790'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: medium
+    mapping_rationale: OTC photoplethysmograph analysis software that uses wearable pulse data to notify irregular
+      heart rhythms (the regulated smartwatch heart-rhythm feature). The heart-rate readout itself is not what is
+      cleared, hence medium.
+    query_that_found_it: '510k: device_name:"irregular rhythm"'
+  hrv:
+  - product_code: DPS
+    device_name: Electrocardiograph
+    device_class: '2'
+    regulation_number: '870.2340'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: low
+    mapping_rationale: No product code names heart-rate variability (classification queries 'heart rate variability',
+      'variability', 'autonomic' returned none). HRV analysis software/options were cleared under Electrocardiograph
+      (DPS); counted only for records whose device name mentions heart rate variability/HRV.
+    query_that_found_it: '510k: device_name:"heart rate variability"'
+    device_filter: (device_name:"heart rate variability" OR device_name:hrv)
+  - product_code: DRT
+    device_name: Monitor, Cardiac (Incl. Cardiotachometer & Rate Alarm)
+    device_class: '2'
+    regulation_number: '870.2300'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: low
+    mapping_rationale: HRV acquisition software cleared under the cardiac monitor code DRT; counted only for records
+      whose device name mentions heart rate variability/HRV.
+    query_that_found_it: '510k: device_name:hrv'
+    device_filter: (device_name:"heart rate variability" OR device_name:hrv)
+  ecg_ambulatory:
+  - product_code: QDA
+    device_name: Electrocardiograph Software For Over-The-Counter Use
+    device_class: '2'
+    regulation_number: '870.2345'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: high
+    mapping_rationale: 'FDA definition: electrocardiograph software for over-the-counter use that creates, analyzes
+      and displays ECG data and can identify arrhythmias (smartwatch / consumer ECG features).'
+    query_that_found_it: 'classification: device_name:electrocardiograph* definition:electrocardiograph*'
+  - product_code: MLO
+    device_name: Electrocardiograph, Ambulatory, With Analysis Algorithm
+    device_class: '2'
+    regulation_number: '870.2800'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: high
+    mapping_rationale: Ambulatory electrocardiograph with analysis algorithm.
+    query_that_found_it: 'classification: device_name:electrocardiograph* definition:electrocardiograph*'
+  - product_code: MWJ
+    device_name: Electrocardiograph, Ambulatory (Without Analysis)
+    device_class: '2'
+    regulation_number: '870.2800'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: high
+    mapping_rationale: Ambulatory electrocardiograph without analysis.
+    query_that_found_it: 'classification: device_name:electrocardiograph* definition:electrocardiograph*'
+  - product_code: QYX
+    device_name: Outpatient Cardiac Telemetry
+    device_class: '2'
+    regulation_number: '870.1025'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: high
+    mapping_rationale: 'FDA definition: devices that continuously record and analyze ECGs in an outpatient setting
+      and transmit detected events to the prescribing clinician (mobile cardiac outpatient telemetry).'
+    query_that_found_it: 'classification: device_name:electrocardiogram* definition:electrocardiogram*'
+  - product_code: DSH
+    device_name: Recorder, Magnetic Tape, Medical
+    device_class: '2'
+    regulation_number: '870.2800'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: medium
+    mapping_rationale: 'Generic FDA name (''Recorder, Magnetic Tape, Medical'', 21 CFR 870.2800 - the same regulation
+      as the ambulatory ECG codes MLO/MWJ) but the category holds Holter and patch ECG recorders: the iRhythm, Bardy
+      and device_name:holter searches returned Zio patch/monitor and CAM patch records under DSH. Mixed category:
+      of 195 DSH records retrieved 2026-09-23, 88 name Holter/ECG/EKG/cardiac/rhythm/Zio (or are iRhythm/Bardy);
+      the rest are mostly unnamed ECG recorders and patches plus some non-ECG recorders (cough monitor, electronic
+      stethoscope, ambulatory blood pressure, pH recorder).'
+    query_that_found_it: '510k: applicant:irhythm'
+  - product_code: DSI
+    device_name: Detector And Alarm, Arrhythmia
+    device_class: '2'
+    regulation_number: '870.1025'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: medium
+    mapping_rationale: Arrhythmia detector and alarm; includes ambulatory ECG monitors with arrhythmia detection
+      (the iRhythm and Preventice searches returned records under DSI).
+    query_that_found_it: 'classification: device_name:arrhythmia definition:arrhythmia'
+  - product_code: DXH
+    device_name: Transmitters And Receivers, Electrocardiograph, Telephone
+    device_class: '2'
+    regulation_number: '870.2920'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: medium
+    mapping_rationale: Telephone electrocardiograph transmitters/receivers (transtelephonic event ECG; the AliveCor
+      search returned records under DXH).
+    query_that_found_it: 'classification: device_name:electrocardiograph* definition:electrocardiograph*'
+  - product_code: MXD
+    device_name: Recorder, Event, Implantable Cardiac, (With Arrhythmia Detection)
+    device_class: '2'
+    regulation_number: '870.1025'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: medium
+    mapping_rationale: 'Implantable cardiac event recorder with arrhythmia detection (implantable loop recorder):
+      ambulatory ECG, but implanted rather than wearable.'
+    query_that_found_it: 'classification: device_name:arrhythmia definition:arrhythmia'
+  - product_code: MXC
+    device_name: Recorder, Event, Implantable Cardiac, (Without Arrhythmia Detection)
+    device_class: '2'
+    regulation_number: '870.2800'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: medium
+    mapping_rationale: 'Implantable cardiac event recorder without arrhythmia detection: ambulatory ECG, implanted.'
+    query_that_found_it: 'classification: device_name:arrhythmia definition:arrhythmia'
+  - product_code: DPS
+    device_name: Electrocardiograph
+    device_class: '2'
+    regulation_number: '870.2340'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: low
+    mapping_rationale: General electrocardiograph category; mostly resting diagnostic ECG, some portable/personal
+      ECG devices. Describes ECG, not specifically ambulatory ECG.
+    query_that_found_it: 'classification: device_name:electrocardiograph* definition:electrocardiograph*'
+  ppg:
+  - product_code: QDB
+    device_name: Photoplethysmograph Analysis Software For Over-The-Counter Use
+    device_class: '2'
+    regulation_number: '870.2790'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: high
+    mapping_rationale: 'FDA definition: OTC software that analyzes photoplethysmograph data to identify irregular
+      heart rhythms.'
+    query_that_found_it: 'classification: device_name:photoplethysmograph* definition:photoplethysmograph*'
+  - product_code: SDY
+    device_name: Loss Of Pulse Notification Software
+    device_class: '2'
+    regulation_number: '870.2790'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: high
+    mapping_rationale: 'FDA definition: OTC photoplethysmograph analysis software that identifies loss of pulse.'
+    query_that_found_it: 'classification: device_name:photoplethysmograph* definition:photoplethysmograph*'
+  - product_code: QYU
+    device_name: Infant Pulse Rate And Oxygen Saturation Monitor For Over-The-Counter Use
+    device_class: '2'
+    regulation_number: '870.2705'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: medium
+    mapping_rationale: 'FDA definition: uses photoplethysmography to measure pulse rate and oxygen saturation in
+      infants (OTC).'
+    query_that_found_it: 'classification: device_name:photoplethysmograph* definition:photoplethysmograph*'
+  - product_code: JOM
+    device_name: Plethysmograph, Photoelectric, Pneumatic Or Hydraulic
+    device_class: '2'
+    regulation_number: '870.2780'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: medium
+    mapping_rationale: Photoelectric, pneumatic or hydraulic plethysmograph (21 CFR 870.2780); photoelectric = PPG,
+      but the code also covers pneumatic/hydraulic plethysmographs.
+    query_that_found_it: 'classification: device_name:plethysmograph* definition:plethysmograph*'
+  posture_detection:
+  - product_code: null
+    status: no specific product code found
+    queries_tried:
+    - 'classification: device_name:posture definition:posture'
+    - 'classification: device_name:"body position" definition:"body position"'
+    - 'classification: device_name:upright definition:upright'
+    - 'classification: device_name:inclinometer definition:inclinometer'
+    note: Classification queries returned only a posture chair (BYN) and an oxygen-unit stand (PCM); no product
+      code describes posture/upright-time sensing. Posture detection in wearables is not a distinct FDA category.
+  continuous_spo2:
+  - product_code: DQA
+    device_name: Oximeter
+    device_class: '2'
+    regulation_number: '870.2700'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: high
+    mapping_rationale: Pulse oximeter category (21 CFR 870.2700).
+    query_that_found_it: 'classification: device_name:oximeter definition:oximeter'
+  - product_code: QYU
+    device_name: Infant Pulse Rate And Oxygen Saturation Monitor For Over-The-Counter Use
+    device_class: '2'
+    regulation_number: '870.2705'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: high
+    mapping_rationale: 'FDA definition: OTC infant pulse rate and oxygen saturation monitor with alarms (continuous
+      home monitoring).'
+    query_that_found_it: 'classification: device_name:"oxygen saturation" definition:"oxygen saturation"'
+  - product_code: DPZ
+    device_name: Oximeter, Ear
+    device_class: '2'
+    regulation_number: '870.2710'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: medium
+    mapping_rationale: Ear oximeter.
+    query_that_found_it: 'classification: device_name:oximeter definition:oximeter'
+  - product_code: QVT
+    device_name: Monitor For Opioid Induced Impairment Of Oxygenation
+    device_class: '2'
+    regulation_number: '868.2250'
+    medical_specialty_description: Anesthesiology
+    mapping_confidence: low
+    mapping_rationale: 'FDA definition: detects arterial desaturations resulting from opioid overdose; SpO2-based,
+      single indication.'
+    query_that_found_it: 'classification: device_name:"oxygen saturation" definition:"oxygen saturation"'
+  - product_code: OLK
+    device_name: Pulse Oximeter For Over-The-Counter Use
+    device_class: '2'
+    regulation_number: '870.2700'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: low
+    mapping_rationale: 'FDA definition: non-wearable fingertip pulse oximeter for OTC use, ''for non-continuous
+      monitoring'' - pulse oximetry but explicitly not continuous.'
+    query_that_found_it: 'classification: device_name:oximeter definition:oximeter'
+  - product_code: PGJ
+    device_name: Oximeter, Wellness
+    device_class: '2'
+    regulation_number: '870.2700'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: low
+    mapping_rationale: 'FDA definition: ''Pulse oximeter intended for wellness use'' - no medical claim.'
+    query_that_found_it: 'classification: device_name:oximeter definition:oximeter'
+  respiratory_rate:
+  - product_code: BZQ
+    device_name: Monitor, Breathing Frequency
+    device_class: '2'
+    regulation_number: '868.2375'
+    medical_specialty_description: Anesthesiology
+    mapping_confidence: high
+    mapping_rationale: Breathing frequency monitor (21 CFR 868.2375).
+    query_that_found_it: 'classification: device_name:"breathing frequency" definition:"breathing frequency"'
+  - product_code: QME
+    device_name: Software For Optical Camera-Based Measurement Of Pulse Rate, Heart Rate, Breathing Rate, And/Or
+      Respiratory Rate
+    device_class: '2'
+    regulation_number: '870.2785'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: high
+    mapping_rationale: 'FDA definition: software that analyzes video to estimate pulse, heart, respiratory and/or
+      breathing rate (contactless, not wearable).'
+    query_that_found_it: 'classification: device_name:"respiratory rate" definition:"respiratory rate"'
+  - product_code: QOK
+    device_name: Hardware And Software For Optical Camera-Based Measurement Of Heart Rate And Respiratory Rate
+    device_class: '2'
+    regulation_number: '870.2786'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: high
+    mapping_rationale: 'FDA definition: optical sensor hardware + software estimating heart and respiratory rate
+      (contactless).'
+    query_that_found_it: 'classification: device_name:"respiratory rate" definition:"respiratory rate"'
+  sleep_objective:
+  - product_code: OLV
+    device_name: Standard Polysomnograph With Electroencephalograph
+    device_class: '2'
+    regulation_number: '882.1400'
+    medical_specialty_description: Neurology
+    mapping_confidence: high
+    mapping_rationale: 'FDA definition: acquires EEG plus other signals (EMG, respiratory, oximetry) for sleep recordings
+      (PSG).'
+    query_that_found_it: 'classification: device_name:polysomnograph* definition:polysomnograph*'
+  - product_code: OLZ
+    device_name: Automatic Event Detection Software For Polysomnograph With Electroencephalograph
+    device_class: '2'
+    regulation_number: '882.1400'
+    medical_specialty_description: Neurology
+    mapping_confidence: high
+    mapping_rationale: Automatic event detection software for polysomnographs.
+    query_that_found_it: 'classification: device_name:polysomnograph* definition:polysomnograph*'
+  - product_code: MNR
+    device_name: Ventilatory Effort Recorder
+    device_class: '2'
+    regulation_number: '868.2375'
+    medical_specialty_description: Anesthesiology
+    mapping_confidence: high
+    mapping_rationale: 'Ventilatory effort recorder: home sleep apnea test category (the Itamar search returned
+      WatchPAT records under MNR).'
+    query_that_found_it: 'classification: device_name:"ventilatory effort" definition:"ventilatory effort"'
+  - product_code: LEL
+    device_name: Device, Sleep Assessment
+    device_class: '2'
+    regulation_number: '882.5050'
+    medical_specialty_description: Neurology
+    mapping_confidence: high
+    mapping_rationale: Sleep assessment device (includes actigraphic sleep assessment).
+    query_that_found_it: 'classification: device_name:sleep definition:sleep'
+  - product_code: SFK
+    device_name: Respiratory Effort Belt For Polysomnography
+    device_class: '2'
+    regulation_number: '882.1400'
+    medical_specialty_description: Neurology
+    mapping_confidence: medium
+    mapping_rationale: 'FDA definition: respiratory effort belt, accessory to PSG and home sleep apnea test systems.'
+    query_that_found_it: 'classification: device_name:polysomnograph* definition:polysomnograph*'
+  - product_code: QRS
+    device_name: Device For Sleep Apnea Testing Based On Mandibular Movement
+    device_class: '2'
+    regulation_number: '868.2376'
+    medical_specialty_description: Ear, Nose, Throat
+    mapping_confidence: medium
+    mapping_rationale: 'FDA definition: aids evaluation of sleep apnea by analyzing mandibular movement during sleep.'
+    query_that_found_it: 'classification: device_name:polysomnograph* definition:polysomnograph*'
+  - product_code: QZW
+    device_name: Over-The-Counter Device To Assess Risk Of Sleep Apnea
+    device_class: '2'
+    regulation_number: '868.2378'
+    medical_specialty_description: Anesthesiology
+    mapping_confidence: medium
+    mapping_rationale: 'FDA definition: OTC notification of sleep apnea risk in undiagnosed users (the Apple and
+      Samsung searches returned records under QZW). A risk notification, not sleep staging.'
+    query_that_found_it: 'classification: device_name:polysomnograph* definition:polysomnograph*'
+  continuous_temperature:
+  - product_code: FLL
+    device_name: Continuous Measurement Thermometer
+    device_class: '2'
+    regulation_number: '880.2910'
+    medical_specialty_description: General Hospital
+    mapping_confidence: high
+    mapping_rationale: 'FDA definition: clinical electronic thermometer indicated to measure body or skin temperature
+      continuously or at specified intervals.'
+    query_that_found_it: 'classification: device_name:thermometer definition:thermometer'
+  - product_code: QZA
+    device_name: Body Temperature Sensing Software
+    device_class: '2'
+    regulation_number: '880.2915'
+    medical_specialty_description: General Hospital
+    mapping_confidence: medium
+    mapping_rationale: 'FDA definition: software that determines body temperature by analyzing input sensor data
+      (the Fitbit search returned records under QZA).'
+    query_that_found_it: 'classification: device_name:"body temperature" definition:"body temperature"'
+  - product_code: HCS
+    device_name: Device, Temperature Measurement, Direct Contact, Powered
+    device_class: '2'
+    regulation_number: '882.1570'
+    medical_specialty_description: Neurology
+    mapping_confidence: low
+    mapping_rationale: Powered direct-contact temperature measurement device (neurology panel); not specified as
+      continuous.
+    query_that_found_it: 'classification: device_name:"temperature measurement" definition:"temperature measurement"'
+  cpet:
+  - product_code: BZL
+    device_name: Computer, Oxygen-Uptake
+    device_class: '2'
+    regulation_number: '868.1730'
+    medical_specialty_description: Anesthesiology
+    mapping_confidence: high
+    mapping_rationale: 'Oxygen-uptake computer (21 CFR 868.1730): metabolic measurement carts used for VO2 in exercise
+      testing.'
+    query_that_found_it: 'classification: device_name:"oxygen-uptake" definition:"oxygen-uptake"'
+  - product_code: BZG
+    device_name: Spirometer, Diagnostic
+    device_class: '2'
+    regulation_number: '868.1840'
+    medical_specialty_description: Anesthesiology
+    mapping_confidence: medium
+    mapping_rationale: 'Diagnostic spirometer: the ventilatory component of CPET.'
+    query_that_found_it: 'classification: device_name:spirometer definition:spirometer'
+  - product_code: ISD
+    device_name: Exerciser, Measuring
+    device_class: '2'
+    regulation_number: '890.5360'
+    medical_specialty_description: Physical Medicine
+    mapping_confidence: medium
+    mapping_rationale: Measuring exerciser (ergometers that quantify workload); the workload component of CPET.
+    query_that_found_it: 'classification: device_name:exerciser definition:exerciser'
+  - product_code: BZM
+    device_name: Calculator, Pulmonary Function Interpretor (Diagnostic)
+    device_class: '2'
+    regulation_number: '868.1900'
+    medical_specialty_description: Anesthesiology
+    mapping_confidence: low
+    mapping_rationale: Pulmonary function interpretation calculators; counted only for records whose device name
+      contains 'exercise' (e.g. a cardiopulmonary exercise testing system).
+    query_that_found_it: '510k: device_name:"cardiopulmonary exercise"'
+    device_filter: device_name:exercise
+  - product_code: BTY
+    device_name: Calculator, Predicted Values, Pulmonary Function
+    device_class: '2'
+    regulation_number: '868.1890'
+    medical_specialty_description: Anesthesiology
+    mapping_confidence: low
+    mapping_rationale: Predicted-value pulmonary function calculators; counted only for records whose device name
+      contains 'exercise'.
+    query_that_found_it: '510k: device_name:"cardiopulmonary exercise"'
+    device_filter: device_name:exercise
+  autonomic_testing:
+  - product_code: GZO
+    device_name: Device, Galvanic Skin Response Measurement
+    device_class: '2'
+    regulation_number: '882.1540'
+    medical_specialty_description: Neurology
+    mapping_confidence: medium
+    mapping_rationale: Galvanic skin response measurement device (21 CFR 882.1540). The sudomotor device Sudoscan
+      was returned under GZO by the sudoscan/impeto searches; the code also covers other electrodermal devices.
+    query_that_found_it: 'classification: device_name:"galvanic skin response" definition:"galvanic skin response"'
+  - product_code: KTB
+    device_name: Device, Iontophoresis, Specific Uses
+    device_class: '2'
+    regulation_number: '890.5525'
+    medical_specialty_description: Physical Medicine
+    mapping_confidence: low
+    mapping_rationale: Iontophoresis device for specific uses; the Q-Sweat quantitative sweat measurement system
+      (a QSART-type sudomotor test) was cleared here. Counted only for records whose device name contains 'quantitative
+      sweat'. A broader 'sweat' filter would also count cystic-fibrosis sweat-chloride collection/test systems
+      (Macroduct, Nanoduct, CF Indicator, Webster sweat inducer), which are not sudomotor/autonomic tests.
+    query_that_found_it: '510k: device_name:"quantitative sweat"'
+    device_filter: device_name:"quantitative sweat"
+  - product_code: INQ
+    device_name: Table, Powered
+    device_class: '1'
+    regulation_number: '890.3760'
+    medical_specialty_description: Physical Medicine
+    mapping_confidence: low
+    mapping_rationale: Powered tables; tilt tables were cleared here. Counted only for records whose device name
+      contains the phrase 'tilt table' (the query that found the code); a bare 'tilt' filter also counted a tilt bed,
+      an obstetric table and tilting exam/treatment tables. The records do not state autonomic (head-up tilt) testing
+      as their use (they are physical-medicine powered tables). The one 'ELECTROPHYSIOLOGY TILT TABLE' (K965105) is
+      under IXR 'Table, Radiographic, Tilting' and is not mapped.
+    query_that_found_it: '510k: device_name:"tilt table"'
+    device_filter: device_name:"tilt table"
+  - product_code: DPS
+    device_name: Electrocardiograph
+    device_class: '2'
+    regulation_number: '870.2340'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: low
+    mapping_rationale: Electrocardiograph code; counted only for records whose device name contains 'autonomic'
+      (an autonomic nervous system monitoring system).
+    query_that_found_it: '510k: device_name:autonomic'
+    device_filter: device_name:autonomic
+  - product_code: JOM
+    device_name: Plethysmograph, Photoelectric, Pneumatic Or Hydraulic
+    device_class: '2'
+    regulation_number: '870.2780'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: low
+    mapping_rationale: Plethysmograph code; counted only for records whose device name contains 'autonomic'.
+    query_that_found_it: '510k: device_name:autonomic'
+    device_filter: device_name:autonomic
+  small_fiber_testing:
+  - product_code: LQW
+    device_name: Test, Temperature Discrimination
+    device_class: '1'
+    regulation_number: '882.1200'
+    medical_specialty_description: Neurology
+    mapping_confidence: medium
+    mapping_rationale: Temperature discrimination test (thermal quantitative sensory testing probes small-fiber
+      function; the Medoc search returned the TSA 2001 Thermal Sensory Analyzer under LQW).
+    query_that_found_it: 'classification: device_name:"temperature discrimination" definition:"temperature discrimination"'
+  - product_code: NTU
+    device_name: Evoked Potential Stimulator, Thermal
+    device_class: '2'
+    regulation_number: '882.1870'
+    medical_specialty_description: Neurology
+    mapping_confidence: medium
+    mapping_rationale: 'FDA definition: thermal evoked-potential stimulator ''to evaluate the functionality of human
+      pain reception and transmission of sensory pathways'' (contact-heat evoked potentials).'
+    query_that_found_it: 'classification: device_name:"evoked potential stimulator" definition:"evoked potential
+      stimulator"'
+  - product_code: LLN
+    device_name: Device, Vibration Threshold Measurement
+    device_class: '1'
+    regulation_number: '882.1200'
+    medical_specialty_description: Neurology
+    mapping_confidence: low
+    mapping_rationale: Vibration threshold measurement (quantitative sensory testing of large-fiber function).
+    query_that_found_it: 'classification: device_name:"vibration threshold" definition:"vibration threshold"'
+  - product_code: JXE
+    device_name: Device, Nerve Conduction Velocity Measurement
+    device_class: '2'
+    regulation_number: '882.1550'
+    medical_specialty_description: Neurology
+    mapping_confidence: low
+    mapping_rationale: Nerve conduction velocity measurement; assesses large myelinated fibers, not small fibers.
+    query_that_found_it: 'classification: device_name:"nerve conduction" definition:"nerve conduction"'
+  - product_code: MXK
+    device_name: Device, Analysis, Anterior Segment
+    device_class: '2'
+    regulation_number: '886.1850'
+    medical_specialty_description: Ophthalmic
+    mapping_confidence: low
+    mapping_rationale: Anterior segment analysis device; the Heidelberg Retina Tomograph II / Rostock Cornea Module
+      (corneal confocal microscopy) was cleared here. Counted only for records whose device name contains 'rostock'.
+    query_that_found_it: '510k: device_name:rostock'
+    device_filter: device_name:rostock
+  endothelial_function:
+  - product_code: DQK
+    device_name: Computer, Diagnostic, Programmable
+    device_class: '2'
+    regulation_number: '870.1425'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: low
+    mapping_rationale: No product code names endothelial function, flow-mediated dilation or reactive hyperemia.
+      Peripheral arterial tonometry (EndoPAT, PAT 1000RD) and VENDYS were cleared under the generic code 'Computer,
+      Diagnostic, Programmable' (DQK); counted only for records matching those device names.
+    query_that_found_it: '510k: device_name:"peripheral arterial"'
+    device_filter: (device_name:"endo pat" OR device_name:endopatx OR device_name:"peripheral arterial" OR device_name:vendys)
+  vascular_imaging:
+  - product_code: IYN
+    device_name: System, Imaging, Pulsed Doppler, Ultrasonic
+    device_class: '2'
+    regulation_number: '892.1550'
+    medical_specialty_description: Radiology
+    mapping_confidence: medium
+    mapping_rationale: Pulsed Doppler ultrasonic imaging system (vascular Doppler).
+    query_that_found_it: 'classification: device_name:"pulsed doppler" definition:"pulsed doppler"'
+  - product_code: IYO
+    device_name: System, Imaging, Pulsed Echo, Ultrasonic
+    device_class: '2'
+    regulation_number: '892.1560'
+    medical_specialty_description: Radiology
+    mapping_confidence: medium
+    mapping_rationale: Pulsed echo ultrasonic imaging system.
+    query_that_found_it: 'classification: device_name:"pulsed echo" definition:"pulsed echo"'
+  - product_code: DXK
+    device_name: Echocardiograph
+    device_class: '2'
+    regulation_number: '870.2330'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: medium
+    mapping_rationale: Echocardiograph.
+    query_that_found_it: 'classification: device_name:echocardiograph* definition:echocardiograph*'
+  - product_code: LNH
+    device_name: System, Nuclear Magnetic Resonance Imaging
+    device_class: '2'
+    regulation_number: '892.1000'
+    medical_specialty_description: Radiology
+    mapping_confidence: medium
+    mapping_rationale: Magnetic resonance imaging system (includes cardiac/vascular MRI; not specific to it).
+    query_that_found_it: 'classification: device_name:"nuclear magnetic resonance" definition:"nuclear magnetic
+      resonance"'
+  - product_code: KPS
+    device_name: System, Tomography, Computed, Emission
+    device_class: '2'
+    regulation_number: '892.1200'
+    medical_specialty_description: Radiology
+    mapping_confidence: low
+    mapping_rationale: Emission computed tomography (PET/SPECT) system; perfusion imaging is one of many uses.
+    query_that_found_it: 'classification: device_name:"computed emission" definition:"computed emission"'
+  capillaroscopy:
+  - product_code: null
+    status: no specific product code found
+    queries_tried:
+    - 'classification: device_name:capillaroscop* definition:capillaroscop*'
+    - 'classification: device_name:capillary definition:capillary'
+    - 'classification: device_name:nailfold definition:nailfold'
+    - 'classification: device_name:microscope definition:microscope'
+    - 'classification: device_name:dermatoscope definition:dermatoscope'
+    - 'classification: device_name:microcirculation definition:microcirculation'
+    - '510k: device_name:capillaroscop*'
+    - '510k: device_name:videocapillaroscop*'
+    - '510k: device_name:nailfold'
+    - '510k: device_name:"capillary microscope"'
+    - '510k: device_name:cytocam'
+    - '510k: device_name:"dark field"'
+    note: No product code describes in-vivo capillary or nailfold imaging, and no 510(k)/De Novo record has capillaroscop*,
+      videocapillaroscop*, nailfold, 'capillary microscope', CytoCam or 'dark field' in its device name. The 'microscope'
+      query returned only surgical, laboratory and ophthalmic microscope codes.
+  microvascular_function:
+  - product_code: DPW
+    device_name: Flowmeter, Blood, Cardiovascular
+    device_class: '2'
+    regulation_number: '870.2100'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: medium
+    mapping_rationale: Cardiovascular blood flowmeter; laser Doppler flowmeters (PeriFlux) were returned under DPW
+      by the Perimed and laser-doppler searches. The code also covers other blood flowmeters.
+    query_that_found_it: '510k: applicant:perimed'
+  - product_code: DPT
+    device_name: Probe, Blood-Flow, Extravascular
+    device_class: '2'
+    regulation_number: '870.2120'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: medium
+    mapping_rationale: Extravascular blood-flow probe; laser Doppler and laser speckle perfusion imagers were returned
+      under DPT by the laser-doppler, speckle and Perimed searches.
+    query_that_found_it: '510k: device_name:"laser doppler"'
+  - product_code: MUD
+    device_name: Oximeter, Tissue Saturation
+    device_class: '2'
+    regulation_number: '870.2700'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: medium
+    mapping_rationale: Tissue saturation oximeter (near-infrared spectroscopy tissue oxygenation).
+    query_that_found_it: 'classification: device_name:"tissue saturation" definition:"tissue saturation"'
+  retinal_imaging:
+  - product_code: OBO
+    device_name: Tomography, Optical Coherence
+    device_class: '2'
+    regulation_number: '886.1570'
+    medical_specialty_description: Ophthalmic
+    mapping_confidence: high
+    mapping_rationale: 'FDA definition: ophthalmic optical coherence tomography for viewing, imaging and measuring
+      ocular structures.'
+    query_that_found_it: 'classification: device_name:"optical coherence" definition:"optical coherence"'
+  - product_code: HKI
+    device_name: Camera, Ophthalmic, Ac-Powered
+    device_class: '2'
+    regulation_number: '886.1120'
+    medical_specialty_description: Ophthalmic
+    mapping_confidence: high
+    mapping_rationale: AC-powered ophthalmic camera (fundus photography).
+    query_that_found_it: 'classification: device_name:"camera, ophthalmic" definition:"camera, ophthalmic"'
+  - product_code: MYC
+    device_name: Ophthalmoscope, Laser, Scanning
+    device_class: '2'
+    regulation_number: '886.1570'
+    medical_specialty_description: Ophthalmic
+    mapping_confidence: high
+    mapping_rationale: Scanning laser ophthalmoscope.
+    query_that_found_it: 'classification: device_name:ophthalmoscope definition:ophthalmoscope'
+  - product_code: SAX
+    device_name: Home Monitoring Ophthalmic Optical Coherence Tomography (Oct) Imaging Device
+    device_class: '2'
+    regulation_number: '886.1600'
+    medical_specialty_description: Ophthalmic
+    mapping_confidence: medium
+    mapping_rationale: 'FDA definition: prescription home self-imaging ophthalmic OCT device.'
+    query_that_found_it: 'classification: device_name:"optical coherence" definition:"optical coherence"'
+  - product_code: PIB
+    device_name: Diabetic Retinopathy Detection Device
+    device_class: '2'
+    regulation_number: '886.1100'
+    medical_specialty_description: Ophthalmic
+    mapping_confidence: medium
+    mapping_rationale: 'FDA definition: software that evaluates ophthalmic images for diagnostic screening of retinal
+      disease (diabetic retinopathy).'
+    query_that_found_it: 'classification: device_name:retinal definition:retinal'
+  - product_code: QER
+    device_name: Camera, Ophthalmic, Slit-Scanning
+    device_class: '2'
+    regulation_number: '886.1120'
+    medical_specialty_description: Ophthalmic
+    mapping_confidence: medium
+    mapping_rationale: Slit-scanning ophthalmic camera.
+    query_that_found_it: 'classification: device_name:"camera, ophthalmic" definition:"camera, ophthalmic"'
+  - product_code: PJZ
+    device_name: Camera, Ophthalmic, General-Use
+    device_class: '2'
+    regulation_number: '886.1120'
+    medical_specialty_description: Ophthalmic
+    mapping_confidence: low
+    mapping_rationale: General-use ophthalmic camera; FDA definition says it cannot be indicated for any specific
+      disease.
+    query_that_found_it: 'classification: device_name:"camera, ophthalmic" definition:"camera, ophthalmic"'
+  digital_gait:
+  - product_code: KHX
+    device_name: Platform, Force-Measuring
+    device_class: '1'
+    regulation_number: '890.1575'
+    medical_specialty_description: Physical Medicine
+    mapping_confidence: low
+    mapping_rationale: Force-measuring platform (21 CFR 890.1575, 510(k) exempt); the device_name:gait search returned
+      a computerized gait testing system under KHX. Force plates measure gait/balance forces; no code names wearable
+      or inertial gait analysis.
+    query_that_found_it: '510k: device_name:gait'
+  digital_cognitive:
+  - product_code: PKQ
+    device_name: Computerized Cognitive Assessment Aid
+    device_class: '2'
+    regulation_number: '882.1470'
+    medical_specialty_description: Neurology
+    mapping_confidence: high
+    mapping_rationale: 'FDA definition: computerized cognitive assessment aid giving clinicians objective measurements
+      of cognitive function (screening aid in adults 55+).'
+    query_that_found_it: 'classification: device_name:cognitive definition:cognitive'
+  - product_code: PTY
+    device_name: Computerized Cognitive Assessment Aid, Exempt
+    device_class: '2'
+    regulation_number: '882.1470'
+    medical_specialty_description: Neurology
+    mapping_confidence: high
+    mapping_rationale: 510(k)-exempt counterpart of PKQ.
+    query_that_found_it: 'classification: device_name:cognitive definition:cognitive'
+  - product_code: POM
+    device_name: Computerized Cognitive Assessment Aid For Concussion
+    device_class: '2'
+    regulation_number: '882.1471'
+    medical_specialty_description: Neurology
+    mapping_confidence: medium
+    mapping_rationale: Computerized cognitive assessment aid for concussion.
+    query_that_found_it: 'classification: device_name:cognitive definition:cognitive'
+  - product_code: LQD
+    device_name: Recorder, Attention Task Performance
+    device_class: U
+    regulation_number: ''
+    medical_specialty_description: Unknown
+    mapping_confidence: medium
+    mapping_rationale: Recorder, attention task performance (unclassified).
+    query_that_found_it: 'classification: device_name:"attention task" definition:"attention task"'
+  blood_biomarkers:
+  - product_code: DCK
+    device_name: C-Reactive Protein, Antigen, Antiserum, And Control
+    device_class: '2'
+    regulation_number: '866.5270'
+    medical_specialty_description: Immunology
+    mapping_confidence: high
+    mapping_rationale: C-reactive protein immunoassay reagents.
+    query_that_found_it: 'classification: device_name:"c-reactive protein" definition:"c-reactive protein"'
+  - product_code: DCN
+    device_name: System, Test, C-Reactive Protein
+    device_class: '2'
+    regulation_number: '866.5270'
+    medical_specialty_description: Immunology
+    mapping_confidence: high
+    mapping_rationale: C-reactive protein test system.
+    query_that_found_it: 'classification: device_name:"c-reactive protein" definition:"c-reactive protein"'
+  - product_code: NQD
+    device_name: Cardiac C-Reactive Protein, Antigen, Antiserum, And Control
+    device_class: '2'
+    regulation_number: '866.5270'
+    medical_specialty_description: Immunology
+    mapping_confidence: high
+    mapping_rationale: Cardiac (high-sensitivity) C-reactive protein.
+    query_that_found_it: 'classification: device_name:"c-reactive protein" definition:"c-reactive protein"'
+  - product_code: CGR
+    device_name: Radioimmunoassay, Cortisol
+    device_class: '2'
+    regulation_number: '862.1205'
+    medical_specialty_description: Clinical Chemistry
+    mapping_confidence: high
+    mapping_rationale: Cortisol radioimmunoassay.
+    query_that_found_it: 'classification: device_name:cortisol definition:cortisol'
+  - product_code: JFT
+    device_name: Fluorometric, Cortisol
+    device_class: '2'
+    regulation_number: '862.1205'
+    medical_specialty_description: Clinical Chemistry
+    mapping_confidence: high
+    mapping_rationale: Fluorometric cortisol assay.
+    query_that_found_it: 'classification: device_name:cortisol definition:cortisol'
+  - product_code: NHG
+    device_name: Enzyme Immunoassay, Cortisol, Salivary
+    device_class: '2'
+    regulation_number: '862.1205'
+    medical_specialty_description: Clinical Chemistry
+    mapping_confidence: high
+    mapping_rationale: Salivary cortisol enzyme immunoassay.
+    query_that_found_it: 'classification: device_name:cortisol definition:cortisol'
+  - product_code: OYL
+    device_name: Tryptase Assay System
+    device_class: '2'
+    regulation_number: '866.5760'
+    medical_specialty_description: Immunology
+    mapping_confidence: high
+    mapping_rationale: Tryptase assay system.
+    query_that_found_it: 'classification: device_name:tryptase definition:tryptase'
+  - product_code: DAP
+    device_name: Fibrinogen And Fibrin Split Products, Antigen, Antiserum, Control
+    device_class: '2'
+    regulation_number: '864.7320'
+    medical_specialty_description: Hematology
+    mapping_confidence: medium
+    mapping_rationale: Fibrinogen and fibrin split products antigen/antiserum; D-dimer assays were returned under
+      DAP by the device_name:"d-dimer" search.
+    query_that_found_it: 'classification: device_name:fibrin definition:fibrin'
+  - product_code: GHH
+    device_name: Fibrin Split Products
+    device_class: '2'
+    regulation_number: '864.7320'
+    medical_specialty_description: Hematology
+    mapping_confidence: medium
+    mapping_rationale: Fibrin split products; D-dimer assays were returned under GHH by the device_name:"d-dimer"
+      search.
+    query_that_found_it: 'classification: device_name:fibrin definition:fibrin'
+  - product_code: MAN
+    device_name: Assay, Interleukin
+    device_class: '3'
+    regulation_number: ''
+    medical_specialty_description: Unknown
+    mapping_confidence: medium
+    mapping_rationale: Interleukin assay (class III).
+    query_that_found_it: 'classification: device_name:interleukin definition:interleukin'
+  - product_code: QLC
+    device_name: Interleukin 6
+    device_class: N
+    regulation_number: ''
+    medical_specialty_description: Unknown
+    mapping_confidence: medium
+    mapping_rationale: 'FDA definition: IVD for quantitative IL-6 determination (device class ''N'', submission
+      type 8 - undocumented in the openFDA field spec).'
+    query_that_found_it: 'classification: device_name:interleukin definition:interleukin'
+  metabolomics:
+  - product_code: null
+    status: no specific product code found
+    queries_tried:
+    - 'classification: device_name:metabolom* definition:metabolom*'
+    - 'classification: (device_name:mass AND device_name:spectromet*) (definition:mass AND definition:spectromet*)'
+    - 'classification: device_name:metabolite definition:metabolite'
+    note: No code describes metabolomic profiling. Instrument-level codes exist (DOP 'Mass Spectrometer, Clinical
+      Use'; OTA 'Mass Spectrometer For Clinical Multiplex Test Systems') as do single-panel MS tests (NQL newborn
+      amino acids/acylcarnitines, PSL 25-OH vitamin D); none is a metabolomics assay category. Metabolomic panels
+      in research are typically LDT/RUO and invisible to these endpoints.
+  proteomics:
+  - product_code: null
+    status: no specific product code found
+    queries_tried:
+    - 'classification: device_name:proteom* definition:proteom*'
+    - 'classification: device_name:aptamer definition:aptamer'
+    - 'classification: device_name:"multiplex protein" definition:"multiplex protein"'
+    - 'classification: device_name:"protein panel" definition:"protein panel"'
+    note: All four classification queries returned zero product codes.
+  transcriptomics:
+  - product_code: PRE
+    device_name: Rt-Qpcr Assay For Mrna Transcript Immune Biomarkers
+    device_class: '2'
+    regulation_number: '866.3215'
+    medical_specialty_description: Microbiology
+    mapping_confidence: medium
+    mapping_rationale: 'FDA definition: RT-qPCR gene-expression assay quantifying host-response gene transcripts
+      in whole blood.'
+    query_that_found_it: 'classification: device_name:"gene expression" definition:"gene expression"'
+  - product_code: OJQ
+    device_name: Cardiac Allograft Gene Expression Profiling Test System
+    device_class: '2'
+    regulation_number: '862.1163'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: low
+    mapping_rationale: Gene-expression profiling of peripheral blood mononuclear cell RNA; indication is cardiac
+      allograft rejection only.
+    query_that_found_it: 'classification: device_name:"gene expression" definition:"gene expression"'
+  - product_code: NYI
+    device_name: Classifier, Prognostic, Recurrence Risk Assessment, Rna Gene Expression, Breast Cancer
+    device_class: '2'
+    regulation_number: '866.6040'
+    medical_specialty_description: Immunology
+    mapping_confidence: low
+    mapping_rationale: RNA gene-expression classifier; indication is breast cancer recurrence risk only.
+    query_that_found_it: 'classification: device_name:"gene expression" definition:"gene expression"'
+  immune_assays:
+  - product_code: OYE
+    device_name: Flow Cytometric Reagents And Accessories.
+    device_class: '2'
+    regulation_number: '864.5220'
+    medical_specialty_description: Hematology
+    mapping_confidence: medium
+    mapping_rationale: 'FDA definition: flow cytometric reagents identifying and classifying cells, e.g. for immunodeficiency.'
+    query_that_found_it: 'classification: (device_name:flow AND device_name:cytometr*) (definition:flow AND definition:cytometr*)'
+  - product_code: LIZ
+    device_name: Assay, T Lymphocyte Surface Marker
+    device_class: '2'
+    regulation_number: '864.5220'
+    medical_specialty_description: Hematology
+    mapping_confidence: medium
+    mapping_rationale: T lymphocyte surface marker assay (immunophenotyping).
+    query_that_found_it: 'classification: device_name:lymphocyte definition:lymphocyte'
+  - product_code: LJD
+    device_name: Assay, B Lymphocyte Marker
+    device_class: '2'
+    regulation_number: '864.5220'
+    medical_specialty_description: Hematology
+    mapping_confidence: low
+    mapping_rationale: B lymphocyte marker assay.
+    query_that_found_it: 'classification: device_name:lymphocyte definition:lymphocyte'
+  - product_code: DBL
+    device_name: Multiple Autoantibodies, Indirect Immunofluorescent, Antigen, Control
+    device_class: '2'
+    regulation_number: '866.5660'
+    medical_specialty_description: Immunology
+    mapping_confidence: medium
+    mapping_rationale: Multiple autoantibodies by indirect immunofluorescence (antigen/control). GPCR autoantibody
+      assays have no product code (no hit for any GPCR term).
+    query_that_found_it: 'classification: device_name:autoantibod* definition:autoantibod*'
+  remote_patient_monitoring:
+  - product_code: DRG
+    device_name: Transmitters And Receivers, Physiological Signal, Radiofrequency
+    device_class: '2'
+    regulation_number: '870.2910'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: medium
+    mapping_rationale: Radiofrequency physiological signal transmitters/receivers; the VitalConnect and BioIntelliSense
+      searches returned wearable vital-sign patch records under DRG.
+    query_that_found_it: 'classification: device_name:"physiological signal" definition:"physiological signal"'
+  - product_code: MWI
+    device_name: Monitor, Physiological, Patient (Without Arrhythmia Detection Or Alarms)
+    device_class: '2'
+    regulation_number: '870.2300'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: medium
+    mapping_rationale: Physiological patient monitor without arrhythmia detection or alarms.
+    query_that_found_it: 'classification: device_name:"physiological, patient" definition:"physiological, patient"'
+  - product_code: MHX
+    device_name: Monitor, Physiological, Patient(With Arrhythmia Detection Or Alarms)
+    device_class: '2'
+    regulation_number: '870.1025'
+    medical_specialty_description: Cardiovascular
+    mapping_confidence: low
+    mapping_rationale: Physiological patient monitor with arrhythmia detection or alarms (largely bedside monitoring).
+    query_that_found_it: 'classification: device_name:"physiological, patient" definition:"physiological, patient"'

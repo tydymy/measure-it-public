@@ -1,0 +1,4 @@
+participant_id,day_index,rmssd_ms,resting_hr_bpm,upright_minutes
+S001,0,28.4,74.0,310
+S001,1,31.0,72.5,295
+S002,0,52.3,63.1,440

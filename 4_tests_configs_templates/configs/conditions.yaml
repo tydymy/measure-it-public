@@ -1,0 +1,104 @@
+# Seed list of target conditions. Curated here: slugs, names, aliases, search
+# phrases, parents and flags (provenance = curated_config).
+# NOT curated here: ontology identifiers (MONDO/EFO/HPO/MeSH/ICD-10-CM). The
+# ontology module resolves those from Mondo/OLS/Monarch and records the source.
+#
+# Search phrases are deliberately specific. Never search a bare acronym such as
+# "POTS" or "EDS" in free text: in social/text corpora "POTS" is mostly the
+# cookware word, and "EDS" is also excessive daytime sleepiness.
+
+conditions:
+  - id: long_covid
+    preferred_name: Long COVID (post-COVID-19 condition)
+    aliases: [post-COVID condition, post-COVID-19 condition, PASC, post-acute sequelae of SARS-CoV-2 infection, long-haul COVID, post-COVID syndrome]
+    # "PASC" also abbreviates pancreatic stellate cells in grant text; consumers must context-check it.
+    search_terms: ["long COVID", "post-acute sequelae of SARS-CoV-2", "PASC", "post-COVID condition", "post-COVID-19 condition", "post COVID syndrome", "long haul COVID"]
+    parent: post_infectious_syndrome
+    flags: {infectious_or_post_infectious: true, autoimmune: false, autonomic: true, vascular: true, pain: true, fatigue_pem: true, gi: true, neurologic: true}
+  - id: me_cfs
+    preferred_name: Myalgic encephalomyelitis/chronic fatigue syndrome
+    aliases: [ME/CFS, myalgic encephalomyelitis, chronic fatigue syndrome, CFS, systemic exertion intolerance disease, SEID]
+    search_terms: ["myalgic encephalomyelitis", "chronic fatigue syndrome", "ME/CFS", "systemic exertion intolerance disease"]
+    parent: post_infectious_syndrome
+    flags: {infectious_or_post_infectious: true, autoimmune: false, autonomic: true, vascular: false, pain: true, fatigue_pem: true, gi: false, neurologic: true}
+  - id: pots
+    preferred_name: Postural orthostatic tachycardia syndrome
+    aliases: [POTS, postural tachycardia syndrome, postural orthostatic tachycardia]
+    search_terms: ["postural orthostatic tachycardia syndrome", "postural tachycardia syndrome"]
+    parent: dysautonomia
+    flags: {infectious_or_post_infectious: false, autoimmune: false, autonomic: true, vascular: true, pain: false, fatigue_pem: true, gi: false, neurologic: true}
+  - id: dysautonomia
+    preferred_name: Dysautonomia (autonomic nervous system disorder)
+    aliases: [autonomic dysfunction, autonomic nervous system disease, orthostatic intolerance, autonomic neuropathy]
+    search_terms: ["dysautonomia", "autonomic dysfunction", "orthostatic intolerance", "autonomic nervous system disorder"]
+    parent: null
+    flags: {infectious_or_post_infectious: false, autoimmune: false, autonomic: true, vascular: true, pain: false, fatigue_pem: false, gi: false, neurologic: true}
+  - id: fibromyalgia
+    preferred_name: Fibromyalgia
+    aliases: [fibromyalgia syndrome, FMS, fibrositis]
+    search_terms: ["fibromyalgia"]
+    parent: null
+    flags: {infectious_or_post_infectious: false, autoimmune: false, autonomic: false, vascular: false, pain: true, fatigue_pem: true, gi: false, neurologic: true}
+  - id: eds_hsd
+    preferred_name: Ehlers-Danlos syndromes / hypermobility spectrum disorders
+    aliases: [Ehlers-Danlos syndrome, hypermobile Ehlers-Danlos syndrome, hEDS, hypermobility spectrum disorder, HSD, joint hypermobility syndrome]
+    search_terms: ["Ehlers-Danlos", "hypermobile Ehlers-Danlos", "hypermobility spectrum disorder", "joint hypermobility syndrome"]
+    parent: null
+    flags: {infectious_or_post_infectious: false, autoimmune: false, autonomic: true, vascular: true, pain: true, fatigue_pem: true, gi: true, neurologic: false}
+  - id: mcas
+    preferred_name: Mast cell activation syndrome
+    aliases: [MCAS, mast cell activation disorder, idiopathic mast cell activation syndrome]
+    search_terms: ["mast cell activation syndrome", "mast cell activation disorder"]
+    parent: null
+    flags: {infectious_or_post_infectious: false, autoimmune: false, autonomic: false, vascular: true, pain: false, fatigue_pem: false, gi: true, neurologic: false}
+    notes: "Include systemic mastocytosis only as a related, distinct entity; MCAS criteria are contested."
+  - id: lyme_disease
+    preferred_name: Lyme disease
+    aliases: [Lyme borreliosis, Borrelia burgdorferi infection]
+    search_terms: ["Lyme disease", "Lyme borreliosis"]
+    parent: null
+    flags: {infectious_or_post_infectious: true, autoimmune: false, autonomic: false, vascular: false, pain: true, fatigue_pem: true, gi: false, neurologic: true}
+  - id: ptlds
+    preferred_name: Post-treatment Lyme disease syndrome
+    aliases: [PTLDS, post-Lyme disease syndrome, chronic Lyme disease (contested term)]
+    search_terms: ["post-treatment Lyme disease syndrome", "post-Lyme disease syndrome", "persistent symptoms after Lyme"]
+    parent: lyme_disease
+    flags: {infectious_or_post_infectious: true, autoimmune: false, autonomic: false, vascular: false, pain: true, fatigue_pem: true, gi: false, neurologic: true}
+  - id: post_infectious_syndrome
+    preferred_name: Post-infectious syndromes (grouping)
+    aliases: [post-acute infection syndromes, PAIS, infection-associated chronic illness, IACI]
+    search_terms: ["post-acute infection syndrome", "infection-associated chronic illness", "post-infectious fatigue"]
+    parent: null
+    grouping_only: true
+    flags: {infectious_or_post_infectious: true, autoimmune: false, autonomic: true, vascular: false, pain: true, fatigue_pem: true, gi: false, neurologic: true}
+  - id: migraine
+    preferred_name: Migraine
+    aliases: [migraine disorder, chronic migraine, vestibular migraine]
+    search_terms: ["migraine"]
+    parent: null
+    flags: {infectious_or_post_infectious: false, autoimmune: false, autonomic: false, vascular: true, pain: true, fatigue_pem: false, gi: false, neurologic: true}
+  - id: ibs
+    preferred_name: Irritable bowel syndrome
+    aliases: [IBS, irritable colon, spastic colon]
+    search_terms: ["irritable bowel syndrome"]
+    parent: null
+    flags: {infectious_or_post_infectious: false, autoimmune: false, autonomic: false, vascular: false, pain: true, fatigue_pem: false, gi: true, neurologic: false}
+  - id: gastroparesis
+    preferred_name: Gastroparesis
+    aliases: [delayed gastric emptying, gastric stasis]
+    search_terms: ["gastroparesis"]
+    parent: null
+    flags: {infectious_or_post_infectious: false, autoimmune: false, autonomic: true, vascular: false, pain: true, fatigue_pem: false, gi: true, neurologic: false}
+  - id: endometriosis
+    preferred_name: Endometriosis
+    aliases: [endometriosis of uterus, "adenomyosis (related, distinct)"]
+    search_terms: ["endometriosis"]
+    parent: null
+    flags: {infectious_or_post_infectious: false, autoimmune: false, autonomic: false, vascular: false, pain: true, fatigue_pem: true, gi: true, neurologic: false}
+
+# The primary demo cluster: conditions whose objective phenotype plausibly
+# includes autonomic and activity abnormalities measurable by wearables.
+demo_cluster:
+  id: autonomic_activity_invisible_illness
+  label: "Long COVID / ME/CFS / dysautonomia-POTS-like phenotype"
+  members: [long_covid, me_cfs, pots, dysautonomia]

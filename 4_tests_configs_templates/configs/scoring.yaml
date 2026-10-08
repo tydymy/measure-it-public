@@ -1,0 +1,85 @@
+# Deployment-opportunity scoring. Every component is kept in the output; the
+# composite is for demonstration and must be read next to its components and
+# the weight-sensitivity analysis.
+#
+# Components are each rescaled to [0, 1] across the ranked geographies
+# (percentile rank by default) before weighting.
+
+components:
+  burden: "condition burden (prevalence or best available proxy) in geography g; carries burden_evidence_level"
+  vulnerability: "CDC/ATSDR SVI overall percentile"
+  diagnostic_desert: "high burden + high vulnerability + low relevant-provider density + low relevant-trial availability"
+  clinic_capacity: "relevant specialty providers + community health-center sites per capita (implementation capacity)"
+  research_readiness: "relevant trial history + NIH-funded activity (study capacity)"
+
+default_weights: {burden: 0.2, vulnerability: 0.2, diagnostic_desert: 0.2, clinic_capacity: 0.2, research_readiness: 0.2}
+
+# Sensitivity analysis: rankings must be reported across all of these.
+weight_sets:
+  equal:            {burden: 0.2,  vulnerability: 0.2,  diagnostic_desert: 0.2,  clinic_capacity: 0.2,  research_readiness: 0.2}
+  burden_led:       {burden: 0.4,  vulnerability: 0.15, diagnostic_desert: 0.15, clinic_capacity: 0.15, research_readiness: 0.15}
+  equity_led:       {burden: 0.15, vulnerability: 0.3,  diagnostic_desert: 0.3,  clinic_capacity: 0.125, research_readiness: 0.125}
+  capacity_led:     {burden: 0.15, vulnerability: 0.15, diagnostic_desert: 0.1,  clinic_capacity: 0.3,  research_readiness: 0.3}
+  study_partner:    {burden: 0.25, vulnerability: 0.1,  diagnostic_desert: 0.1,  clinic_capacity: 0.2,  research_readiness: 0.35}
+  access_gap:       {burden: 0.25, vulnerability: 0.25, diagnostic_desert: 0.4,  clinic_capacity: 0.1,  research_readiness: 0.0}
+  burden_only:      {burden: 1.0,  vulnerability: 0.0,  diagnostic_desert: 0.0,  clinic_capacity: 0.0,  research_readiness: 0.0}
+  # The one sensitivity set that uses technology_saturation, entering as low_saturation = 1 - technology_saturation_pct.
+  # Equal sixths (0.16666666666666666 is the float64 value of 1/6). Moved here from
+  # measure_it.scoring.opportunity.EXTRA_WEIGHT_SETS on 2026-09-23 (values unchanged).
+  saturation_adjusted: {burden: 0.16666666666666666, vulnerability: 0.16666666666666666, diagnostic_desert: 0.16666666666666666,
+                        clinic_capacity: 0.16666666666666666, research_readiness: 0.16666666666666666,
+                        low_saturation: 0.16666666666666666}
+  # The metric -> translation link (docs/ANALYSIS_PLAN_METRIC_LINK.md, pre-declared 2026-09-25 before any result):
+  # the PRIMARY ALTERNATIVE to `equal` (which stays the default for continuity). Two extra components, both on an
+  # absolute 0-1 scale (not percentile ranks): measurement_evidence = tier factor x clip((AUROC lower 95% bound - 0.5)
+  # / 0.5, 0, 1) of the scored performance record (constant within a condition x measurement), and expected_yield =
+  # burden percentile (or count percentile) x sensitivity at 0.90 specificity x implementation reach. A combination
+  # whose measurement performance is UNKNOWN or partial gets NO evidence_weighted composite or rank (never scored 0 or
+  # 1); a level-D condition with known performance drops the yield weight like the burden weight.
+  evidence_weighted: {burden: 0.15, vulnerability: 0.15, diagnostic_desert: 0.15, clinic_capacity: 0.10,
+                      research_readiness: 0.10, measurement_evidence: 0.15, expected_yield: 0.20}
+
+# Burden evidence levels (always exposed next to burden).
+burden_evidence_levels:
+  A: direct condition measure
+  B: closely matching coded condition
+  C: symptom/comorbidity proxy
+  D: no usable burden estimate
+
+# Proxy burden is down-weighted in the uncertainty band, never silently.
+evidence_level_uncertainty_multiplier: {A: 1.0, B: 1.25, C: 2.0, D: null}
+
+# Inherited burden: a state estimate carried to every county of the state (long COVID: HPS has no county
+# estimate). The value has no within-state information, so as a county burden it is a proxy for the county's
+# prevalence, however direct (level A) it is for the state. The scoring Monte Carlo therefore inflates the
+# state-level error of an inherited value by this multiplier, on top of the evidence-level multiplier, in
+# addition to the separate per-county deviation tau (the between-state SD of the state estimates).
+# Value 2.0 = the level-C (symptom/comorbidity proxy) multiplier: an inherited value is treated as no more
+# informative about a county than a proxy measure. Sensitivity S1b, added with the multiplier (not part of the
+# pre-specified plan; SCORING_RESULTS section 8, results/tables/test7_sensitivity_s1b_inherited_multiplier.csv):
+# multiplier 1.0 (the implicit value before 2026-09-23) vs 2.0 for the primary query. Applies only to rows with
+# burden_inherited = true (county level).
+inherited_burden_uncertainty_multiplier: 2.0
+
+clinic_matching:
+  radii_km: [25, 50, 100]
+  default_radius_km: 50
+  max_sites_per_geography: 15
+
+ranking:
+  default_geography_level: county
+  min_population: 10000     # counties below this are reported but flagged as small-denominator
+  top_n: 25
+
+# Data-layer choices adopted 2026-10-07 (results/STAGE_LAYERS_SCORING.md; docs/HARMONIZATION_CONTRACT.md).
+# long_covid_burden: 'brfss_sae' = BRFSS 2023 multilevel-regression/post-stratification county and state estimates
+#   (geography.sae; CDC MMWR definition), whose within-state differences come from county composition and covariates
+#   only (results/BRFSS_SAE_RESULTS.md); 'hps_inherited' = the Household Pulse state value carried to every county
+#   (the rule before 2026-10-07, kept as sensitivity S7).
+# clinic_capacity_basis: 'activity_where_dedicated' = measurement-specific Medicare billing (facilities.activity,
+#   geo_measurement_capacity) for bundles with a dedicated billing code, implementer density elsewhere;
+#   'implementer_density' = the rule before 2026-10-07 (sensitivity S8). Nailfold capillaroscopy has no billing code,
+#   so it keeps implementer density under both.
+long_covid_burden: brfss_sae
+long_covid_sae_measure: lc_current_pct_all_adults_mmwr_def
+clinic_capacity_basis: activity_where_dedicated

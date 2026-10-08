@@ -1,0 +1,50 @@
+# NHANES self-reported conditions -> ICD-10-CM (curated; measure_it.harmonize.nhanes).
+#
+# Source: columns of participant_clinical_features__nhanes / __nhanes0306 (1 = yes, 0 = no, missing = not asked or
+# not answered), built from the MCQ / DIQ / BPQ / SLQ questionnaires. A "yes" becomes a person_concepts row with
+# value_as_number 1.0, an explicit "no" a row with 0.0 (so consumers can tell "answered no" from "not asked"), both
+# with mapping_method curated_map. Prescription reason-for-use codes (RXQ_RX.RXDRSC1-3, NHANES 2011-2014 only) are
+# already ICD-10-CM and are carried as mapping_method native (participant_conditions__nhanes).
+#
+# A self-report says "a doctor ever told me ...": it identifies at most an ICD-10-CM category, seldom a leaf code.
+# Rows therefore use the category (or subcategory) header the question supports, never an invented leaf. Codes are
+# checked against the CMS FY2026 ICD-10-CM code list (data/processed/ontology_icd10cm_codes) by the audit.
+#
+# mapping_confidence (self-report caps it at medium):
+#   medium = the question names one disease that sits in one ICD-10-CM category
+#   low    = the question is broader or narrower than the category (rationale says how)
+# `unmapped` lists the questions that have no defensible single category (counted in docs/HARMONIZATION_AUDIT.md);
+# rows with `kind: not_a_condition` are listed for completeness and left out of the condition-coverage denominator.
+mappings:
+  - {column: dx_asthma, icd10cm: J45, label: "Asthma", confidence: medium, question: "MCQ010 Ever been told you have asthma", rationale: "asthma is J45 (all subtypes)"}
+  - {column: dx_gout, icd10cm: M10, label: "Gout", confidence: medium, question: "MCQ160N Doctor ever told you that you had gout", rationale: "gout is M10 (M1A chronic gout not separable by self-report; lumped into M10)"}
+  - {column: dx_congestive_heart_failure, icd10cm: I50, label: "Heart failure", confidence: medium, question: "MCQ160B Ever told had congestive heart failure", rationale: "heart failure is I50"}
+  - {column: dx_coronary_heart_disease, icd10cm: I25, label: "Chronic ischemic heart disease", confidence: medium, question: "MCQ160C Ever told you had coronary heart disease", rationale: "established coronary heart disease is coded I25 in ambulatory records"}
+  - {column: dx_angina, icd10cm: I20, label: "Angina pectoris", confidence: medium, question: "MCQ160D Ever told you had angina/angina pectoris", rationale: "angina is I20"}
+  - {column: dx_heart_attack, icd10cm: I25.2, label: "Old myocardial infarction", confidence: medium, question: "MCQ160E Ever told you had heart attack", rationale: "a past heart attack is recorded as I25.2 outside the acute episode (I21 is the acute event)"}
+  - {column: dx_stroke, icd10cm: Z86.73, label: "Personal history of TIA and cerebral infarction without residual deficits", confidence: low, question: "MCQ160F Ever told you had a stroke", rationale: "a remote stroke is history; Z86.73 covers it without residual deficits, while people with deficits are coded I69.3- and haemorrhagic strokes elsewhere: the question cannot separate them"}
+  - {column: dx_emphysema, icd10cm: J43, label: "Emphysema", confidence: medium, question: "MCQ160G Ever told you had emphysema", rationale: "emphysema is J43"}
+  - {column: dx_chronic_bronchitis, icd10cm: J42, label: "Unspecified chronic bronchitis", confidence: low, question: "MCQ160K Ever told you had chronic bronchitis", rationale: "'ever told' includes resolved episodes and overlaps COPD (J44)"}
+  - {column: dx_copd, icd10cm: J44, label: "Other chronic obstructive pulmonary disease", confidence: medium, question: "MCQ160O Ever told you had COPD", rationale: "COPD is J44"}
+  - {column: dx_celiac_disease, icd10cm: K90.0, label: "Celiac disease", confidence: medium, question: "MCQ082 Ever been told you have celiac disease", rationale: "celiac disease is K90.0 (K90.0- subcategory)"}
+  - {column: dx_psoriasis, icd10cm: L40, label: "Psoriasis", confidence: medium, question: "MCQ070 Ever been told you have psoriasis", rationale: "psoriasis is L40"}
+  - {column: dx_prediabetes, icd10cm: R73.03, label: "Prediabetes", confidence: medium, question: "DIQ160 Ever told you have prediabetes", rationale: "R73.03 is the ICD-10-CM code for prediabetes"}
+  - {column: dx_borderline_diabetes, icd10cm: R73.0, label: "Abnormal glucose", confidence: low, question: "DIQ010 = 3 (borderline)", rationale: "'borderline diabetes' is an abnormal-glucose finding (R73.0-); prediabetes vs other abnormal glucose not separable"}
+  - {column: dx_diabetes, icd10cm: E11, label: "Type 2 diabetes mellitus", confidence: low, question: "DIQ010 = 1 Doctor told you have diabetes", rationale: "the item does not ask the type; about 90-95% of diagnosed adult diabetes is type 2, but type 1 (E10) and other types are included and children skew to type 1"}
+  - {column: dx_hypertension, icd10cm: I10, label: "Essential (primary) hypertension", confidence: medium, question: "BPQ020 Ever told you had high blood pressure", rationale: "essential hypertension is I10 (secondary hypertension I15 is rare and not separable)"}
+  - {column: dx_high_cholesterol, icd10cm: E78, label: "Disorders of lipoprotein metabolism and other lipidemias", confidence: low, question: "BPQ080 Doctor told you - high cholesterol level", rationale: "category E78 (pure hypercholesterolaemia E78.0- vs mixed E78.2 vs unspecified E78.5 not separable)"}
+  - {column: told_sleep_disorder, icd10cm: G47, label: "Sleep disorders", confidence: low, question: "SLQ060 Ever told by doctor have sleep disorder", rationale: "organic sleep disorders G47; nonorganic sleep disorders (F51) are also possible answers"}
+  - {column: anemia_treatment_past_3_months, icd10cm: D64.9, label: "Anemia, unspecified", confidence: low, question: "MCQ053 Taking treatment for anemia in the past 3 months", rationale: "treatment implies an anaemia of unspecified type; the type (iron deficiency D50, B12 D51, ...) is not asked"}
+  # arthritis_type (MCQ195) is a categorical column: one row per answered type
+  - {column: arthritis_type, value: osteoarthritis, icd10cm: M19, label: "Other and unspecified osteoarthritis", confidence: low, question: "MCQ195 Which type of arthritis = osteoarthritis or degenerative arthritis", rationale: "osteoarthritis spans M15-M19; site not asked, M19 is the unspecified-site category"}
+  - {column: arthritis_type, value: rheumatoid arthritis, icd10cm: M06, label: "Other rheumatoid arthritis", confidence: low, question: "MCQ195 = rheumatoid arthritis", rationale: "RA spans M05 (seropositive) and M06; serostatus not asked. Self-reported RA has low specificity in survey validation studies"}
+  - {column: arthritis_type, value: psoriatic arthritis, icd10cm: L40.5, label: "Arthropathic psoriasis", confidence: medium, question: "MCQ195 = psoriatic arthritis", rationale: "psoriatic arthritis is L40.5-"}
+unmapped:
+  - {column: dx_arthritis, reason: "'arthritis' spans M00-M25 and more; the type item (MCQ195) is mapped instead"}
+  - {column: dx_thyroid_problem, reason: "'thyroid problem' spans E00-E07 (hypo-, hyperthyroidism, goitre, nodules); no single category"}
+  - {column: dx_liver_condition, reason: "'any liver condition' spans K70-K77, B15-B19 and more"}
+  - {column: dx_cancer, reason: "'cancer or malignancy' spans C00-D49; the site item is not part of the processed table"}
+  - {column: arthritis_type, value: other, reason: "'other arthritis' has no category"}
+  - {column: told_doctor_trouble_sleeping, kind: not_a_condition, reason: "telling a doctor about trouble sleeping is a symptom report, not a diagnosis: carried as SURVEY (configs/harmonize_survey_crosswalk.yaml)"}
+  - {column: insulin_now, kind: not_a_condition, reason: "a treatment, not a condition"}
+  - {column: diabetes_pills_now, kind: not_a_condition, reason: "a treatment, not a condition"}

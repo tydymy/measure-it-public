@@ -1,0 +1,520 @@
+# Seed vocabulary of objective measurement classes. The measurement layer
+# text-mines ClinicalTrials.gov, NIH RePORTER and openFDA against these
+# patterns to DISCOVER which classes are actually being studied or cleared for
+# each condition. Patterns are case-insensitive regular expressions.
+#
+# objective: true means a device/assay/test measurement, not a patient-reported
+# questionnaire. Text mining must not count questionnaires (e.g. "Pittsburgh
+# Sleep Quality Index", "Fatigue Severity Scale") as objective measurement.
+#
+# This file is the single source of truth for the class patterns. Every consumer
+# (measure_it.measurements.discovery and its precision audit, ClinicalTrials.gov
+# trial tagging, the facility registry, regulatory matching) reads `patterns` /
+# `exclude_patterns` from here.
+#
+# `audit_revision` (15 classes): the pattern revisions designed from the round-1
+# precision audit (results/tables/measurement_precision_summary.csv, audit_round=1)
+# and re-audited on a fresh round-2 sample. They used to live in code
+# (discovery.PATTERN_REVISIONS) and were adopted here on 2026-09-23 unchanged.
+# `patterns_v1` / `exclude_patterns_v1` keep the patterns as first shipped, so
+# `python -m measure_it.measurements.discovery --version v1` reproduces the round-1
+# population; `changes` documents every edit with its audit basis. The before/after
+# changelog is results/tables/measurement_pattern_changelog.csv (written by
+# measure_it.measurements.evidence). A class without `audit_revision` passed round 1
+# unchanged. `review_notes` records reviewer notes that did NOT change a pattern.
+#
+# `aliases` (curated, 2026-09-24): extra names a user may type for a class. They feed the one measurement resolver
+# (measure_it.measurements.resolve) that every query tool, the scoring and the agent use; they are not text-mining
+# patterns and change no count. Bundle aliases live in configs/relevance.yaml (measurement_bundles).
+
+measurement_classes:
+  - id: accelerometry
+    name: Accelerometry / actigraphy
+    aliases: [accelerometer, actigraphy, actigraph]
+    signals: [physical activity, sedentary time, activity fragmentation, rest-activity rhythm, step count]
+    modality_family: wearable
+    patterns: ['acceleromet', 'actigraph', 'actiwatch', 'geneactiv', 'activpal', 'step count', 'steps per day', 'daily steps', 'activity monitor', 'activity tracker']
+  - id: wearable_heart_rate
+    name: Wearable heart rate (consumer/clinical wearable)
+    signals: [resting heart rate, heart-rate trajectory, heart-rate deviation from baseline]
+    modality_family: wearable
+    patterns:
+      - '(?:smart ?watch\w*|apple watch|fitbit|garmin|\boura\b|whoop|\bpolar (?:h\d+|rs\d+\w*|heart|strap|chest|watch|verity|oh1|band)|wearable (?:device|sensor|monitor|technolog\w*)s?|fitness tracker|activity tracker|chest strap|wrist[- ]worn (?:device|sensor)s?)[^.;]{0,100}(?:heart rate|pulse rate|\bHR\b|\bRHR\b|heartbeat|beat-to-beat)'
+      - '(?:heart rate|pulse rate|\bRHR\b)[^.;]{0,100}(?:smart ?watch\w*|apple watch|fitbit|garmin|\boura\b|whoop|\bpolar (?:h\d+|rs\d+\w*|heart|strap|chest|watch|verity|oh1|band)|wearable (?:device|sensor|monitor|technolog\w*)s?|fitness tracker|activity tracker|chest strap|wrist[- ]worn (?:device|sensor)s?)'
+      - 'heart rate (?:monitor|strap|belt|sensor|tracker)s?'
+      - '(?:continuous|24[- /]?(?:7|hour)|ambulatory|free[- ]living|nocturnal|overnight|daily|home) (?:resting )?heart rate (?:monitoring|tracking|recording|data)'
+    audit_revision:
+      round: 1
+      designed_from: 'round-1 audit (results/tables/measurement_precision_summary.csv, audit_round=1)'
+      patterns_v1:
+        - 'smart ?watch'
+        - 'apple watch'
+        - 'fitbit'
+        - 'garmin'
+        - '\boura\b'
+        - 'whoop'
+        - 'wearable (device|sensor|monitor)'
+        - 'heart rate monitor'
+        - 'resting heart rate'
+      changes:
+        - change: 'device/brand names and ''resting heart rate'' now require co-occurring heart-rate + wearable context'
+          rationale: 'round 1 strict precision 0.27 (8/30): brand/device names were used for sleep or steps, and ''resting heart rate'' was usually a clinic vital sign'
+  - id: hrv
+    name: Heart-rate variability
+    signals: [RMSSD, SDNN, HF power, LF/HF ratio, vagal tone]
+    modality_family: wearable
+    patterns: ['heart rate variability', '\bHRV\b', '\bRMSSD\b', '\bSDNN\b']
+  - id: ecg_ambulatory
+    name: ECG (ambulatory/wearable/patch)
+    aliases: [EKG, ambulatory ECG, Holter, Holter monitor, ECG patch]
+    signals: [heart rhythm, heart rate, QT, arrhythmia]
+    modality_family: wearable
+    patterns:
+      - 'holter'
+      - '\bzio\b'
+      - 'irhythm'
+      - 'ambulatory (?:(?:ecg|ekg|electrocardiogra\w*)|cardiac (?:rhythm )?monitor\w*|rhythm monitor\w*|telemetry)'
+      - '(?:wearable|patch|portable|home|mobile|single[- ]lead|smart ?watch|wrist)[- ](?:based )?(?:ecg|ekg|electrocardiogra\w*)'
+      - '(?:ecg|ekg|electrocardiogra\w*) (?:patch|wearable|chest strap)'
+      - '(?:cardiac|ecg|ekg) (?:event|loop) (?:monitor|recorder)'
+      - 'loop recorder'
+      - 'event monitor'
+      - 'patch monitor'
+      - '(?:\d+|twenty[- ]four|seven|fourteen)[- ]?(?:hour|hr|h|day)s?[- ](?:ambulatory )?(?:(?:ecg|ekg|electrocardiogra\w*)|cardiac monitor\w*|rhythm monitor\w*|holter)'
+      - 'mobile cardiac (?:outpatient )?telemetry'
+      - '(?:long[- ]term|continuous|extended|prolonged|\d+[- ]day) cardiac (?:rhythm )?monitoring'
+      - '\bchest strap'
+      - 'kardia'
+      - 'alivecor'
+      - 'bardy'
+      - 'bodyguardian'
+      - 'vitalpatch'
+      - '\bepatch\b'
+    audit_revision:
+      round: 1
+      designed_from: 'round-1 audit (results/tables/measurement_precision_summary.csv, audit_round=1)'
+      patterns_v1:
+        - 'electrocardiogra'
+        - '\bECG\b'
+        - '\bEKG\b'
+        - 'holter'
+        - 'zio ?(patch|xt|at)?'
+        - 'ambulatory (ecg|cardiac) monitor'
+        - 'cardiac monitor'
+        - 'patch monitor'
+      changes:
+        - change: 'bare ''ECG''/''electrocardiogra''/''EKG''/''cardiac monitor'' replaced by ambulatory/wearable/patch-specific patterns; ''zio'' now needs a word boundary'
+          rationale: 'round 1 strict precision 0.27 (8/30): most hits were resting 12-lead or exercise-test ECGs (outside ''ambulatory/wearable/patch'' scope), and ''zio'' matched the Italian word ''Valutazione'''
+  - id: ppg
+    name: Photoplethysmography
+    signals: [pulse rate, pulse wave, perfusion, pulse rate variability]
+    modality_family: wearable
+    patterns:
+      - 'photoplethysmogra'
+      - '\bPPG\b'
+      - '\brPPG\b'
+      - 'optical (?:heart rate|pulse) (?:sensor|monitor)'
+      - 'camera[- ]based (?:heart rate|pulse|vital)'
+    audit_revision:
+      round: 1
+      designed_from: 'round-1 audit (results/tables/measurement_precision_summary.csv, audit_round=1)'
+      patterns_v1:
+        - 'photoplethysmogra'
+        - '\bPPG\b'
+        - 'pulse wave (analysis|velocity)'
+      changes:
+        - change: 'removed ''pulse wave (analysis|velocity)'''
+          rationale: 'round 1 strict precision 0.63 (19/30): pulse wave velocity/analysis is arterial-stiffness testing, usually by tonometry or oscillometry; 11 of 11 non-yes judgements were PWV/PWA'
+  - id: posture_detection
+    name: Posture / upright-time detection
+    signals: [upright time, posture transitions, orthostatic load]
+    modality_family: wearable
+    patterns:
+      - 'upright time'
+      - 'time upright'
+      - 'posture (?:sensor|detection|monitor|classification)'
+      - 'body position sensor'
+      - 'postural (?:transitions?|allocation)'
+      - 'time (?:spent )?(?:lying|sitting|standing|upright)'
+      - 'activpal[^.;]{0,150}(?:lying|sitting|standing|upright|posture|postural)'
+      - '(?:lying|sitting|standing|upright|posture|postural)[^.;]{0,150}activpal'
+    audit_revision:
+      round: 1
+      designed_from: 'round-1 audit (results/tables/measurement_precision_summary.csv, audit_round=1)'
+      patterns_v1:
+        - 'upright time'
+        - 'time upright'
+        - 'posture (sensor|detection|monitor)'
+        - 'body position sensor'
+        - 'activpal'
+      changes:
+        - change: 'bare ''activpal'' now requires posture context; added posture-time phrases'
+          rationale: 'round 1 strict precision 0.25 (1/4, census): ActivPAL outcomes that reported physical activity, not posture'
+  - id: continuous_spo2
+    name: Continuous / overnight pulse oximetry
+    aliases: [pulse oximetry, pulse oximeter, SpO2, oxygen saturation monitoring]
+    signals: [oxygen saturation, desaturation index]
+    modality_family: wearable
+    patterns:
+      - 'continuous (?:pulse oximet\w*|SpO2|oxygen saturation|oximet\w*)'
+      - '(?:overnight|nocturnal|night[- ]time|home|ambulatory|wearable|wrist[- ]worn|ring) (?:pulse )?oximet'
+      - '(?:overnight|nocturnal) (?:SpO2|oxygen saturation|desaturation)'
+      - 'desaturation index'
+      - '(?:SpO2|oxygen saturation|pulse oximet\w*) (?:was |were |will be |is |are )?(?:continuously )?(?:monitored|recorded|tracked)'
+      - '(?:monitored|recorded) (?:continuously )?(?:with|by|using|via) (?:a )?pulse oximet'
+      - '(?:lowest|nadir|minimum|drop in|decline in|fall in|change in) (?:the )?(?:SpO2|oxygen saturation)[^.;]{0,40}during'
+      - '(?:SpO2|oxygen saturation|pulse oximet\w*) (?:during|throughout) (?:the )?(?:exercise|walk|6[- ]?MWT|six[- ]minute|6[- ]minute|CPET|cardiopulmonary|tilt|stand|test|night|sleep)'
+      - 'exertional (?:desaturation|hypox\w*)'
+    audit_revision:
+      round: 1
+      designed_from: 'round-1 audit (results/tables/measurement_precision_summary.csv, audit_round=1)'
+      patterns_v1:
+        - 'pulse oximet'
+        - '\bSpO2\b'
+        - 'oxygen saturation'
+        - 'oximeter'
+      changes:
+        - change: 'patterns restricted to continuous / overnight / home / during-test pulse oximetry'
+          rationale: 'round 1 strict precision 0.33 (10/30): bare ''oxygen saturation''/''SpO2''/''pulse oximet'' were mostly clinic spot-check vital signs, retinal or tissue oximetry, outside the class scope ''continuous / overnight pulse oximetry'''
+  - id: respiratory_rate
+    name: Respiratory rate monitoring
+    signals: [respiratory rate, breathing pattern]
+    modality_family: wearable
+    patterns:
+      - '(?:continuous|wearable|remote|overnight|nocturnal|ambulatory|home)\W+(?:\w+\W+){0,3}(?:respiratory|breathing|respiration) rate'
+      - '(?:respiratory|breathing|respiration) rate[^.;]{0,60}(?:belt|band|strap|impedance|capnogra\w*|capnomet\w*|sensor|wearable|patch|whoop|\boura\b|smart ?watch)'
+      - '(?:belt|band|strap|impedance|capnogra\w*|capnomet\w*|sensor|wearable|patch|whoop|\boura\b|smart ?watch)[^.;]{0,60}(?:respiratory|breathing|respiration) rate'
+      - 'respiratory inductance plethysmograph'
+      - 'thoracic impedance'
+      - '(?:respiratory|breathing|respiration) rate during (?:the )?(?:exercise|test|tilt|stand|stimulation|sleep|night)'
+    exclude_patterns:
+      - 'vital signs?'
+      - 'mitochondri'
+      - 'oxygen consumption rate'
+      - 'seahorse'
+      - 'basal respiration'
+      - 'maximal respiration'
+    audit_revision:
+      round: 1
+      designed_from: 'round-1 audit (results/tables/measurement_precision_summary.csv, audit_round=1)'
+      patterns_v1:
+        - 'respiratory rate'
+        - 'breathing rate'
+        - 'respiration rate'
+      exclude_patterns_v1: []
+      changes:
+        - change: 'respiratory-rate patterns require a device / continuous / during-test context; vital-sign and cellular-respiration contexts excluded'
+          rationale: 'round 1 strict precision 0.37 (11/30): clinic vital signs, background sentences and Seahorse cellular respiration'
+  - id: sleep_objective
+    name: Objective sleep measurement (PSG / wearable sleep staging)
+    aliases: [polysomnography, PSG]
+    signals: [sleep duration, sleep efficiency, sleep stages, sleep fragmentation]
+    modality_family: wearable
+    patterns:
+      - 'polysomnogra'
+      - '\bPSG\b'
+      - 'sleep (?:staging|architecture)'
+      - 'home sleep (?:test|apnea test)'
+      - 'actigraphic sleep'
+      - '(?:actigraph\w*|acceleromet\w*|polysomnogra\w*|\bPSG\b|wearable|tracker|smart ?watch|\bring\b|device|\bEEG\b|objective(?:ly)?|physiological)\W+(?:\w+\W+){0,6}?sleep (?:efficiency|duration|onset latency|fragmentation)'
+      - 'sleep (?:efficiency|duration|onset latency|fragmentation)\W+(?:\w+\W+){0,8}?(?:actigraph\w*|acceleromet\w*|polysomnogra\w*|\bPSG\b|wearable|tracker|smart ?watch|\bring\b|device|\bEEG\b|objective(?:ly)?|physiological)'
+    exclude_patterns:
+      - 'sleep quality index'
+      - 'PSQI'
+      - 'sleep questionnaire'
+      - 'insomnia severity index'
+      - 'epworth'
+      - 'sleep diar'
+      - 'self[- ]reported sleep'
+    audit_revision:
+      round: 1
+      designed_from: 'round-1 audit (results/tables/measurement_precision_summary.csv, audit_round=1)'
+      patterns_v1:
+        - 'polysomnogra'
+        - '\bPSG\b'
+        - 'sleep (staging|efficiency|architecture)'
+        - 'home sleep (test|apnea test)'
+        - 'actigraphic sleep'
+      exclude_patterns_v1:
+        - 'sleep quality index'
+        - 'PSQI'
+        - 'sleep questionnaire'
+        - 'insomnia severity index'
+        - 'epworth'
+      changes:
+        - change: 'bare ''sleep efficiency'' now requires a device/objective context; sleep diaries excluded'
+          rationale: 'round 1 strict precision 0.67 (20/30): 10 ''sleep efficiency'' outcomes did not say how sleep was measured (diary vs device)'
+  - id: continuous_temperature
+    name: Continuous skin/core temperature
+    signals: [skin temperature, circadian temperature rhythm]
+    modality_family: wearable
+    patterns:
+      - 'skin temperature'
+      - 'core (body )?temperature'
+      - 'temperature (sensor|monitor|patch)'
+      - 'thermometr'
+    exclude_patterns:
+      - 'hyperthermia'
+      - 'sauna'
+      - 'heat (?:therapy|treatment|exposure|stress)'
+      - 'thermoregulat'
+      - '(?:increase|rise|raise)[sd]? (?:in |of )?(?:the )?(?:body''?s? )?core (?:body )?temperature'
+    audit_revision:
+      round: 1
+      designed_from: 'round-1 audit (results/tables/measurement_precision_summary.csv, audit_round=1)'
+      exclude_patterns_v1: []
+      changes:
+        - change: 'exclude heating-intervention and thermoregulation-background contexts'
+          rationale: 'round 1 strict precision 0.70 (16/23, census): ''core body temperature'' matched hyperthermia/sauna intervention descriptions and thermoregulation background'
+  - id: cpet
+    name: Cardiopulmonary exercise testing (incl. 2-day CPET)
+    signals: [VO2 peak, ventilatory threshold, workload at threshold, chronotropic response, day-2 decline]
+    modality_family: clinical_test
+    patterns: ['cardiopulmonary exercise test', '\bCPET\b', '\bCPEX\b', 'VO2 ?(peak|max)', '2-day CPET', 'two-day (CPET|cardiopulmonary)', 'ventilatory threshold', 'invasive CPET', '\biCPET\b']
+  - id: autonomic_testing
+    name: Autonomic function testing (tilt, active stand, Valsalva, QSART)
+    signals: [orthostatic heart-rate increment, blood pressure response, sudomotor function, baroreflex]
+    modality_family: clinical_test
+    patterns: ['tilt[- ]table', 'head[- ]up tilt', 'active stand', 'NASA lean', '10[- ]minute (stand|lean)', 'orthostatic (vital|test|challenge|heart rate)', 'valsalva', '\bQSART\b', 'sudomotor', 'sudoscan', 'autonomic (function |reflex )?(test|screen|testing)', 'baroreflex', 'deep breathing test']
+  - id: small_fiber_testing
+    name: Small-fiber nerve testing (skin biopsy IENFD, corneal confocal)
+    signals: [intraepidermal nerve fiber density, corneal nerve fiber density]
+    modality_family: clinical_test
+    patterns:
+      - 'intraepidermal nerve fib'
+      - '\bIENFD?\b'
+      - 'epidermal (?:nerve fib(?:er|re)|neurite) density'
+      - 'corneal confocal'
+      - 'corneal nerve fib'
+      - 'skin (?:punch )?biops(?:y|ies)[^.;]{0,80}(?:nerve|fib(?:er|re)|IENF|neuropath|small)'
+      - '(?:nerve|fib(?:er|re)|IENF|neuropath)[^.;]{0,80}skin (?:punch )?biops'
+      - 'punch biops(?:y|ies)[^.;]{0,80}(?:nerve|fib(?:er|re)|neuropath)'
+      - 'small[- ]fib(?:er|re) (?:nerve )?(?:density|testing|test|assessment|function|biops\w*|evaluation)'
+      - 'wrinkle test'
+    audit_revision:
+      round: 1
+      designed_from: 'round-1 audit (results/tables/measurement_precision_summary.csv, audit_round=1)'
+      patterns_v1:
+        - 'small[- ]fiber'
+        - 'intraepidermal nerve fib'
+        - '\bIENFD\b'
+        - 'skin biopsy'
+        - 'corneal confocal'
+      changes:
+        - change: 'bare ''small fiber'' and bare ''skin biopsy'' replaced by test-specific patterns (nerve density, biopsy for nerves, QST, wrinkle test)'
+          rationale: 'round 1 strict precision 0.43 (12/28, census): ''small fiber'' mostly named the disease (SFN) in background text, and ''skin biopsy'' did not say what the biopsy was for'
+        - change: '''quantitative sensory testing'' considered and NOT added'
+          rationale: 'design check before round-2 sampling: 272 QST mentions were pain-threshold testing in fibromyalgia/migraine trials, not small-fiber nerve testing'
+  - id: endothelial_function
+    name: Endothelial function (FMD, peripheral arterial tonometry)
+    signals: [flow-mediated dilation, reactive hyperemia index]
+    modality_family: clinical_test
+    patterns: ['endothelial function', 'flow[- ]mediated dilat', '\bFMD\b', 'endopat', 'peripheral arterial tonometry', 'reactive hyperemia']
+  - id: vascular_imaging
+    name: Vascular / cardiac imaging
+    signals: [vessel structure, perfusion, cardiac function]
+    modality_family: imaging
+    patterns:
+      - 'cardiac (?:MRI|magnetic resonance)'
+      - 'echocardiogra'
+      - 'doppler ultrasound'
+      - 'vascular ultrasound'
+      - 'perfusion (?:MRI|imaging)'
+      - 'transcranial doppler'
+      - '(?:cardiac|myocardial|coronary|perfusion|vascular|arterial|aortic)[- ](?:\w+[- ]){0,2}PET\b'
+      - '\bPET\b[^.;]{0,40}(?:myocardial|cardiac|perfusion|vascular|coronary|arter)'
+    audit_revision:
+      round: 1
+      designed_from: 'round-1 audit (results/tables/measurement_precision_summary.csv, audit_round=1)'
+      patterns_v1:
+        - 'cardiac (MRI|magnetic resonance)'
+        - 'echocardiogra'
+        - 'doppler ultrasound'
+        - 'vascular ultrasound'
+        - 'perfusion (MRI|imaging)'
+        - '\bPET\b'
+      changes:
+        - change: 'bare ''\bPET\b'' replaced by cardiac/perfusion/vascular PET; transcranial Doppler added'
+          rationale: 'round 1 strict precision 0.57 (17/30): PET hits were mostly brain neuroinflammation, T-cell and lung PET'
+  - id: capillaroscopy
+    name: Nailfold capillaroscopy / microvascular imaging
+    signals: [capillary density, capillary morphology, microhemorrhage, capillary flow]
+    modality_family: imaging
+    patterns: ['capillaroscop', 'nailfold', 'capillary (density|microscopy|morphology)', 'sidestream dark field', 'sublingual microcirculation']
+  - id: microvascular_function
+    name: Microvascular function (laser Doppler/speckle, microcirculation)
+    signals: [skin blood flow, microvascular reactivity]
+    modality_family: clinical_test
+    patterns: ['laser doppler', 'laser speckle', 'microvascular (function|reactivity|dysfunction)', 'microcirculat', 'near[- ]infrared spectroscopy', '\bNIRS\b']
+  - id: retinal_imaging
+    name: Retinal imaging (OCT, OCT-angiography, fundus)
+    signals: [retinal microvasculature, retinal nerve fiber layer, vessel density]
+    modality_family: imaging
+    patterns: ['optical coherence tomography', '\bOCT(-?A)?\b', 'retinal (imaging|vessel|microvascul)', 'fundus photograph']
+  - id: digital_gait
+    name: Digital gait / mobility analysis
+    signals: [gait speed, stride variability, sit-to-stand]
+    modality_family: wearable
+    patterns:
+      - 'gait (?:analysis|sensor|lab(?:oratory)?|mat|walkway)'
+      - 'instrumented (?:gait|walkway|timed up and go|TUG|sit[- ]to[- ]stand|mobility|balance)'
+      - 'inertial (?:measurement unit|sensor)'
+      - '\bIMUs?\b'
+      - 'wearable (?:gait|motion|movement|inertial) sensors?'
+      - 'gyroscope'
+      - 'GAITRite'
+      - 'mobility lab'
+      - '(?:sensor|accelerometer|IMU)[- ]based (?:gait|mobility|balance)'
+      - 'stride (?:length|time|variability)'
+      - 'digital gait'
+    audit_revision:
+      round: 1
+      designed_from: 'round-1 audit (results/tables/measurement_precision_summary.csv, audit_round=1)'
+      patterns_v1:
+        - 'gait (analysis|speed|sensor)'
+        - 'inertial (measurement unit|sensor)'
+        - '\bIMU\b'
+        - 'sit[- ]to[- ]stand'
+        - 'timed up and go'
+      changes:
+        - change: 'removed ''sit-to-stand'', ''timed up and go'' and ''gait speed''; added instrumented/sensor gait patterns'
+          rationale: 'round 1 strict precision 0.03 (1/30): 27 of 30 were stopwatch/count functional tests (sit-to-stand, TUG), which are objective performance tests but not digital gait analysis'
+  - id: digital_cognitive
+    name: Digital cognitive testing
+    signals: [reaction time, processing speed, working memory]
+    modality_family: digital
+    patterns: ['computeri[sz]ed cognitive', 'cognitive (battery|test) (app|digital)', 'reaction time test', 'NIH toolbox', 'cogstate', 'cambridge neuropsychological']
+  - id: blood_biomarkers
+    name: Blood biomarkers (clinical chemistry, inflammatory, coagulation)
+    signals: [inflammatory markers, coagulation markers, hormones, micro-clots]
+    modality_family: lab
+    review_notes:
+      - note: 'cortisol matches salivary cortisol, which is outside the class''s blood scope'
+        evidence: 'round-2 precision sample: 4 of the 5 ''no'' judgements for blood_biomarkers were salivary cortisol (results/tables/measurement_precision_judgements_round2.csv); in the final mention table 72 of 2,676 blood_biomarkers mentions (35 records) have saliva in the snippet'
+        decision: 'pattern NOT changed. An exclusion added after round 2 would be an un-audited post-hoc revision (every applied revision here was re-audited on a fresh sample), the class still meets the precision bar (round-2 strict precision 0.83, 25/30), and salivary cortisol is an objective laboratory assay (a scope error between lab classes, not questionnaire leakage). Read blood_biomarkers counts as blood or body-fluid hormone/inflammatory assays; a future round-3 audit can add a salivary exclusion together with a fresh sample.'
+    patterns:
+      - '(?:blood|serum|plasma|circulating|inflammatory|inflammation|immune|coagulation|laboratory|lab|fluid)[- ](?:based )?biomarkers?'
+      - 'biomarkers? (?:of|for) (?:inflammation|coagulation|endothelial (?:damage|activation|injury)|cardiac (?:injury|damage))'
+      - 'biomarkers? (?:in|from) (?:the )?(?:blood|serum|plasma)'
+      - 'C[- ]reactive protein'
+      - '\bCRP\b'
+      - 'interleukin'
+      - 'cytokine'
+      - 'D[- ]dimer'
+      - 'microclot'
+      - 'fibrin amyloid'
+      - 'cortisol'
+      - 'tryptase'
+    exclude_patterns:
+      - 'digital biomarker'
+      - 'imaging biomarker'
+      - '(?:ecg|ekg|electrocardiogra\w*)[- ]derived biomarker'
+      - 'vocal biomarker'
+      - 'wearable[- ]derived biomarker'
+      - 'anti[- ]?interleukin'
+      - 'interleukin[- ]?\d+ (?:receptor )?(?:antagonist|inhibitor|blocker|blockade)'
+    audit_revision:
+      round: 1
+      designed_from: 'round-1 audit (results/tables/measurement_precision_summary.csv, audit_round=1)'
+      patterns_v1:
+        - 'biomarker'
+        - 'C[- ]reactive protein'
+        - '\bCRP\b'
+        - 'interleukin'
+        - 'cytokine'
+        - 'D[- ]dimer'
+        - 'microclot'
+        - 'fibrin amyloid'
+        - 'cortisol'
+        - 'tryptase'
+      exclude_patterns_v1: []
+      changes:
+        - change: 'bare ''biomarker'' replaced by specimen/analyte-qualified biomarker phrases'
+          rationale: 'round 1 strict precision 0.73 (22/30): ''biomarker'' also matched ECG-derived, digital and imaging biomarkers and generic background statements'
+        - change: 'exclude digital/imaging/ECG-derived/vocal/wearable biomarkers and anti-interleukin drug names'
+          rationale: 'same round-1 false positives (digital biomarker x2, ECG-derived, VCID imaging)'
+  - id: metabolomics
+    name: Metabolomics
+    signals: [metabolite levels]
+    modality_family: omics
+    patterns: ['metabolom', 'metabolite profil', 'lipidom']
+  - id: proteomics
+    name: Proteomics
+    signals: [protein levels]
+    modality_family: omics
+    patterns: ['proteom', '\bolink\b', 'somascan', 'aptamer']
+  - id: transcriptomics
+    name: Transcriptomics
+    signals: [gene expression]
+    modality_family: omics
+    patterns:
+      - 'transcriptom'
+      - '(?<![rR])RNA[- ]?seq(?:uencing)?\b'
+      - 'gene expression profil'
+      - 'single[- ](?:cell|nucleus) RNA'
+    audit_revision:
+      round: 1
+      designed_from: 'round-1 audit (results/tables/measurement_precision_summary.csv, audit_round=1)'
+      patterns_v1:
+        - 'transcriptom'
+        - 'RNA[- ]seq'
+        - 'gene expression profil'
+        - 'single[- ]cell RNA'
+      changes:
+        - change: '''RNA[- ]seq'' no longer matches ''rRNA seq'' (16S) or ''RNA sequence'''
+          rationale: 'round 1 strict precision 0.53 (16/30): 16S rRNA sequencing and viral ''RNA sequence'' matched; most other failures were animal studies, handled by the non-human context flag'
+  - id: immune_assays
+    name: Immune assays (autoantibodies, immune phenotyping)
+    signals: [autoantibodies, T-cell exhaustion, immune cell subsets]
+    modality_family: lab
+    patterns:
+      - 'autoantibod'
+      - 'GPCR antibod'
+      - 'flow cytometr'
+      - 'immunophenotyp'
+      - '\bT[- ]cell (?:exhaustion|activation|phenotyp)'
+      - 'mass cytometr'
+      - '\bCyTOF\b'
+      - 'ELI[Ss]pot'
+      - 'lymphocyte (?:subset|subpopulation|phenotyp|profil)'
+      - '(?:NK|natural killer)[- ]cell (?:function|cytotoxicity|activity)'
+    audit_revision:
+      round: 1
+      designed_from: 'round-1 audit (results/tables/measurement_precision_summary.csv, audit_round=1)'
+      patterns_v1:
+        - 'autoantibod'
+        - 'GPCR antibod'
+        - 'flow cytometr'
+        - 'immunophenotyp'
+        - 'T[- ]cell (exhaustion|activation|phenotyp)'
+        - 'viral persistence'
+        - 'reactivation'
+      changes:
+        - change: 'removed ''viral persistence'' and ''reactivation''; ''T-cell'' pattern needs a word boundary; added named immune assays'
+          rationale: 'round 1 strict precision 0.57 (17/30): ''viral persistence''/''reactivation'' matched hypotheses and virology, not immune assays, and ''T[- ]cell activation'' matched ''Mast Cell Activation'''
+  - id: remote_patient_monitoring
+    name: Remote patient monitoring / connected-health platform
+    signals: [multi-signal home monitoring]
+    modality_family: digital
+    patterns:
+      - 'remote (?:patient |physiologic(?:al)? |health |home )?monitoring'
+      - 'telemonitoring'
+      - 'home (?:health |vital[- ]sign )?monitoring'
+      - 'remotely (?:collected|measured|monitored)'
+      - 'passive sensing'
+      - '(?:mhealth|m-health|mobile health|smartphone|digital health|mobile) (?:app\w*|platform|system|technolog\w*)[^.;]{0,100}(?:monitor\w*|sensor|wearable|measure\w*|stand test|heart rate|vital sign)'
+      - 'connected (?:device|health|sensor)s?'
+      - 'digital (?:health )?monitoring'
+    audit_revision:
+      round: 1
+      designed_from: 'round-1 audit (results/tables/measurement_precision_summary.csv, audit_round=1)'
+      patterns_v1:
+        - 'remote (patient )?monitoring'
+        - 'telemonitoring'
+        - 'digital health (platform|app)'
+        - 'mobile health'
+        - '\bmHealth\b'
+        - 'smartphone app'
+      changes:
+        - change: 'bare ''smartphone app'', ''mobile health'', ''mHealth'', ''digital health platform/app'' now require a monitoring/sensor context'
+          rationale: 'round 1 strict precision 0.45 (10/22, census): app-delivered exercise, CBT and sound interventions matched'

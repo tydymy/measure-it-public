@@ -1,0 +1,72 @@
+# measure-it bring-your-own-data manifest (template). Copy this folder, replace every value, delete what you do not use.
+# Contract: docs/BRING_YOUR_OWN_DATA.md; JSON schema: templates/byod/manifest.schema.json.
+# Check it with: uv run measure-it byod validate <your folder>
+schema_version: 1
+dataset_id: my_clinic_hrv_2026          # lower-case; the engine id becomes byod_my_clinic_hrv_2026
+title: Example clinic HRV study (replace)
+owner: Example University, Autonomic Lab (replace)
+description: One or two sentences on the cohort and the device.
+licence: Data-use statement or licence under which this local analysis is permitted (replace)
+data_use:
+  deidentified: true                    # must be true: the engine accepts de-identified data only
+  use_permitted: true                   # must be true: your IRB / DUA permits this use on this machine
+  statement: IRB protocol 2026-123 permits de-identified secondary analysis on project machines (replace)
+  irb_or_dua_reference: IRB 2026-123 / DUA 45 (replace)
+synthetic: false
+demo: false                             # true keeps the record out of rankings unless `byod deploy --demo`
+labels:                                 # one entry per label column in participants.csv (1 case, 0 control, blank)
+  - column: me_cfs
+    condition: ME/CFS                   # mapped with measure_it.ontology.normalize (a name, alias, code or id)
+    definition: Canadian Consensus Criteria, confirmed by two clinicians (replace)
+    label_basis: clinical_case_definition   # clinical_case_definition | clinical_diagnosis | ehr_codes | self_report | proxy
+comparator:
+  type: look_alike                      # healthy | look_alike | general_population
+  description: clinic patients referred for fatigue who did not meet the case definition (replace)
+measurement:
+  class: hrv                            # a class id in configs/measurements.yaml
+  bundle: autonomic_function_testing    # optional: a bundle in configs/relevance.yaml that contains the class
+  device: chest-strap ECG patch, 14 days (replace)
+devices:                                # optional, per device_<name>.csv file
+  ecg_patch:
+    measurement_class: hrv
+    description: chest-strap ECG patch (replace)
+    # adapter:                          # optional: your own MeasurementAdapter (a .py file inside this folder)
+    #   module: adapters/my_adapter.py
+    #   class: MyAdapter
+    #   register_as: my_adapter
+  wrist_actigraphy:
+    measurement_class: accelerometry
+    description: wrist actigraph, per-participant summaries (replace)
+# omics:                                # optional, per omics_<layer> file: the assay platform
+#   nightingale:                        # platform nmr_nightingale + units nightingale_standard: lipids, glucose,
+#     platform: nmr_nightingale         # creatinine, albumin, apoB/A1, GlycA become LOINC rows (explicit unit factors,
+#     units: nightingale_standard       # configs/harmonize_nightingale_loinc.yaml); the rest stays OMICS
+id_hashing: none                        # none | salted_sha256 (salt in MEASURE_IT_BYOD_SALT, never stored)
+min_group_size: {cases: 10, controls: 10}
+primary_analysis:                       # PRE-SPECIFIED: locked (sha256) by `byod evaluate` before any outcome
+  label: me_cfs
+  feature_blocks: [device_ecg_patch]    # device_<name> | ehr_labs | ehr_diagnoses | omics_<layer>
+  combined_blocks: [device_ecg_patch, ehr_labs]   # optional pre-specified combined model
+  specificity: 0.90                     # operating point for sensitivity
+  covariates: [age_band, sex]           # optional baseline
+  n_splits: 5
+  n_repeats: 10
+  n_permutations: 200
+  n_bootstrap: 1000
+# subgroup_analysis:                    # optional, PRE-SPECIFIED: `measure-it byod subgroup` locks it (sha256) first
+#   name: capillaroscopy_abnormal       # lower-case; the phenotype id becomes byod_<dataset_id>:<name>
+#   description: cases with an abnormal capillaroscopy pattern (replace)
+#   within_label: me_cfs                # the label whose cases (1) are split into device-positive / -negative
+#   device_positive:                    # EITHER a participants.csv column of 1 / 0 / blank ...
+#     column: capillaroscopy_abnormal
+#   # ... OR a device feature against a threshold:
+#   #   block: device_capillaroscopy
+#   #   feature: abnormality_score      # a column of the device file (per-day files: <column>__mean)
+#   #   threshold: 2.0
+#   #   direction: ">="                 # >= | > | <= | <
+#   ehr_domains: [condition, measurement, drug, demographic, survey]   # never device / omics
+#   max_features: 10
+#   n_splits: 5
+#   n_repeats: 10
+#   n_permutations: 200
+#   n_bootstrap: 1000

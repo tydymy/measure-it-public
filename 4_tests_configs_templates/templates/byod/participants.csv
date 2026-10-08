@@ -1,0 +1,4 @@
+participant_id,me_cfs,age_band,sex
+S001,1,40-49,female
+S002,0,30-39,male
+S003,,90+,female

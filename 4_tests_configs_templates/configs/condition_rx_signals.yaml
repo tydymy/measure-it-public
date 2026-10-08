@@ -1,0 +1,105 @@
+# Drugs whose PRESCRIBING suggests that a clinician manages one of the target conditions (stage F, created
+# 2026-10-07; evidence_type curated_config). Read by measure_it.ingestion.cms_partd_prescriber, which pulls these
+# generic names from "Medicare Part D Prescribers - by Provider and Drug" (data.cms.gov) into
+# provider_condition_rx_signals, and by measure_it.outreach (ranking evidence, after measurement-specific activity).
+#
+# READ THIS BEFORE USING A SIGNAL
+# * A prescription is NOT a diagnosis. None of these drugs is specific to POTS, Long COVID or ME/CFS: midodrine is
+#   prescribed mostly for intradialytic and neurogenic/orthostatic hypotension in older adults, pyridostigmine for
+#   myasthenia gravis, ivabradine for heart failure. `specificity` says how strongly a prescriber's volume points at
+#   the target condition; treat every signal as "this clinician manages orthostatic/autonomic (or mast-cell)
+#   problems", never as "this clinician treats Long COVID".
+# * Medicare Part D only: people with Part D coverage, stand-alone PDP and Medicare Advantage drug plans (MA-PD)
+#   (CMS methodology, https://data.cms.gov/sites/default/files/2026-05/MUP_DPR_RY26_20260421_Methodology_508.pdf);
+#   mostly >= 65 or disabled. POTS is mainly a condition of
+#   younger women; Medicare under-represents it. Absence of a signal says nothing about a clinician.
+# * CMS suppression: a prescriber x drug row is published only with >= 11 claims; Tot_Benes is blank when 1-10
+#   (methodology PDF above). Low-volume prescribers are invisible.
+# * The file has no strength or route: `Gnrc_Name` "Cromolyn Sodium" mixes ophthalmic drops, inhalation solution and
+#   oral concentrate (mastocytosis/MCAS); only brand "Gastrocrom" is unambiguously oral (5 of 1,577 rows in 2024).
+#   Oral ketotifen is not an FDA-approved product (Drugs@FDA: ophthalmic OTC only; 0 Part D rows).
+# * Match rule: exact `Gnrc_Name` as CMS spells it (checked against the 2024 file on 2026-10-07; row counts in
+#   data/raw/cms_partd_prescriber/DATA_AUDIT.md).
+#
+# Conditions with NO usable drug signal (stated, not padded):
+# * long_covid, me_cfs: no FDA-approved treatment for ME/CFS (NIH, https://www.nih.gov/mecfs/about-mecfs; FDA
+#   guidance https://fda.gov/media/86879/download) and none specific to Long COVID that we could verify from a primary
+#   source (stated as such). What Long COVID / ME/CFS clinics prescribe is symptom-directed and shared with many other
+#   conditions; low-dose naltrexone is compounded (not visible in Part D; generic "Naltrexone Hcl" 50 mg is opioid/
+#   alcohol-use treatment and is NOT used). The only links offered here are the orthostatic-intolerance drugs below,
+#   flagged `relation: related_phenotype` (orthostatic intolerance/POTS is a common Long COVID and ME/CFS
+#   phenotype), never direct.
+# * lyme_disease, ptlds: the drugs are standard antibiotics (doxycycline, amoxicillin, cefuroxime, ceftriaxone)
+#   prescribed for very many other infections; prescribing volume would mark every primary-care clinician. Too
+#   nonspecific to be a signal; none is configured. PTLDS has no recommended drug treatment (IDSA/AAN/ACR 2020 Lyme
+#   guideline: prolonged antibiotics are not recommended for persistent symptoms).
+# * fibromyalgia, eds_hsd and others: not configured.
+
+source:
+  dataset: "Medicare Part D Prescribers - by Provider and Drug"
+  slug_path: "/provider-summary-by-type-of-service/medicare-part-d-prescribers/medicare-part-d-prescribers-by-provider-and-drug"
+  match_column: Gnrc_Name
+
+signals:
+  orthostatic_intolerance_rx:
+    label: "Orthostatic intolerance / autonomic failure pharmacotherapy"
+    relation:            # how the signal relates to each condition id (direct | related_phenotype)
+      pots: direct
+      dysautonomia: direct
+      long_covid: related_phenotype
+      me_cfs: related_phenotype
+    rationale: >-
+      Heart Rhythm Society 2015 expert consensus on POTS (Sheldon et al., Heart Rhythm 2015;12:e41-e63,
+      doi:10.1016/j.hrthm.2015.03.029): fludrocortisone or pyridostigmine "reasonable", midodrine "may be considered"
+      (ivabradine was then not available in the U.S.). Canadian Cardiovascular Society 2020 position statement on POTS
+      (Raj et al., Can J Cardiol 2020;36:357-372, doi:10.1016/j.cjca.2019.12.024) also discusses ivabradine; RCT in
+      POTS: Taub et al., JACC 2021 (https://pubmed.ncbi.nlm.nih.gov/33602468/). All four are off-label for POTS.
+      Beta-blockers are not used: prescribed for everything. Droxidopa is FDA-approved for neurogenic orthostatic
+      hypotension (autonomic failure).
+    drugs:
+      - gnrc_name: "Midodrine Hcl"
+        ingredient: midodrine
+        fda_indication: "symptomatic orthostatic hypotension"
+        specificity: low
+        caveat: "Most Medicare volume is intradialytic hypotension (nephrology) and orthostatic hypotension in older adults; 2024 file: internal medicine, NPs, family practice, cardiology, nephrology are the top prescriber types."
+        label_source: "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=03b54024-2a26-4abe-bd8b-b66bb6781fa7"
+      - gnrc_name: "Fludrocortisone Acetate"
+        ingredient: fludrocortisone
+        fda_indication: "adrenocortical insufficiency (Addison disease), salt-losing adrenogenital syndrome"
+        specificity: low
+        caveat: "Label indication is Addison disease / salt-losing adrenogenital syndrome only; orthostatic use is off-label. Adrenal insufficiency prescribing (endocrinology) is indistinguishable in this file."
+        label_source: "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=001e72ea-2c9e-468c-90cc-6c347234e2a9"
+      - gnrc_name: "Pyridostigmine Bromide"
+        ingredient: pyridostigmine
+        fda_indication: "myasthenia gravis"
+        specificity: low
+        caveat: "Myasthenia gravis prescribing by neurology dominates; POTS/orthostatic use is off-label."
+        label_source: "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0a114d99-e50b-49fe-9e0f-ccce279ffb4f"
+      - gnrc_name: "Ivabradine Hcl"
+        ingredient: ivabradine
+        fda_indication: "stable symptomatic chronic heart failure (adults); heart failure due to dilated cardiomyopathy (pediatric)"
+        specificity: low
+        caveat: "Heart-failure cardiology dominates (2024: cardiology, heart-failure cardiology, electrophysiology); POTS / inappropriate sinus tachycardia use is off-label."
+        label_source: "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=236cc914-7eef-600c-e063-6394a90a4bd1"
+      - gnrc_name: "Droxidopa"
+        ingredient: droxidopa
+        fda_indication: "symptomatic neurogenic orthostatic hypotension (Parkinson disease, MSA, pure autonomic failure, dopamine beta-hydroxylase deficiency, non-diabetic autonomic neuropathy)"
+        specificity: medium
+        caveat: "Specific to autonomic failure (dysautonomia), not to POTS; prescribers are largely movement-disorder and autonomic neurology and cardiology."
+        label_source: "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2179f02c-48d7-48eb-8007-5ae43d8d16bc"
+
+  mast_cell_rx:
+    label: "Mast-cell stabiliser (oral cromolyn)"
+    relation:
+      mcas: direct
+    rationale: >-
+      Oral cromolyn sodium is FDA-approved for mastocytosis and is a standard MCAS option (AAAAI Mast Cell Disorders
+      Committee work group report, Weiler et al., J Allergy Clin Immunol 2019;144:883-896,
+      doi:10.1016/j.jaci.2019.08.023). Antihistamines and montelukast are not used: far too nonspecific.
+    drugs:
+      - gnrc_name: "Cromolyn Sodium"
+        ingredient: cromolyn
+        fda_indication: "oral concentrate: mastocytosis; ophthalmic solution: allergic conjunctivitis"
+        specificity: low
+        caveat: "Gnrc_Name does not separate ophthalmic from oral forms: in 2024 ophthalmology and optometry are among the top prescriber types. Only allergy/immunology prescribers are a plausible MCAS signal; the outreach ranking keeps the drug but the specialty column shows who prescribed."
+        label_source: "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=00623958-a8fe-47d1-a0d2-0aa4e2f7966e"
