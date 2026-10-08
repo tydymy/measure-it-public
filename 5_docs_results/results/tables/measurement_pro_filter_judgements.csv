@@ -1,0 +1,31 @@
+mention_id,judgement,reason
+ctgov|NCT01368718|outcome_description|1001|sleep_objective,objective_wrongly_excluded,PSG performed; questionnaires listed in same sentence
+ctgov|NCT01584934|outcome_description|1008|sleep_objective,objective_wrongly_excluded,PSG listed with questionnaires
+ctgov|NCT02174003|intervention_description|0|continuous_temperature,correctly_excluded,"hyperthermia intervention, not a measurement"
+ctgov|NCT03003429|outcome_measure|1002|hrv,objective_wrongly_excluded,HRV measured; correlated with a questionnaire
+ctgov|NCT03003429|outcome_measure|1003|hrv,objective_wrongly_excluded,HRV measured; correlated with a questionnaire
+ctgov|NCT03516227|brief_summary|-1|hrv,objective_wrongly_excluded,repeated HRV measures listed with HADS
+ctgov|NCT03953768|outcome_measure|5|blood_biomarkers,objective_wrongly_excluded,Meso Scale Discovery cytokine assay ('Scale' is a brand name)
+ctgov|NCT04186286|brief_summary|-1|autonomic_testing,objective_wrongly_excluded,tilt table testing alongside symptom questionnaires
+ctgov|NCT04195815|outcome_description|0|accelerometry,objective_wrongly_excluded,activity-monitor armbands compared with self-report
+ctgov|NCT04628429|outcome_description|0|autonomic_testing,objective_wrongly_excluded,CASS derived from objective autonomic tests incl. sudomotor
+ctgov|NCT05094622|brief_summary|-1|autonomic_testing,objective_wrongly_excluded,active standing test listed with questionnaires
+ctgov|NCT05168124|brief_summary|-1|accelerometry,objective_wrongly_excluded,actigraphy collected alongside questionnaires
+ctgov|NCT05530317|brief_summary|-1|endothelial_function,objective_wrongly_excluded,FMD listed with COMPASS-31
+ctgov|NCT05566392|intervention_description|0|microvascular_function,objective_wrongly_excluded,NIRS listed with interview
+ctgov|NCT05635552|outcome_description|1002|retinal_imaging,objective_wrongly_excluded,retinal vessel analysis correlated with severity scores
+ctgov|NCT05877508|outcome_description|1005|cpet,correctly_excluded,DASI questionnaire estimate of VO2max
+ctgov|NCT05877534|outcome_description|1015|autonomic_testing,unclear,active stand performed; recorded endpoint is perceived dyspnoea
+ctgov|NCT05931497|intervention_description|0|continuous_temperature,correctly_excluded,sauna intervention
+ctgov|NCT05932797|outcome_description|0|continuous_spo2,objective_wrongly_excluded,SpO2 continuously monitored during CPET
+ctgov|NCT05946512|outcome_description|1000|autonomic_testing,objective_wrongly_excluded,autonomic testing listed with questionnaires
+ctgov|NCT05965739|outcome_description|1008|digital_cognitive,objective_wrongly_excluded,CogState score; 'scale' describes the score range
+ctgov|NCT06145867|outcome_description|1002|accelerometry,unclear,accelerometer worn; outcome is self-reported adverse reactions
+ctgov|NCT06161688|outcome_description|1005|cpet,correctly_excluded,DASI questionnaire estimate of VO2max
+ctgov|NCT06204458|intervention_description|1|continuous_temperature,correctly_excluded,hyperthermia sham description
+ctgov|NCT06279936|outcome_measure|1001|blood_biomarkers,objective_wrongly_excluded,cortisol measures listed with symptom scales
+ctgov|NCT06933017|brief_summary|-1|accelerometry,objective_wrongly_excluded,activity tracker for PA levels
+ctgov|NCT06933173|brief_summary|-1|hrv,objective_wrongly_excluded,objective daily steps/HRV listed with PROs
+ctgov|NCT07783074|outcome_description|1016|autonomic_testing,objective_wrongly_excluded,standardised autonomic test battery
+ctgov|NCT07783074|outcome_description|1022|ppg,objective_wrongly_excluded,smartwatch PPG signals
+nih|10511731|abstract_text|-1|sleep_objective,objective_wrongly_excluded,PSG alongside diary-based monitoring

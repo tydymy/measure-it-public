@@ -1,0 +1,718 @@
+mention_id,measurement_id,judgement,reason
+ctgov|NCT00692471|intervention_name|0|accelerometry,accelerometry,yes,actigraphy watch as intervention device
+ctgov|NCT00692471|intervention_other_names|0|accelerometry,accelerometry,yes,ActiWatch device
+ctgov|NCT03675087|outcome_description|1016|accelerometry,accelerometry,yes,ActivPAL registration of activity
+ctgov|NCT03675087|outcome_measure|1009|accelerometry,accelerometry,yes,ActivPAL physical activity level
+ctgov|NCT03849326|intervention_name|3|accelerometry,accelerometry,yes,actigraphy
+ctgov|NCT03849326|outcome_description|1003|accelerometry,accelerometry,yes,measured by actigraphy
+ctgov|NCT04768257|outcome_description|1|accelerometry,accelerometry,yes,tri-axial accelerometer worn 1 week
+ctgov|NCT04768257|outcome_description|5|accelerometry,accelerometry,yes,tri-axial accelerometer worn 1 week
+ctgov|NCT05013606|brief_summary|-1|accelerometry,accelerometry,yes,7-day home accelerometry
+ctgov|NCT05094622|outcome_measure|1|accelerometry,accelerometry,yes,steps per day outcome
+ctgov|NCT05172206|outcome_description|1019|accelerometry,accelerometry,yes,Garmin-recorded daily steps
+ctgov|NCT05467904|outcome_measure|1004|accelerometry,accelerometry,yes,daily steps outcome
+ctgov|NCT05823896|outcome_description|1009|accelerometry,accelerometry,yes,change measured by accelerometer
+ctgov|NCT05890599|outcome_description|1031|accelerometry,accelerometry,yes,activity monitor tracking
+ctgov|NCT06165978|intervention_description|1|accelerometry,accelerometry,yes,step-count goal implies measured steps
+ctgov|NCT06204458|outcome_measure|1026|accelerometry,accelerometry,yes,pedometer step count
+ctgov|NCT06267300|outcome_measure|1001|accelerometry,accelerometry,yes,wrist-band step count
+ctgov|NCT06305793|outcome_measure|1007|accelerometry,accelerometry,yes,step count by wearable
+ctgov|NCT06366724|outcome_description|1002|accelerometry,accelerometry,yes,Garmin Vivosmart steps
+ctgov|NCT06404112|outcome_description|1012|accelerometry,accelerometry,yes,activity-tracker sleep efficiency
+ctgov|NCT06404112|outcome_measure|1010|accelerometry,accelerometry,yes,activity-tracker sleep duration
+ctgov|NCT06404112|outcome_measure|1011|accelerometry,accelerometry,yes,activity-tracker sleep duration
+ctgov|NCT06747910|brief_summary|-1|accelerometry,accelerometry,unclear,"ActiGraph LEAP named but used for HRV, not activity"
+ctgov|NCT06933017|outcome_description|17|accelerometry,accelerometry,yes,hip actigraph
+ctgov|NCT06933017|outcome_measure|17|accelerometry,accelerometry,yes,accelerometry for PA and sedentary behaviour
+ctgov|NCT07190105|outcome_description|8|accelerometry,accelerometry,yes,monitoring daily steps
+ctgov|NCT07715838|outcome_measure|1002|accelerometry,accelerometry,yes,activity monitor outcome
+ctgov|NCT07724834|brief_summary|-1|accelerometry,accelerometry,yes,daily step count measured
+ctgov|NCT07783074|outcome_measure|1|accelerometry,accelerometry,yes,armband activity monitor wear time
+nih|9870961|abstract_text|-1|accelerometry,accelerometry,yes,actigraphy wristbands at home
+ctgov|NCT03003429|outcome_description|0|wearable_heart_rate,wearable_heart_rate,yes,nocturnal Polar heart-rate monitor
+ctgov|NCT04806620|keywords|-1|wearable_heart_rate,wearable_heart_rate,unclear,keyword wearable devices in registry
+ctgov|NCT04997395|outcome_description|1007|wearable_heart_rate,wearable_heart_rate,yes,wearable 24/7 HR tracking and resting HR
+ctgov|NCT05216536|outcome_description|1055|wearable_heart_rate,wearable_heart_rate,unclear,"Garmin watch used for sleep time, HR not stated"
+ctgov|NCT05218174|outcome_description|1096|wearable_heart_rate,wearable_heart_rate,unclear,"WHOOP sleep stages, HR not stated"
+ctgov|NCT05218174|outcome_measure|1094|wearable_heart_rate,wearable_heart_rate,unclear,"WHOOP sleep duration, HR not stated"
+ctgov|NCT05315739|outcome_measure|1010|wearable_heart_rate,wearable_heart_rate,unclear,resting HRV; device not stated
+ctgov|NCT05483829|intervention_description|0|wearable_heart_rate,wearable_heart_rate,unclear,smartwatch in self-management programme; use not stated
+ctgov|NCT05664711|outcome_description|1002|wearable_heart_rate,wearable_heart_rate,yes,ring measuring resting HR
+ctgov|NCT05664711|outcome_description|1003|wearable_heart_rate,wearable_heart_rate,yes,ring measuring resting HR
+ctgov|NCT05741112|brief_summary|-1|wearable_heart_rate,wearable_heart_rate,unclear,wearable devices; HR not stated
+ctgov|NCT05741112|brief_title|-1|wearable_heart_rate,wearable_heart_rate,unclear,wearable device study title; HR not stated
+ctgov|NCT05741112|intervention_description|0|wearable_heart_rate,wearable_heart_rate,unclear,wearable device given; HR not stated
+ctgov|NCT05741112|intervention_name|0|wearable_heart_rate,wearable_heart_rate,unclear,wearable device intervention; HR not stated
+ctgov|NCT05922865|outcome_description|4|wearable_heart_rate,wearable_heart_rate,no,resting HR during lab exercise test
+ctgov|NCT06087679|outcome_description|1001|wearable_heart_rate,wearable_heart_rate,no,clinic device resting HR (not wearable)
+ctgov|NCT06168006|outcome_description|1013|wearable_heart_rate,wearable_heart_rate,yes,heart-rate monitor RR intervals
+ctgov|NCT06170645|outcome_description|1005|wearable_heart_rate,wearable_heart_rate,no,Vivofit step counts (no HR)
+ctgov|NCT06456502|outcome_description|1000|wearable_heart_rate,wearable_heart_rate,unclear,We Cardio device HR/RMSSD; wearable not stated
+ctgov|NCT06583395|outcome_description|0|wearable_heart_rate,wearable_heart_rate,yes,Garmin wrist HR continuously
+ctgov|NCT07190105|keywords|-1|wearable_heart_rate,wearable_heart_rate,unclear,keyword Fitbit
+ctgov|NCT07312409|brief_summary|-1|wearable_heart_rate,wearable_heart_rate,no,resting HRV in lab
+ctgov|NCT07492953|outcome_description|1001|wearable_heart_rate,wearable_heart_rate,no,seated resting HR vital sign
+ctgov|NCT07783074|brief_summary|-1|wearable_heart_rate,wearable_heart_rate,unclear,wearables collecting fatigue data; HR not stated
+ctgov|NCT07783074|outcome_description|1019|wearable_heart_rate,wearable_heart_rate,yes,consumer smartwatch PPG signals
+nih|10559634|public_health_relevance|-1|wearable_heart_rate,wearable_heart_rate,no,Apple Watch delivering vibration therapy
+nih|11171743|abstract_text|-1|wearable_heart_rate,wearable_heart_rate,yes,smartwatches recording HRV
+nih|11180057|abstract_text|-1|wearable_heart_rate,wearable_heart_rate,unclear,smartwatch-derived metrics; HR not stated
+nih|11180057|project_title|-1|wearable_heart_rate,wearable_heart_rate,unclear,smartwatch digital phenotypes; HR not stated
+nih|11410791|abstract_text|-1|wearable_heart_rate,wearable_heart_rate,no,background on resting HR and exercise capacity
+ctgov|NCT01249248|brief_title|-1|hrv,hrv,yes,HRV analysis
+ctgov|NCT01960920|outcome_description|1000|hrv,hrv,yes,HRV analysis
+ctgov|NCT02499302|outcome_measure|1011|hrv,hrv,yes,HRV indices
+ctgov|NCT02924831|brief_summary|-1|hrv,hrv,yes,HR/HRV indices
+ctgov|NCT03225898|outcome_description|0|hrv,hrv,yes,HRV
+ctgov|NCT05013606|outcome_measure|2000|hrv,hrv,yes,HRV
+ctgov|NCT05098977|official_title|-1|hrv,hrv,yes,assessing HRV
+ctgov|NCT05204511|keywords|-1|hrv,hrv,yes,HRV keyword of exercise trial
+ctgov|NCT05228665|brief_summary|-1|hrv,hrv,yes,measuring HRV
+ctgov|NCT05315739|outcome_description|1014|hrv,hrv,yes,ePatch 7-day HRV
+ctgov|NCT05648123|outcome_description|2|hrv,hrv,yes,SDNN by photoplethysmograph
+ctgov|NCT05756452|intervention_description|0|hrv,hrv,yes,24-h Holter HRV
+ctgov|NCT05807555|outcome_measure|0|hrv,hrv,yes,HF index of HRV
+ctgov|NCT05807555|outcome_measure|1003|hrv,hrv,yes,RMSSD
+ctgov|NCT05890599|outcome_measure|1032|hrv,hrv,yes,HRV
+ctgov|NCT05918965|outcome_description|0|hrv,hrv,yes,HRV from 24-h ECG
+ctgov|NCT05989763|outcome_measure|1001|hrv,hrv,yes,HRV measures
+ctgov|NCT06073886|outcome_description|1001|hrv,hrv,yes,Oura HRV
+ctgov|NCT06100601|intervention_other_names|0|hrv,hrv,unclear,HRV biofeedback (therapy using HRV sensing)
+ctgov|NCT06248151|outcome_description|1|hrv,hrv,yes,HRV via heart rate monitor
+ctgov|NCT06288828|outcome_description|2|hrv,hrv,yes,frequency-domain HRV
+ctgov|NCT06404411|outcome_measure|1008|hrv,hrv,yes,RMSSD
+ctgov|NCT06510985|outcome_measure|2006|hrv,hrv,yes,stimulation-induced HRV change
+ctgov|NCT06532825|intervention_other_names|0|hrv,hrv,unclear,'heart rate variability' as intervention other-name
+ctgov|NCT06554834|outcome_description|2|hrv,hrv,yes,LF HRV
+ctgov|NCT06747910|outcome_measure|0|hrv,hrv,yes,HRV msec
+ctgov|NCT06829836|outcome_description|1004|hrv,hrv,yes,WHOOP HRV vs SDNN
+ctgov|NCT07454395|keywords|-1|hrv,hrv,yes,HRV keyword with Visible app
+ctgov|NCT07682402|outcome_description|1002|hrv,hrv,yes,HRV change
+nih|9681993|project_title|-1|hrv,hrv,yes,HRV as predictor
+ctgov|NCT01147263|intervention_description|0|ecg_ambulatory,ecg_ambulatory,yes,loop recorder listed with ECG and HRV
+ctgov|NCT01804192|outcome_description|1000|ecg_ambulatory,ecg_ambulatory,no,bedside patient-monitor ECG electrodes (not ambulatory)
+ctgov|NCT02018497|outcome_description|1003|ecg_ambulatory,ecg_ambulatory,yes,Holter variables in same outcome
+ctgov|NCT02018497|outcome_measure|1001|ecg_ambulatory,ecg_ambulatory,yes,Holter and ambulatory BP in same outcome
+ctgov|NCT02154009|brief_summary|-1|ecg_ambulatory,ecg_ambulatory,no,participants may have an electrocardiogram (resting)
+ctgov|NCT02276716|outcome_description|0|ecg_ambulatory,ecg_ambulatory,no,12-lead ECG safety
+ctgov|NCT03275155|brief_summary|-1|ecg_ambulatory,ecg_ambulatory,yes,14-day cardiac monitoring
+ctgov|NCT03365414|outcome_measure|1004|ecg_ambulatory,ecg_ambulatory,no,exercise-test ECG
+ctgov|NCT03675087|outcome_measure|1022|ecg_ambulatory,ecg_ambulatory,no,ECG at max HR in exercise tests
+ctgov|NCT03691987|outcome_measure|1006|ecg_ambulatory,ecg_ambulatory,unclear,continuous ECG recordings; ambulatory vs lab not stated
+ctgov|NCT03775096|outcome_description|1000|ecg_ambulatory,ecg_ambulatory,no,EKG abnormalities safety monitoring
+ctgov|NCT03911609|outcome_description|4|ecg_ambulatory,ecg_ambulatory,no,10-min lab ECG recording
+ctgov|NCT05098977|outcome_description|2001|ecg_ambulatory,ecg_ambulatory,unclear,ECG documentation of VF/VT; mode not stated
+ctgov|NCT05218174|outcome_description|1064|ecg_ambulatory,ecg_ambulatory,unclear,ECG heart rhythm recording; mode not stated
+ctgov|NCT05218174|outcome_description|1065|ecg_ambulatory,ecg_ambulatory,unclear,ECG heart rhythm recording; mode not stated
+ctgov|NCT05240742|outcome_description|1004|ecg_ambulatory,ecg_ambulatory,no,ECG in myocarditis work-up (resting)
+ctgov|NCT05445713|outcome_description|1027|ecg_ambulatory,ecg_ambulatory,no,ECG parameters and morphology (resting)
+ctgov|NCT05445830|outcome_description|1013|ecg_ambulatory,ecg_ambulatory,no,2-lead lab ECG on EMG system
+ctgov|NCT05693064|outcome_measure|1016|ecg_ambulatory,ecg_ambulatory,unclear,ECG respiratory sinus arrhythmia; mode not stated
+ctgov|NCT05896982|outcome_description|1004|ecg_ambulatory,ecg_ambulatory,yes,24-hour Holter ECG
+ctgov|NCT06073886|outcome_description|1|ecg_ambulatory,ecg_ambulatory,unclear,HRV by ECG; mode not stated
+ctgov|NCT06379737|official_title|-1|ecg_ambulatory,ecg_ambulatory,no,Italian word 'Valutazione' matched zio (homonym)
+ctgov|NCT06532825|outcome_description|2000|ecg_ambulatory,ecg_ambulatory,no,wavelet-ECG diastolic function (resting)
+ctgov|NCT07312409|outcome_description|1000|ecg_ambulatory,ecg_ambulatory,yes,home Polar heart-rate strap alongside lab ECG
+ctgov|NCT07682090|outcome_description|2026|ecg_ambulatory,ecg_ambulatory,unclear,ECG R-R recordings; mode not stated
+ctgov|NCT07775976|intervention_name|0|ecg_ambulatory,ecg_ambulatory,yes,wearable ECG monitoring
+ctgov|NCT07783074|outcome_description|2000|ecg_ambulatory,ecg_ambulatory,yes,5-lead ECG Holter
+ctgov|NCT07834983|keywords|-1|ecg_ambulatory,ecg_ambulatory,no,keyword electrocardiography for drug QT study (resting)
+nih|10930045|abstract_text|-1|ecg_ambulatory,ecg_ambulatory,no,ECG repolarisation markers (resting)
+nih|8795686|abstract_text|-1|ecg_ambulatory,ecg_ambulatory,no,implanted ECG telemeters in mice
+ctgov|NCT03261570|outcome_description|1001|ppg,ppg,yes,finger photoplethysmography BP
+ctgov|NCT03515122|outcome_description|1046|ppg,ppg,unclear,pulse wave analysis; PPG vs tonometry not stated
+ctgov|NCT03515122|outcome_description|1047|ppg,ppg,unclear,PWV; method not stated
+ctgov|NCT04914754|outcome_description|3|ppg,ppg,unclear,central BP by pulse wave analysis; method not stated
+ctgov|NCT05369520|outcome_description|2|ppg,ppg,yes,finger PPG beat-to-beat BP
+ctgov|NCT05369520|outcome_description|3|ppg,ppg,yes,finger PPG BP
+ctgov|NCT05369520|outcome_description|4|ppg,ppg,yes,finger PPG BP
+ctgov|NCT05369520|outcome_description|5|ppg,ppg,yes,finger PPG BP
+ctgov|NCT05369520|outcome_description|6|ppg,ppg,yes,finger PPG BP
+ctgov|NCT05369520|outcome_description|7|ppg,ppg,yes,finger PPG BP
+ctgov|NCT05445830|outcome_description|1004|ppg,ppg,no,"arteriography (Tensiomed, oscillometric) PWV"
+ctgov|NCT05700903|outcome_description|4|ppg,ppg,yes,finger PPG BP variability
+ctgov|NCT05700903|outcome_description|5|ppg,ppg,yes,finger PPG BP
+ctgov|NCT05943821|outcome_measure|2006|ppg,ppg,unclear,PWV; method not stated
+ctgov|NCT06419959|outcome_description|1004|ppg,ppg,unclear,pulse wave analysis; method not stated
+ctgov|NCT06465134|outcome_description|1000|ppg,ppg,unclear,aortic PWV; method not stated
+ctgov|NCT06465134|outcome_measure|1000|ppg,ppg,no,PWV by tonometry
+ctgov|NCT06928116|outcome_description|2|ppg,ppg,unclear,PWV; method not stated
+ctgov|NCT06978582|outcome_description|1000|ppg,ppg,yes,phone-camera PPG
+ctgov|NCT07013903|outcome_description|1010|ppg,ppg,yes,HRV by PPG
+ctgov|NCT07021014|outcome_description|1000|ppg,ppg,unclear,carotid-femoral PWV; method not stated
+ctgov|NCT07110714|outcome_description|1003|ppg,ppg,yes,HRV by PPG device
+ctgov|NCT07110714|outcome_description|1010|ppg,ppg,yes,HRV by PPG
+ctgov|NCT07110714|outcome_measure|1003|ppg,ppg,yes,HRV by PPG
+ctgov|NCT07482462|outcome_description|1001|ppg,ppg,unclear,PWV; method not stated
+ctgov|NCT07783074|outcome_description|1003|ppg,ppg,yes,armband/smartwatch PPG
+ctgov|NCT07783074|outcome_description|1009|ppg,ppg,yes,armband/smartwatch PPG
+ctgov|NCT07783074|outcome_description|1019|ppg,ppg,yes,armband/smartwatch PPG
+ctgov|NCT07783074|outcome_description|1021|ppg,ppg,yes,armband/smartwatch PPG
+ctgov|NCT07783074|outcome_description|2001|ppg,ppg,yes,armband PPG blood pressure
+ctgov|NCT03675087|outcome_description|1009|posture_detection,posture_detection,yes,ActivPAL lying/sitting/standing time
+ctgov|NCT03675087|outcome_description|1016|posture_detection,posture_detection,unclear,ActivPAL registration; posture outcome not visible
+ctgov|NCT03675087|outcome_measure|1009|posture_detection,posture_detection,unclear,"ActivPAL physical activity level, not posture"
+ctgov|NCT03675087|outcome_measure|1016|posture_detection,posture_detection,unclear,"ActivPAL physical activity level, not posture"
+ctgov|NCT04615390|outcome_description|2|continuous_spo2,continuous_spo2,no,spot-check SpO2 sitting/standing (not continuous)
+ctgov|NCT04841759|outcome_measure|1026|continuous_spo2,continuous_spo2,yes,average SpO2 per day (home monitoring)
+ctgov|NCT04886414|outcome_description|2003|continuous_spo2,continuous_spo2,unclear,SpO2 <92% referral threshold; monitoring mode unclear
+ctgov|NCT04886414|outcome_description|2006|continuous_spo2,continuous_spo2,no,SpO2 on arrival (spot)
+ctgov|NCT04886414|outcome_measure|2001|continuous_spo2,continuous_spo2,yes,completeness of home pulse-oximetry data
+ctgov|NCT04886414|outcome_measure|2006|continuous_spo2,continuous_spo2,no,SpO2 on arrival (spot)
+ctgov|NCT04905888|outcome_description|0|continuous_spo2,continuous_spo2,yes,pulse oximetry throughout CPET
+ctgov|NCT04949386|outcome_description|1000|continuous_spo2,continuous_spo2,yes,continuous SpO2 during 6MWT
+ctgov|NCT04949386|outcome_measure|2002|continuous_spo2,continuous_spo2,unclear,SpO2 change; mode not stated
+ctgov|NCT04997395|outcome_measure|1009|continuous_spo2,continuous_spo2,unclear,SpO2; mode not stated
+ctgov|NCT05003271|intervention_description|0|continuous_spo2,continuous_spo2,unclear,minimum SpO2 safety recommendation
+ctgov|NCT05094622|outcome_description|1001|continuous_spo2,continuous_spo2,yes,lowest SpO2 during 6MWT
+ctgov|NCT05094622|outcome_description|1002|continuous_spo2,continuous_spo2,yes,SpO2 drop during 6MWT
+ctgov|NCT05094622|outcome_measure|1015|continuous_spo2,continuous_spo2,yes,SpO2 during active stand test
+ctgov|NCT05172206|outcome_measure|1021|continuous_spo2,continuous_spo2,no,spot SpO2 at weeks 4 and 12
+ctgov|NCT05212831|outcome_measure|0|continuous_spo2,continuous_spo2,unclear,peripheral SpO2 with brain hypoxia; mode not stated
+ctgov|NCT05218174|outcome_description|1060|continuous_spo2,continuous_spo2,yes,pulse oximeter during each CPET stage
+ctgov|NCT05218174|outcome_measure|1061|continuous_spo2,continuous_spo2,unclear,'Pulse oximetry' outcome; mode not stated
+ctgov|NCT05476835|outcome_measure|1000|continuous_spo2,continuous_spo2,unclear,SpO2 improvement; mode not stated
+ctgov|NCT05566379|outcome_description|2|continuous_spo2,continuous_spo2,yes,SpO2 continuously monitored during 6MWT
+ctgov|NCT05650905|intervention_description|0|continuous_spo2,continuous_spo2,no,"retinal oxygen saturation (retinal oximetry, not pulse oximetry)"
+ctgov|NCT05713266|brief_summary|-1|continuous_spo2,continuous_spo2,no,60-second MouthLab spot vital sign
+ctgov|NCT05770193|outcome_measure|1000|continuous_spo2,continuous_spo2,unclear,'Pulse oximeter' outcome; mode not stated
+ctgov|NCT05990907|outcome_measure|1000|continuous_spo2,continuous_spo2,no,microcirculation tissue saturation (not pulse oximetry)
+ctgov|NCT06063031|outcome_description|1004|continuous_spo2,continuous_spo2,yes,pulse oximeter monitoring during 6MWT
+ctgov|NCT06336070|outcome_description|1009|continuous_spo2,continuous_spo2,no,resting finger SpO2 (spot)
+ctgov|NCT06336070|outcome_measure|1009|continuous_spo2,continuous_spo2,unclear,'Oxygen Saturation'; mode not stated
+ctgov|NCT06492798|outcome_description|2002|continuous_spo2,continuous_spo2,no,SpO2 tested (spot)
+ctgov|NCT07579026|outcome_measure|2|continuous_spo2,continuous_spo2,unclear,'Pulse oximetry'; mode not stated
+ctgov|NCT07621588|brief_summary|-1|continuous_spo2,continuous_spo2,no,basal SpO2 (spot)
+ctgov|NCT00093860|brief_summary|-1|respiratory_rate,respiratory_rate,yes,chest band breathing rate
+ctgov|NCT01695525|brief_summary|-1|respiratory_rate,respiratory_rate,no,yoga background
+ctgov|NCT03759808|outcome_description|1002|respiratory_rate,respiratory_rate,yes,capnometer respiration rate
+ctgov|NCT03759808|outcome_measure|1002|respiratory_rate,respiratory_rate,unclear,RR change; method not stated
+ctgov|NCT04100486|outcome_description|1002|respiratory_rate,respiratory_rate,yes,RR percent change during stimulation (continuous)
+ctgov|NCT04100486|outcome_description|2|respiratory_rate,respiratory_rate,yes,RR by belt
+ctgov|NCT04100486|outcome_measure|1002|respiratory_rate,respiratory_rate,unclear,RR change; method not stated
+ctgov|NCT04100486|outcome_measure|2|respiratory_rate,respiratory_rate,unclear,RR change; method not stated
+ctgov|NCT04632134|outcome_measure|1002|respiratory_rate,respiratory_rate,unclear,RR change; method not stated
+ctgov|NCT04716465|outcome_measure|1001|respiratory_rate,respiratory_rate,unclear,RR; method not stated
+ctgov|NCT05126563|outcome_description|22|respiratory_rate,respiratory_rate,no,clinical vital-sign RR
+ctgov|NCT05126563|outcome_measure|22|respiratory_rate,respiratory_rate,no,vital signs RR
+ctgov|NCT05218174|outcome_description|1067|respiratory_rate,respiratory_rate,yes,WHOOP continuous RR
+ctgov|NCT05218174|outcome_measure|1067|respiratory_rate,respiratory_rate,unclear,RR; method not stated
+ctgov|NCT05430217|outcome_measure|2006|respiratory_rate,respiratory_rate,no,safety vital signs RR
+ctgov|NCT05713266|intervention_description|0|respiratory_rate,respiratory_rate,no,60-s MouthLab spot vitals
+ctgov|NCT05877534|outcome_description|1014|respiratory_rate,respiratory_rate,no,RR before/after stand test (spot)
+ctgov|NCT05877534|outcome_measure|1014|respiratory_rate,respiratory_rate,yes,RR during active stand test
+ctgov|NCT06004362|outcome_description|2002|respiratory_rate,respiratory_rate,yes,multichannel monitoring system RR
+ctgov|NCT06100601|outcome_description|1001|respiratory_rate,respiratory_rate,yes,RR by thoracic impedance
+ctgov|NCT06100601|outcome_measure|1001|respiratory_rate,respiratory_rate,unclear,RR; method not stated
+ctgov|NCT06510985|intervention_description|2|respiratory_rate,respiratory_rate,yes,Corsano continuous breathing rate
+ctgov|NCT06933017|outcome_measure|1005|respiratory_rate,respiratory_rate,yes,RR from CPET ventilation
+ctgov|NCT07123727|outcome_measure|7|respiratory_rate,respiratory_rate,no,vital signs RR
+ctgov|NCT07190105|outcome_measure|9|respiratory_rate,respiratory_rate,unclear,breathing rate; method not stated
+ctgov|NCT07455994|brief_summary|-1|respiratory_rate,respiratory_rate,no,background
+nih|10499542|abstract_text|-1|respiratory_rate,respiratory_rate,yes,ViTrack wearable RR
+nih|10907015|abstract_text|-1|respiratory_rate,respiratory_rate,no,background on autonomic regulation
+nih|11304970|abstract_text|-1|respiratory_rate,respiratory_rate,no,animal SCS experiment
+nih|9050628|abstract_text|-1|respiratory_rate,respiratory_rate,no,cellular (Seahorse) respiration rate; homonym
+ctgov|NCT00252629|outcome_description|1|sleep_objective,sleep_objective,yes,full-night polysomnogram
+ctgov|NCT00540254|outcome_measure|2|sleep_objective,sleep_objective,unclear,sleep efficiency; method not stated
+ctgov|NCT00581022|intervention_name|0|sleep_objective,sleep_objective,yes,polysomnography
+ctgov|NCT00748059|outcome_measure|1005|sleep_objective,sleep_objective,unclear,sleep efficiency; method not stated
+ctgov|NCT01368718|brief_summary|-1|sleep_objective,sleep_objective,yes,AHI on PSG
+ctgov|NCT01534130|outcome_measure|1009|sleep_objective,sleep_objective,unclear,sleep efficiency; method not stated
+ctgov|NCT03721445|outcome_description|0|sleep_objective,sleep_objective,yes,PSG night
+ctgov|NCT03721445|outcome_description|1000|sleep_objective,sleep_objective,yes,follow-up PSG
+ctgov|NCT04118816|intervention_description|0|sleep_objective,sleep_objective,yes,overnight PSG
+ctgov|NCT04118816|outcome_description|1000|sleep_objective,sleep_objective,yes,ECG from overnight PSG
+ctgov|NCT05132673|outcome_measure|1006|sleep_objective,sleep_objective,unclear,sleep efficiency; method not stated
+ctgov|NCT05216536|outcome_description|1058|sleep_objective,sleep_objective,yes,sleep efficiency from fitness tracker
+ctgov|NCT05216536|outcome_description|1059|sleep_objective,sleep_objective,yes,sleep efficiency from fitness tracker
+ctgov|NCT05216536|outcome_description|1060|sleep_objective,sleep_objective,yes,sleep efficiency from fitness tracker
+ctgov|NCT05216536|outcome_measure|1058|sleep_objective,sleep_objective,unclear,real-life sleep efficiency; method not stated
+ctgov|NCT05216536|outcome_measure|1060|sleep_objective,sleep_objective,unclear,real-life sleep efficiency; method not stated
+ctgov|NCT05218174|outcome_measure|1095|sleep_objective,sleep_objective,yes,WHOOP sleep efficiency
+ctgov|NCT05244044|outcome_description|2005|sleep_objective,sleep_objective,yes,activity-tracker sleep efficiency
+ctgov|NCT05606211|outcome_description|4|sleep_objective,sleep_objective,yes,PSG sleep stages
+ctgov|NCT06013085|outcome_measure|2|sleep_objective,sleep_objective,unclear,sleep efficiency; method not stated
+ctgov|NCT06041581|brief_summary|-1|sleep_objective,sleep_objective,unclear,sleep efficiency among insomnia factors; likely diary
+ctgov|NCT06404099|outcome_measure|1012|sleep_objective,sleep_objective,yes,activity-tracker sleep efficiency
+ctgov|NCT06419959|outcome_measure|1007|sleep_objective,sleep_objective,yes,physiological sleep efficiency
+ctgov|NCT07190105|outcome_description|6|sleep_objective,sleep_objective,yes,wearable sleep-stage minutes
+ctgov|NCT07397910|outcome_measure|1003|sleep_objective,sleep_objective,unclear,sleep efficiency; method not stated
+nih|11244251|abstract_text|-1|sleep_objective,sleep_objective,yes,home PSG
+nih|11244251|public_health_relevance|-1|sleep_objective,sleep_objective,yes,home PSG
+nih|9344641|abstract_text|-1|sleep_objective,sleep_objective,yes,polysomnographic studies
+nih|9746112|public_health_relevance|-1|sleep_objective,sleep_objective,unclear,sleep architecture background plus proposed comparison; method not stated
+nih|9870961|abstract_text|-1|sleep_objective,sleep_objective,yes,in-lab PSG
+ctgov|NCT00069693|brief_summary|-1|continuous_temperature,continuous_temperature,yes,skin and core temperature sensors during autonomic testing
+ctgov|NCT02174003|intervention_description|0|continuous_temperature,continuous_temperature,no,hyperthermia intervention raises core temperature (not a measurement)
+ctgov|NCT04100486|outcome_description|1005|continuous_temperature,continuous_temperature,yes,skin temperature measured during taVNS
+ctgov|NCT04100486|outcome_description|5|continuous_temperature,continuous_temperature,yes,skin temperature probe
+ctgov|NCT04100486|outcome_measure|1005|continuous_temperature,continuous_temperature,yes,skin temperature change
+ctgov|NCT04100486|outcome_measure|5|continuous_temperature,continuous_temperature,yes,skin temperature change
+ctgov|NCT04170725|outcome_description|1008|continuous_temperature,continuous_temperature,yes,intramuscular and skin temperature during HUT
+ctgov|NCT04170725|outcome_measure|1008|continuous_temperature,continuous_temperature,yes,skin temperature change
+ctgov|NCT05218174|outcome_description|1069|continuous_temperature,continuous_temperature,yes,WHOOP continuous skin temperature
+ctgov|NCT05218174|outcome_measure|1069|continuous_temperature,continuous_temperature,unclear,skin temperature outcome; continuous vs spot not stated
+ctgov|NCT05931497|intervention_description|0|continuous_temperature,continuous_temperature,no,sauna raises core temperature (intervention)
+ctgov|NCT06204458|intervention_description|0|continuous_temperature,continuous_temperature,yes,continuous rectal core temperature during treatment
+ctgov|NCT06204458|intervention_description|1|continuous_temperature,continuous_temperature,no,sham description of temperature rise
+ctgov|NCT06432270|outcome_description|0|continuous_temperature,continuous_temperature,yes,continuous perioperative core temperature monitoring
+ctgov|NCT06432270|outcome_description|1002|continuous_temperature,continuous_temperature,yes,average core body temperature measured
+ctgov|NCT06432270|outcome_measure|0|continuous_temperature,continuous_temperature,yes,perioperative core temperature
+ctgov|NCT06953661|outcome_description|1017|continuous_temperature,continuous_temperature,yes,facial skin temperature measured
+ctgov|NCT06953661|outcome_measure|1017|continuous_temperature,continuous_temperature,yes,facial skin temperature
+ctgov|NCT07783074|outcome_description|1009|continuous_temperature,continuous_temperature,yes,continuous armband/smartwatch skin temperature
+nih|10329920|abstract_text|-1|continuous_temperature,continuous_temperature,no,background statement on thermoregulation
+nih|10528065|abstract_text|-1|continuous_temperature,continuous_temperature,no,animal home-cage thermography (not human measurement)
+nih|11181611|abstract_text|-1|continuous_temperature,continuous_temperature,no,skin temperature is the heat-therapy dose target
+nih|9958859|abstract_text|-1|continuous_temperature,continuous_temperature,yes,measured skin temperature as feedback variable
+ctgov|NCT01000350|outcome_description|0|cpet,cpet,yes,VO2max measured
+ctgov|NCT01563107|intervention_other_names|1|cpet,cpet,yes,VO2max test
+ctgov|NCT02970240|official_title|-1|cpet,cpet,yes,CPET as diagnostic tool
+ctgov|NCT03675087|outcome_description|1020|cpet,cpet,yes,peak CPET workload
+ctgov|NCT03675087|outcome_description|1025|cpet,cpet,yes,HR in peak CPET
+ctgov|NCT03675087|outcome_measure|1017|cpet,cpet,yes,peak VO2 in CPET
+ctgov|NCT04603157|outcome_description|0|cpet,cpet,yes,peak VO2 from maximal CPET
+ctgov|NCT04603157|outcome_description|2002|cpet,cpet,yes,HR at anaerobic threshold
+ctgov|NCT04851561|outcome_measure|0|cpet,cpet,yes,pathological CPET
+ctgov|NCT05035628|outcome_description|0|cpet,cpet,yes,incremental CPET VO2max
+ctgov|NCT05130099|outcome_description|1034|cpet,cpet,yes,VO2peak measured
+ctgov|NCT05212831|outcome_description|1|cpet,cpet,yes,VO2max during CPET
+ctgov|NCT05217875|outcome_measure|1003|cpet,cpet,yes,CPET breathing pattern
+ctgov|NCT05218174|outcome_description|1002|cpet,cpet,yes,CPET duration
+ctgov|NCT05218174|outcome_description|1055|cpet,cpet,yes,CPET performed (RPE recorded during it)
+ctgov|NCT05218174|outcome_description|1059|cpet,cpet,yes,CPET performed (dyspnoea rating recorded during it)
+ctgov|NCT05218174|outcome_description|1062|cpet,cpet,yes,pulse oximeter during CPET
+ctgov|NCT05218174|outcome_measure|2|cpet,cpet,yes,peak VO2
+ctgov|NCT05530317|outcome_description|1002|cpet,cpet,yes,peak VO2 % predicted
+ctgov|NCT05532995|brief_title|-1|cpet,cpet,yes,responses to CPET
+ctgov|NCT05539950|intervention_description|1|cpet,cpet,yes,exercise prescription from CPET results
+ctgov|NCT05618574|outcome_description|1005|cpet,cpet,yes,VO2 at AT from CPET
+ctgov|NCT06091358|outcome_measure|1001|cpet,cpet,yes,ventilatory threshold
+ctgov|NCT06336070|outcome_description|1025|cpet,cpet,yes,VO2peak by portable metabolic analyser
+ctgov|NCT06336070|outcome_measure|1025|cpet,cpet,yes,VO2peak
+ctgov|NCT06933017|brief_summary|-1|cpet,cpet,yes,CPET vs 6MIST for PESE
+ctgov|NCT06933017|outcome_measure|1004|cpet,cpet,yes,day-1 to day-2 CPET HR
+ctgov|NCT06992414|outcome_description|1|cpet,cpet,yes,HR at ventilatory threshold
+ctgov|NCT07492953|outcome_description|0|cpet,cpet,yes,symptom-limited CPET
+ctgov|NCT07621068|outcome_measure|0|cpet,cpet,yes,CPET
+ctgov|NCT01159197|brief_summary|-1|autonomic_testing,autonomic_testing,yes,baroreflex sensitivity measured
+ctgov|NCT01547117|intervention_other_names|3|autonomic_testing,autonomic_testing,yes,standing orthostatic challenge
+ctgov|NCT02300207|outcome_description|0|autonomic_testing,autonomic_testing,yes,head-up tilt testing
+ctgov|NCT03070730|outcome_description|1|autonomic_testing,autonomic_testing,yes,tilt table test HR
+ctgov|NCT03124355|intervention_description|3|autonomic_testing,autonomic_testing,yes,tilt table tests
+ctgov|NCT03124355|intervention_description|4|autonomic_testing,autonomic_testing,yes,tilt table tests
+ctgov|NCT03137537|outcome_description|2000|autonomic_testing,autonomic_testing,yes,cardiac autonomic function testing
+ctgov|NCT04100486|outcome_description|2|autonomic_testing,autonomic_testing,yes,autonomic test
+ctgov|NCT04736732|outcome_description|1012|autonomic_testing,autonomic_testing,yes,10-minute standing test
+ctgov|NCT04855266|intervention_name|2|autonomic_testing,autonomic_testing,yes,tilt table test intervention
+ctgov|NCT05094622|outcome_description|1014|autonomic_testing,autonomic_testing,yes,active standing test HR
+ctgov|NCT05205772|outcome_description|2002|autonomic_testing,autonomic_testing,yes,orthostatic vital signs BP
+ctgov|NCT05365607|outcome_description|2|autonomic_testing,autonomic_testing,yes,cardiovagal baroreflex sensitivity
+ctgov|NCT05369520|outcome_description|2|autonomic_testing,autonomic_testing,yes,head-up tilt test with beat-to-beat BP
+ctgov|NCT05566379|outcome_description|1|autonomic_testing,autonomic_testing,yes,active stand test
+ctgov|NCT05633693|outcome_description|1002|autonomic_testing,autonomic_testing,yes,Valsalva responses
+ctgov|NCT05700903|outcome_description|0|autonomic_testing,autonomic_testing,yes,baroreflex sensitivity
+ctgov|NCT05772260|brief_summary|-1|autonomic_testing,autonomic_testing,yes,autonomic function test before surgery
+ctgov|NCT05855356|outcome_measure|1000|autonomic_testing,autonomic_testing,yes,NASA lean test
+ctgov|NCT05877534|outcome_measure|1015|autonomic_testing,autonomic_testing,yes,active stand test performed (endpoint recorded during it is a symptom)
+ctgov|NCT05923840|keywords|-1|autonomic_testing,autonomic_testing,yes,tilt table testing keyword of POTS study
+ctgov|NCT05924646|outcome_description|0|autonomic_testing,autonomic_testing,yes,upright HR during tilt test
+ctgov|NCT06305793|outcome_description|1003|autonomic_testing,autonomic_testing,yes,active stand test
+ctgov|NCT06305806|outcome_description|1002|autonomic_testing,autonomic_testing,yes,active stand test
+ctgov|NCT07021014|outcome_description|2001|autonomic_testing,autonomic_testing,yes,cardiovagal baroreflex sensitivity
+ctgov|NCT07374562|outcome_measure|1003|autonomic_testing,autonomic_testing,yes,NASA lean test
+ctgov|NCT07398508|brief_summary|-1|autonomic_testing,autonomic_testing,yes,tilt table tests
+ctgov|NCT07564830|outcome_measure|1003|autonomic_testing,autonomic_testing,yes,orthostatic heart rate change
+nih|10473598|abstract_text|-1|autonomic_testing,autonomic_testing,unclear,Valsalva pressor response in background phenotype description
+nih|9674234|abstract_text|-1|autonomic_testing,autonomic_testing,yes,head-up tilt used as experimental manoeuvre
+ctgov|NCT00565526|brief_summary|-1|small_fiber_testing,small_fiber_testing,yes,optional skin biopsy for skin nerve supply
+ctgov|NCT03674541|brief_summary|-1|small_fiber_testing,small_fiber_testing,no,background: SFN as a proposed cause
+ctgov|NCT04310644|brief_summary|-1|small_fiber_testing,small_fiber_testing,unclear,study focus on SFN; test not stated
+ctgov|NCT04310644|brief_title|-1|small_fiber_testing,small_fiber_testing,unclear,title: SFN and EDS study; test not stated
+ctgov|NCT04310644|official_title|-1|small_fiber_testing,small_fiber_testing,unclear,title: SFN vs central failure; test not stated
+ctgov|NCT04310644|outcome_measure|2|small_fiber_testing,small_fiber_testing,unclear,skin biopsy outcome; purpose not stated
+ctgov|NCT06292104|intervention_description|0|small_fiber_testing,small_fiber_testing,unclear,skin biopsy in test list; purpose not stated
+ctgov|NCT06305793|outcome_description|2000|small_fiber_testing,small_fiber_testing,yes,skin biopsy within autonomic test battery
+ctgov|NCT06992531|intervention_description|4|small_fiber_testing,small_fiber_testing,yes,IENFD quantification
+ctgov|NCT06992531|intervention_name|4|small_fiber_testing,small_fiber_testing,unclear,skin biopsy intervention; purpose not stated
+ctgov|NCT06992531|outcome_description|1001|small_fiber_testing,small_fiber_testing,yes,IENFD in skin biopsies
+ctgov|NCT07255573|brief_summary|-1|small_fiber_testing,small_fiber_testing,no,background definition of SFN
+ctgov|NCT07255573|brief_title|-1|small_fiber_testing,small_fiber_testing,yes,wrinkle test accuracy for SFN (small-fiber test)
+ctgov|NCT07255573|keywords|-1|small_fiber_testing,small_fiber_testing,yes,keywords SFN with QST/SSR tests
+ctgov|NCT07255573|official_title|-1|small_fiber_testing,small_fiber_testing,yes,wrinkle test for SFN diagnosis
+ctgov|NCT07682090|brief_summary|-1|small_fiber_testing,small_fiber_testing,no,background prevalence on skin biopsy
+ctgov|NCT07682090|outcome_description|2001|small_fiber_testing,small_fiber_testing,yes,dynamic sweat test of autonomic small-fiber function
+nih|10491027|abstract_text|-1|small_fiber_testing,small_fiber_testing,yes,skin biopsy nerve quantification in study approach
+nih|10619324|abstract_text|-1|small_fiber_testing,small_fiber_testing,no,background on polyneuropathies
+nih|10619324|project_title|-1|small_fiber_testing,small_fiber_testing,yes,END biomarker for SFN diagnosis
+nih|10619324|public_health_relevance|-1|small_fiber_testing,small_fiber_testing,yes,END from punch skin biopsy
+nih|10686865|abstract_text|-1|small_fiber_testing,small_fiber_testing,no,alcohol neuropathy background
+nih|10930045|abstract_text|-1|small_fiber_testing,small_fiber_testing,no,Fabry skin biopsy collections for vascular/renal lesions
+nih|11242029|abstract_text|-1|small_fiber_testing,small_fiber_testing,yes,small-fiber density on skin biopsy
+nih|9273337|abstract_text|-1|small_fiber_testing,small_fiber_testing,no,background definition
+nih|9273337|project_title|-1|small_fiber_testing,small_fiber_testing,no,animal models of SFN
+nih|9273337|public_health_relevance|-1|small_fiber_testing,small_fiber_testing,no,background definition
+nih|9361301|abstract_text|-1|small_fiber_testing,small_fiber_testing,unclear,reduced SFN as outcome; test not stated
+ctgov|NCT01151163|brief_summary|-1|endothelial_function,endothelial_function,no,"peripheral arterial tonometry used for sleep study, not endothelial function"
+ctgov|NCT01151163|keywords|-1|endothelial_function,endothelial_function,no,keyword PAT in sleep study
+ctgov|NCT01308099|brief_title|-1|endothelial_function,endothelial_function,yes,vascular endothelial function assessment in POTS
+ctgov|NCT01550315|intervention_description|0|endothelial_function,endothelial_function,yes,PAT recording with reactive hyperaemia
+ctgov|NCT01550315|intervention_description|1|endothelial_function,endothelial_function,yes,reactive hyperaemia calf blood flow by plethysmography
+ctgov|NCT01550315|outcome_measure|0|endothelial_function,endothelial_function,yes,FMD % change
+ctgov|NCT01858896|outcome_measure|1|endothelial_function,endothelial_function,yes,flow-mediated dilation
+ctgov|NCT01977417|keywords|-1|endothelial_function,endothelial_function,yes,keyword endothelial function of vascular trial
+ctgov|NCT01977417|outcome_measure|0|endothelial_function,endothelial_function,yes,endothelial function outcome
+ctgov|NCT02406586|outcome_description|13|endothelial_function,endothelial_function,yes,brachial FMD by ultrasound
+ctgov|NCT02406586|outcome_description|14|endothelial_function,endothelial_function,yes,brachial FMD by ultrasound
+ctgov|NCT02406586|outcome_measure|15|endothelial_function,endothelial_function,yes,flow-mediated dilation change
+ctgov|NCT02692313|brief_summary|-1|endothelial_function,endothelial_function,yes,study aim measures in-vivo endothelial function
+ctgov|NCT03225898|outcome_measure|1000|endothelial_function,endothelial_function,yes,endothelial function change
+ctgov|NCT05196529|outcome_description|2|endothelial_function,endothelial_function,yes,brachial FMD
+ctgov|NCT05629988|outcome_measure|1008|endothelial_function,endothelial_function,yes,RHI by EndoPAT
+ctgov|NCT05668039|brief_summary|-1|endothelial_function,endothelial_function,yes,endothelial function outcome of EECP trial
+ctgov|NCT05668039|outcome_description|1002|endothelial_function,endothelial_function,yes,EndoPAT test
+ctgov|NCT05697640|outcome_measure|1012|endothelial_function,endothelial_function,yes,EndoPAT
+ctgov|NCT05823896|outcome_measure|1004|endothelial_function,endothelial_function,yes,endothelial function change
+ctgov|NCT06091384|brief_summary|-1|endothelial_function,endothelial_function,no,background on prior findings
+ctgov|NCT06091384|outcome_measure|1|endothelial_function,endothelial_function,yes,endothelial function outcome
+ctgov|NCT06168006|outcome_measure|1014|endothelial_function,endothelial_function,yes,FMD at 12 weeks
+ctgov|NCT06535165|outcome_measure|1001|endothelial_function,endothelial_function,yes,FMD
+ctgov|NCT07026643|brief_summary|-1|endothelial_function,endothelial_function,no,speculative background statement
+ctgov|NCT07295483|outcome_description|1004|endothelial_function,endothelial_function,unclear,diet outcome aims to assess endothelial function; measurement not stated
+ctgov|NCT07312409|brief_summary|-1|endothelial_function,endothelial_function,yes,EndoPAT device
+ctgov|NCT07544186|brief_title|-1|endothelial_function,endothelial_function,yes,title: effect on endothelial function
+ctgov|NCT07544186|official_title|-1|endothelial_function,endothelial_function,yes,title: effect on endothelial function
+nih|10933306|abstract_text|-1|endothelial_function,endothelial_function,no,FMD = functional movement disorders (homonym)
+ctgov|NCT00001418|brief_summary|-1|vascular_imaging,vascular_imaging,unclear,PET of sympathetic activity; organ not stated
+ctgov|NCT02406586|outcome_description|13|vascular_imaging,vascular_imaging,yes,high-resolution vascular ultrasound
+ctgov|NCT03759522|intervention_name|0|vascular_imaging,vascular_imaging,no,TSPO (DPA-714) brain PET for neuroinflammation
+ctgov|NCT04736732|outcome_description|1000|vascular_imaging,vascular_imaging,yes,echocardiogram
+ctgov|NCT04752293|outcome_description|1060|vascular_imaging,vascular_imaging,yes,echocardiogram
+ctgov|NCT04752293|outcome_description|1064|vascular_imaging,vascular_imaging,yes,echocardiogram LVMI
+ctgov|NCT04752293|outcome_description|31|vascular_imaging,vascular_imaging,yes,echocardiogram LVMI
+ctgov|NCT04881305|intervention_description|0|vascular_imaging,vascular_imaging,no,FDG PET-CT of brain mechanisms
+ctgov|NCT04914754|outcome_description|1|vascular_imaging,vascular_imaging,yes,echocardiographic ejection fraction
+ctgov|NCT04914754|outcome_measure|1|vascular_imaging,vascular_imaging,yes,echocardiography
+ctgov|NCT05098977|outcome_description|2002|vascular_imaging,vascular_imaging,yes,transthoracic echocardiography
+ctgov|NCT05543590|intervention_name|3|vascular_imaging,vascular_imaging,unclear,PET scan; target not stated
+ctgov|NCT05619653|brief_summary|-1|vascular_imaging,vascular_imaging,yes,cardiac MRI
+ctgov|NCT05756452|intervention_other_names|0|vascular_imaging,vascular_imaging,yes,transthoracic Doppler echocardiography
+ctgov|NCT05943821|outcome_description|2000|vascular_imaging,vascular_imaging,yes,TTE parameters
+ctgov|NCT06120049|intervention_description|0|vascular_imaging,vascular_imaging,unclear,MFBG PET/CT; target organ not stated
+ctgov|NCT06292104|intervention_description|0|vascular_imaging,vascular_imaging,yes,cardiac MRI
+ctgov|NCT06394921|outcome_description|1005|vascular_imaging,vascular_imaging,unclear,'12 lead echocardiogram' (likely ECG typo)
+ctgov|NCT06427512|outcome_description|0|vascular_imaging,vascular_imaging,yes,cardiac PET microvascular dysfunction
+ctgov|NCT06597682|outcome_description|1000|vascular_imaging,vascular_imaging,yes,cardiac magnetic resonance
+ctgov|NCT06911476|outcome_description|0|vascular_imaging,vascular_imaging,no,"pulmonary FAPI PET (lung, not vascular/cardiac)"
+ctgov|NCT06920628|intervention_description|0|vascular_imaging,vascular_imaging,unclear,PET scanning; target not stated
+ctgov|NCT07076862|brief_summary|-1|vascular_imaging,vascular_imaging,unclear,total-body AraG PET for immune activation and vascular change
+ctgov|NCT07076862|outcome_description|2|vascular_imaging,vascular_imaging,unclear,PET/CT kinetic uptake; target not stated
+ctgov|NCT07150455|brief_summary|-1|vascular_imaging,vascular_imaging,yes,echocardiographic LV function
+ctgov|NCT07527130|official_title|-1|vascular_imaging,vascular_imaging,no,ER176 PET neuroinflammation
+nih|11381857|public_health_relevance|-1|vascular_imaging,vascular_imaging,no,total-body PET of T-cell activation
+nih|9207020|abstract_text|-1|vascular_imaging,vascular_imaging,yes,transcranial Doppler ultrasound
+nih|9637436|abstract_text|-1|vascular_imaging,vascular_imaging,no,echocardiography in animal model
+nih|9744531|abstract_text|-1|vascular_imaging,vascular_imaging,yes,transcranial Doppler hemodynamics
+ctgov|NCT05235698|intervention_description|1|capillaroscopy,capillaroscopy,yes,sidestream dark field sublingual microvascular imaging
+ctgov|NCT05235698|outcome_measure|0|capillaroscopy,capillaroscopy,yes,capillary density
+ctgov|NCT05293366|intervention_description|7|capillaroscopy,capillaroscopy,yes,capillaroscopy in dermatology evaluation
+ctgov|NCT05293366|outcome_description|1010|capillaroscopy,capillaroscopy,yes,capillaroscopic patterns
+ctgov|NCT05315739|outcome_description|1019|capillaroscopy,capillaroscopy,yes,nailfold video capillaroscopy
+ctgov|NCT05445531|intervention_description|1|capillaroscopy,capillaroscopy,yes,nailfold microvasculature imaging
+ctgov|NCT05445531|intervention_name|1|capillaroscopy,capillaroscopy,yes,nailfold capillaroscopy
+ctgov|NCT05445531|outcome_measure|1014|capillaroscopy,capillaroscopy,yes,nailfold capillaroscopy
+ctgov|NCT05445531|outcome_measure|1015|capillaroscopy,capillaroscopy,yes,nailfold capillaroscopy
+ctgov|NCT05445531|outcome_measure|1016|capillaroscopy,capillaroscopy,yes,nailfold capillaroscopy
+ctgov|NCT02444091|brief_summary|-1|microvascular_function,microvascular_function,yes,skin microvascular dysfunction studies performed
+ctgov|NCT03253120|brief_summary|-1|microvascular_function,microvascular_function,yes,"continuous NIRS during HUT (tissue oxygenation, in class definition)"
+ctgov|NCT03253120|outcome_description|1001|microvascular_function,microvascular_function,yes,brain perfusion by NIRS
+ctgov|NCT04195360|outcome_description|1008|microvascular_function,microvascular_function,yes,NIRS apparatus
+ctgov|NCT04914754|outcome_description|4|microvascular_function,microvascular_function,yes,muscle NIRS
+ctgov|NCT04914754|outcome_measure|2|microvascular_function,microvascular_function,yes,microvascular reactivity
+ctgov|NCT05225688|outcome_measure|1002|microvascular_function,microvascular_function,yes,muscle oxygenation by NIRS
+ctgov|NCT05351827|outcome_measure|2001|microvascular_function,microvascular_function,yes,microvascular function
+ctgov|NCT05373043|outcome_measure|1|microvascular_function,microvascular_function,yes,microvascular function with passive leg movement
+ctgov|NCT05566392|intervention_other_names|0|microvascular_function,microvascular_function,yes,NIRS
+ctgov|NCT05650905|intervention_name|3|microvascular_function,microvascular_function,yes,laser speckle flowgraphy
+ctgov|NCT05699538|outcome_description|1002|microvascular_function,microvascular_function,yes,muscle NIRS oxygen extraction
+ctgov|NCT05954325|outcome_description|1007|microvascular_function,microvascular_function,yes,retinal microcirculation assessment
+ctgov|NCT05990907|brief_summary|-1|microvascular_function,microvascular_function,yes,microcirculatory regulation study
+ctgov|NCT05990907|brief_title|-1|microvascular_function,microvascular_function,yes,microcirculation title
+ctgov|NCT05990907|outcome_description|1000|microvascular_function,microvascular_function,yes,O2C laser Doppler
+ctgov|NCT06427512|outcome_measure|0|microvascular_function,microvascular_function,yes,prevalence of microvascular dysfunction
+ctgov|NCT06795750|intervention_description|0|microvascular_function,microvascular_function,no,mechanism claim in intervention description
+ctgov|NCT06933017|intervention_description|0|microvascular_function,microvascular_function,yes,TrainRed NIRS device
+ctgov|NCT06933017|outcome_measure|12|microvascular_function,microvascular_function,yes,mitoPO2 via NIRS as stated
+ctgov|NCT07491315|intervention_name|1|microvascular_function,microvascular_function,yes,NIRS intervention
+ctgov|NCT07559994|brief_summary|-1|microvascular_function,microvascular_function,yes,coronary microvascular function test
+ctgov|NCT07559994|intervention_description|0|microvascular_function,microvascular_function,yes,coronary microvascular dysfunction from CFT
+ctgov|NCT07715838|outcome_measure|7|microvascular_function,microvascular_function,yes,cerebral oxygenation NIRS
+nih|10594403|project_title|-1|microvascular_function,microvascular_function,yes,coronary microvascular reactivity
+nih|11222655|abstract_text|-1|microvascular_function,microvascular_function,no,background on SDB and microvascular function
+nih|11304970|abstract_text|-1|microvascular_function,microvascular_function,no,laser Doppler in animal hindlimb
+nih|11314483|abstract_text|-1|microvascular_function,microvascular_function,no,background on prior case-control findings
+nih|11377970|project_title|-1|microvascular_function,microvascular_function,yes,coronary microvascular dysfunction by CMR
+nih|8996697|abstract_text|-1|microvascular_function,microvascular_function,yes,laser Doppler flowmetry with microdialysis
+ctgov|NCT05235698|brief_summary|-1|retinal_imaging,retinal_imaging,no,background: another team's prior OCT findings
+ctgov|NCT05235698|intervention_description|0|retinal_imaging,retinal_imaging,yes,OCT-A in eye work-up
+ctgov|NCT05235698|outcome_description|6|retinal_imaging,retinal_imaging,yes,OCT images
+ctgov|NCT05307575|outcome_description|1012|retinal_imaging,retinal_imaging,yes,OCTA retinal plexuses
+ctgov|NCT05635552|brief_summary|-1|retinal_imaging,retinal_imaging,yes,retinal microvasculature analysis
+ctgov|NCT05635552|intervention_description|1|retinal_imaging,retinal_imaging,yes,OCT imaging
+ctgov|NCT05635552|intervention_name|1|retinal_imaging,retinal_imaging,yes,OCT
+ctgov|NCT05635552|keywords|-1|retinal_imaging,retinal_imaging,yes,keyword retinal vessel analysis
+ctgov|NCT05635552|official_title|-1|retinal_imaging,retinal_imaging,yes,retinal microvasculature title
+ctgov|NCT05635552|outcome_description|0|retinal_imaging,retinal_imaging,yes,retinal vessel analysis parameters
+ctgov|NCT05635552|outcome_description|1000|retinal_imaging,retinal_imaging,yes,retinal vessel analysis parameters
+ctgov|NCT05635552|outcome_description|1001|retinal_imaging,retinal_imaging,yes,retinal vessel analysis parameters
+ctgov|NCT05635552|outcome_description|1006|retinal_imaging,retinal_imaging,yes,OCT-A parameters
+ctgov|NCT05635552|outcome_measure|0|retinal_imaging,retinal_imaging,yes,retinal vessel responsiveness
+ctgov|NCT05635552|outcome_measure|1000|retinal_imaging,retinal_imaging,yes,retinal vessel responsiveness
+ctgov|NCT05635552|outcome_measure|1001|retinal_imaging,retinal_imaging,yes,retinal vessel responsiveness
+ctgov|NCT05650905|intervention_description|0|retinal_imaging,retinal_imaging,yes,retinal vessel diameters by DVA
+ctgov|NCT05650905|intervention_description|2|retinal_imaging,retinal_imaging,yes,retinal vessel density by OCT
+ctgov|NCT05650905|intervention_name|1|retinal_imaging,retinal_imaging,yes,FD-OCT
+ctgov|NCT05650905|intervention_name|2|retinal_imaging,retinal_imaging,yes,OCT
+ctgov|NCT05650905|outcome_description|1005|retinal_imaging,retinal_imaging,yes,RNFL by OCT
+ctgov|NCT05650905|outcome_description|1007|retinal_imaging,retinal_imaging,yes,vessel density by OCT
+ctgov|NCT05650905|outcome_measure|1000|retinal_imaging,retinal_imaging,yes,retinal vessel diameters
+ctgov|NCT05650905|outcome_measure|1007|retinal_imaging,retinal_imaging,yes,retinal vessel density
+ctgov|NCT05954325|outcome_measure|1007|retinal_imaging,retinal_imaging,yes,OCT angiography
+ctgov|NCT06042530|outcome_measure|1007|retinal_imaging,retinal_imaging,yes,OCT
+ctgov|NCT07345546|brief_summary|-1|retinal_imaging,retinal_imaging,yes,CVI from OCT
+ctgov|NCT07345546|outcome_description|0|retinal_imaging,retinal_imaging,yes,CVI from OCT
+nih|10697076|abstract_text|-1|retinal_imaging,retinal_imaging,yes,OCT images for deep-learning classification
+nih|11317139|abstract_text|-1|retinal_imaging,retinal_imaging,no,'Oct 2019' month (homonym)
+ctgov|NCT04615390|outcome_measure|3|digital_gait,digital_gait,no,"30-s sit-to-stand (manual test, no sensor)"
+ctgov|NCT04615390|outcome_measure|4|digital_gait,digital_gait,no,1-min sit-to-stand (manual)
+ctgov|NCT04742946|outcome_description|0|digital_gait,digital_gait,no,1-min sit-to-stand (manual)
+ctgov|NCT04977388|outcome_measure|1005|digital_gait,digital_gait,no,TUG performance (manual timed test)
+ctgov|NCT05003271|outcome_description|1004|digital_gait,digital_gait,no,1-min sit-to-stand (manual)
+ctgov|NCT05040893|outcome_measure|1004|digital_gait,digital_gait,no,1-min sit-to-stand (manual)
+ctgov|NCT05228691|outcome_description|2|digital_gait,digital_gait,no,1-min sit-to-stand (manual)
+ctgov|NCT05576662|outcome_description|1012|digital_gait,digital_gait,no,sit-to-stand count (manual)
+ctgov|NCT05739552|outcome_description|1|digital_gait,digital_gait,no,TUG (manual timed test)
+ctgov|NCT05781893|outcome_description|2012|digital_gait,digital_gait,no,STS-60 (manual)
+ctgov|NCT05813873|outcome_measure|1014|digital_gait,digital_gait,no,TUG (manual)
+ctgov|NCT05886842|brief_summary|-1|digital_gait,digital_gait,no,STS and TUG reliability (manual tests)
+ctgov|NCT05886842|keywords|-1|digital_gait,digital_gait,no,keywords STS/TUG (manual tests)
+ctgov|NCT05886842|outcome_description|1|digital_gait,digital_gait,no,TUG reliability (manual)
+ctgov|NCT06017232|outcome_description|1008|digital_gait,digital_gait,no,5-rep sit-to-stand (manual)
+ctgov|NCT06118138|outcome_description|1007|digital_gait,digital_gait,no,1-min sit-to-stand (manual)
+ctgov|NCT06156176|outcome_measure|1000|digital_gait,digital_gait,no,30-s sit-to-stand (manual)
+ctgov|NCT06165978|outcome_description|2|digital_gait,digital_gait,yes,inertial measurement unit worn one week
+ctgov|NCT06165978|outcome_description|5|digital_gait,digital_gait,no,1-min sit-to-stand (manual)
+ctgov|NCT06231238|outcome_measure|1020|digital_gait,digital_gait,unclear,4 m gait speed; sensor vs stopwatch not stated
+ctgov|NCT06234462|outcome_description|1001|digital_gait,digital_gait,no,30-s sit-to-stand (manual)
+ctgov|NCT06394921|outcome_description|2009|digital_gait,digital_gait,no,5 m TUG seconds (manual)
+ctgov|NCT06394921|outcome_measure|2009|digital_gait,digital_gait,no,TUG (manual)
+ctgov|NCT06528145|intervention_description|0|digital_gait,digital_gait,no,30-s sit-to-stand in intervention description (manual)
+ctgov|NCT06766825|outcome_description|1013|digital_gait,digital_gait,no,5xSTS seconds (manual)
+ctgov|NCT07374562|outcome_measure|1002|digital_gait,digital_gait,no,1-min sit-to-stand (manual)
+ctgov|NCT07478172|outcome_description|3|digital_gait,digital_gait,no,10 m walk and TUG (manual)
+ctgov|NCT07621588|outcome_description|1004|digital_gait,digital_gait,no,30-s sit-to-stand (manual)
+ctgov|NCT07770022|outcome_measure|2011|digital_gait,digital_gait,no,30-s sit-to-stand (manual)
+nih|11181611|abstract_text|-1|digital_gait,digital_gait,unclear,gait speed; sensor vs stopwatch not stated
+ctgov|NCT01988883|outcome_description|1000|digital_cognitive,digital_cognitive,yes,CogState tasks
+ctgov|NCT03602482|outcome_measure|1000|digital_cognitive,digital_cognitive,yes,CogState identification task
+ctgov|NCT05047952|outcome_description|0|digital_cognitive,digital_cognitive,yes,online CogState
+ctgov|NCT05225220|outcome_description|0|digital_cognitive,digital_cognitive,yes,NIH Toolbox Flanker
+ctgov|NCT05225220|outcome_description|1|digital_cognitive,digital_cognitive,yes,NIH Toolbox PSMT
+ctgov|NCT05225220|outcome_description|3|digital_cognitive,digital_cognitive,yes,NIH Toolbox processing speed
+ctgov|NCT05225220|outcome_description|4|digital_cognitive,digital_cognitive,yes,NIH Toolbox working memory
+ctgov|NCT05274477|outcome_description|1001|digital_cognitive,digital_cognitive,yes,screen-based reaction time task
+ctgov|NCT05494424|outcome_measure|1001|digital_cognitive,digital_cognitive,yes,CANTAB
+ctgov|NCT05571852|brief_summary|-1|digital_cognitive,digital_cognitive,no,"computerized cognitive TRAINING (intervention, not measurement)"
+ctgov|NCT05571852|keywords|-1|digital_cognitive,digital_cognitive,no,keyword computerized cognitive training
+ctgov|NCT05685121|outcome_description|10|digital_cognitive,digital_cognitive,yes,CogState battery
+ctgov|NCT05705193|intervention_description|0|digital_cognitive,digital_cognitive,no,computerized cognitive remediation intervention
+ctgov|NCT05795816|outcome_description|1001|digital_cognitive,digital_cognitive,yes,reaction time test
+ctgov|NCT05855369|outcome_description|1002|digital_cognitive,digital_cognitive,yes,NIH Toolbox cognitive battery
+ctgov|NCT05914649|outcome_description|1000|digital_cognitive,digital_cognitive,yes,reaction time test ms
+ctgov|NCT05914649|outcome_measure|1000|digital_cognitive,digital_cognitive,yes,reaction time test
+ctgov|NCT05965739|outcome_description|1006|digital_cognitive,digital_cognitive,yes,CogState detection score
+ctgov|NCT05965739|outcome_description|1007|digital_cognitive,digital_cognitive,yes,CogState identification score
+ctgov|NCT05965739|outcome_measure|1005|digital_cognitive,digital_cognitive,yes,NIH Toolbox Flanker
+ctgov|NCT05965739|outcome_measure|1006|digital_cognitive,digital_cognitive,yes,CogState detection
+ctgov|NCT05965739|outcome_measure|1007|digital_cognitive,digital_cognitive,yes,CogState identification
+ctgov|NCT06136871|outcome_measure|1003|digital_cognitive,digital_cognitive,yes,CANTAB RVP
+ctgov|NCT06142253|outcome_description|1007|digital_cognitive,digital_cognitive,yes,NIH Toolbox computerized battery
+ctgov|NCT06223971|outcome_description|1001|digital_cognitive,digital_cognitive,yes,NIH Toolbox iPad battery
+ctgov|NCT06223971|outcome_measure|1001|digital_cognitive,digital_cognitive,yes,NIH Toolbox battery
+ctgov|NCT06847191|outcome_measure|0|digital_cognitive,digital_cognitive,yes,CogState battery
+ctgov|NCT06850350|outcome_measure|0|digital_cognitive,digital_cognitive,yes,NIH Toolbox battery
+ctgov|NCT07429903|outcome_measure|1004|digital_cognitive,digital_cognitive,yes,NIH Toolbox fluid composite
+nih|9679247|abstract_text|-1|digital_cognitive,digital_cognitive,no,computerized cognitive-behavioral THERAPY
+ctgov|NCT02965768|outcome_description|1000|blood_biomarkers,blood_biomarkers,yes,plasma cytokines as biomarkers
+ctgov|NCT05430152|outcome_description|2010|blood_biomarkers,blood_biomarkers,yes,blood cortisol
+ctgov|NCT05445830|intervention_description|0|blood_biomarkers,blood_biomarkers,yes,blood cytokine release
+ctgov|NCT05445830|intervention_description|1|blood_biomarkers,blood_biomarkers,yes,blood cytokine release
+ctgov|NCT05524532|outcome_measure|1|blood_biomarkers,blood_biomarkers,yes,plasma CRP
+ctgov|NCT05630040|outcome_measure|1040|blood_biomarkers,blood_biomarkers,yes,plasma hs-CRP
+ctgov|NCT05672602|outcome_measure|0|blood_biomarkers,blood_biomarkers,unclear,unspecified 'Long COVID biomarkers'; specimen not stated
+ctgov|NCT05681455|brief_summary|-1|blood_biomarkers,blood_biomarkers,yes,cortisol values measured
+ctgov|NCT05695755|intervention_description|0|blood_biomarkers,blood_biomarkers,yes,cortisol level
+ctgov|NCT05700903|outcome_measure|6|blood_biomarkers,blood_biomarkers,unclear,renal dysfunction biomarkers; blood or urine not stated
+ctgov|NCT05710770|outcome_description|1013|blood_biomarkers,blood_biomarkers,yes,blood inflammatory biomarkers
+ctgov|NCT05745974|intervention_other_names|0|blood_biomarkers,blood_biomarkers,yes,CRP test
+ctgov|NCT05795816|outcome_description|1007|blood_biomarkers,blood_biomarkers,yes,pathology bloods incl CRP
+ctgov|NCT05858515|outcome_description|1010|blood_biomarkers,blood_biomarkers,yes,plasma inflammatory biomarkers
+ctgov|NCT05911906|outcome_description|1003|blood_biomarkers,blood_biomarkers,yes,biomarker and inflammatory profiles
+ctgov|NCT05967052|outcome_description|2000|blood_biomarkers,blood_biomarkers,yes,inflammatory cytokines
+ctgov|NCT06073002|outcome_measure|1008|blood_biomarkers,blood_biomarkers,yes,IL-6 pg/ml
+ctgov|NCT06492798|outcome_description|2000|blood_biomarkers,blood_biomarkers,yes,CRP testing
+ctgov|NCT06590324|outcome_measure|2000|blood_biomarkers,blood_biomarkers,yes,biomarkers of inflammation
+ctgov|NCT07074158|outcome_measure|1|blood_biomarkers,blood_biomarkers,yes,cytokines outcome
+ctgov|NCT07197138|outcome_measure|0|blood_biomarkers,blood_biomarkers,yes,CRP change
+ctgov|NCT07275164|outcome_measure|1003|blood_biomarkers,blood_biomarkers,yes,CRP level
+ctgov|NCT07682090|outcome_measure|2002|blood_biomarkers,blood_biomarkers,yes,serum biomarker levels
+ctgov|NCT07775976|keywords|-1|blood_biomarkers,blood_biomarkers,no,ECG-derived biomarkers (not blood)
+ctgov|NCT07783074|keywords|-1|blood_biomarkers,blood_biomarkers,no,digital biomarker keyword
+ctgov|NCT07783074|outcome_description|1012|blood_biomarkers,blood_biomarkers,no,digital biomarker outcomes
+nih|11090272|public_health_relevance|-1|blood_biomarkers,blood_biomarkers,yes,blood-test biomarker panel
+nih|11317996|abstract_text|-1|blood_biomarkers,blood_biomarkers,no,VCID imaging biomarkers (white matter hyperintensities)
+nih|11377951|abstract_text|-1|blood_biomarkers,blood_biomarkers,unclear,CRP in description of prior trial results
+nih|8842726|public_health_relevance|-1|blood_biomarkers,blood_biomarkers,no,generic biomarker statement about miRNA (not a blood chemistry assay)
+ctgov|NCT01692561|outcome_description|0|metabolomics,metabolomics,unclear,"in-vivo MR spectroscopy metabolite profiles (imaging, not an omics assay)"
+ctgov|NCT03691987|outcome_measure|2006|metabolomics,metabolomics,yes,metabolome in feces/blood/urine
+ctgov|NCT03953768|outcome_measure|7|metabolomics,metabolomics,yes,SCFA metabolomics
+ctgov|NCT04859257|brief_summary|-1|metabolomics,metabolomics,yes,metabolomic testing
+ctgov|NCT04859257|outcome_measure|2|metabolomics,metabolomics,yes,metabolomic testing
+ctgov|NCT05445830|outcome_measure|1001|metabolomics,metabolomics,yes,blood metabolomic profiling
+ctgov|NCT06522750|outcome_measure|1002|metabolomics,metabolomics,yes,stool metabolomics
+ctgov|NCT06535165|outcome_description|1003|metabolomics,metabolomics,yes,fecal NMR metabolomics
+ctgov|NCT06583395|outcome_description|1002|metabolomics,metabolomics,yes,metabolomic data
+ctgov|NCT06928272|outcome_description|2000|metabolomics,metabolomics,yes,plasma metabolomics
+ctgov|NCT06933173|brief_summary|-1|metabolomics,metabolomics,yes,untargeted serum metabolomics
+ctgov|NCT06952413|outcome_description|1018|metabolomics,metabolomics,yes,metabolome characterisation
+ctgov|NCT07238465|outcome_description|10|metabolomics,metabolomics,yes,metabolomic quantification of plasma catecholamines
+ctgov|NCT07238465|outcome_description|11|metabolomics,metabolomics,yes,same
+ctgov|NCT07238465|outcome_description|1|metabolomics,metabolomics,yes,same
+ctgov|NCT07238465|outcome_description|2|metabolomics,metabolomics,yes,same
+ctgov|NCT07238465|outcome_description|3|metabolomics,metabolomics,yes,same
+ctgov|NCT07238465|outcome_description|4|metabolomics,metabolomics,yes,same
+ctgov|NCT07238465|outcome_description|5|metabolomics,metabolomics,yes,same
+ctgov|NCT07238465|outcome_description|7|metabolomics,metabolomics,yes,same
+ctgov|NCT07781501|outcome_measure|1|metabolomics,metabolomics,yes,salivary metabolomic profile
+nih|10409712|abstract_text|-1|metabolomics,metabolomics,yes,metabolome of FD patients
+nih|10409712|public_health_relevance|-1|metabolomics,metabolomics,yes,patient/murine metabolome profiling approach
+nih|10620960|abstract_text|-1|metabolomics,metabolomics,yes,metabolomic discovery
+nih|11362541|abstract_text|-1|metabolomics,metabolomics,unclear,lipidomic approaches; organism likely non-human
+nih|11403394|abstract_text|-1|metabolomics,metabolomics,unclear,lipidomic perturbations in lethal disease; likely animal model
+nih|11413178|abstract_text|-1|metabolomics,metabolomics,yes,blood metabolomics
+nih|11415354|abstract_text|-1|metabolomics,metabolomics,no,NMR core metabolomics of E. coli extracts
+nih|11446349|abstract_text|-1|metabolomics,metabolomics,unclear,animal and human samples mixed
+nih|9841376|project_title|-1|metabolomics,metabolomics,yes,lipidomics biomarkers in CFS
+ctgov|NCT00810329|brief_title|-1|proteomics,proteomics,yes,CSF proteomics
+ctgov|NCT00810329|keywords|-1|proteomics,proteomics,yes,keyword proteomics of CFS study
+ctgov|NCT05445830|outcome_description|1001|proteomics,proteomics,yes,Olink PEA platform
+ctgov|NCT05650905|intervention_name|4|proteomics,proteomics,yes,plasma/tear proteomics
+ctgov|NCT05650905|outcome_description|1010|proteomics,proteomics,yes,plasma proteomics from blood
+ctgov|NCT05650905|outcome_measure|1011|proteomics,proteomics,yes,tear-fluid proteomics
+ctgov|NCT05668091|outcome_description|2000|proteomics,proteomics,yes,multiplex proteomic analysis
+ctgov|NCT05823896|outcome_description|2002|proteomics,proteomics,yes,Olink inflammation panel
+ctgov|NCT05894616|outcome_description|2|proteomics,proteomics,yes,proteome of PEx material
+ctgov|NCT06583395|outcome_description|1002|proteomics,proteomics,yes,proteomic data
+ctgov|NCT06583395|outcome_description|2|proteomics,proteomics,yes,plasma proteomic analysis
+ctgov|NCT06590324|outcome_measure|2002|proteomics,proteomics,yes,plasma proteome
+ctgov|NCT07295483|brief_summary|-1|proteomics,proteomics,yes,advanced proteomic analysis
+ctgov|NCT07295483|outcome_description|1007|proteomics,proteomics,yes,serum/plasma proteomic profiling by MS
+ctgov|NCT07295483|outcome_description|1009|proteomics,proteomics,yes,proteomic variables in models
+nih|10584608|abstract_text|-1|proteomics,proteomics,no,mouse trigeminal ganglion proteome (animal)
+nih|11075830|abstract_text|-1|proteomics,proteomics,yes,Olink proteomics in veterans
+nih|11090272|abstract_text|-1|proteomics,proteomics,yes,proteomics-based biomarker discovery in EVs
+nih|11115618|abstract_text|-1|proteomics,proteomics,yes,blood proteomics
+nih|11181298|abstract_text|-1|proteomics,proteomics,no,background: prior proteomic studies
+nih|11283726|abstract_text|-1|proteomics,proteomics,no,training plan expertise statement
+nih|11285973|abstract_text|-1|proteomics,proteomics,no,mouse embryo proteome
+nih|11329178|abstract_text|-1|proteomics,proteomics,yes,blood proteomics
+nih|11454577|project_title|-1|proteomics,proteomics,yes,CSF proteome of PTLDS
+nih|11611413|abstract_text|-1|proteomics,proteomics,yes,proteomic determinants
+nih|11611413|project_title|-1|proteomics,proteomics,yes,proteomic biomarkers
+nih|9014077|abstract_text|-1|proteomics,proteomics,unclear,VNS heart-failure omics; likely animal model
+nih|9206443|abstract_text|-1|proteomics,proteomics,yes,proteome analysis in ME/CFS
+nih|9597448|public_health_relevance|-1|proteomics,proteomics,yes,CSF proteome identification
+nih|9637436|abstract_text|-1|proteomics,proteomics,unclear,VNS heart-failure omics; likely animal model
+ctgov|NCT05975034|outcome_measure|1006|transcriptomics,transcriptomics,no,"16S rRNA sequencing (microbiome, not transcriptomics)"
+ctgov|NCT06311435|outcome_measure|1000|transcriptomics,transcriptomics,unclear,RNA sequences to subclassify Long COVID; RNA source unclear
+ctgov|NCT06590324|outcome_measure|2002|transcriptomics,transcriptomics,yes,blood transcriptome
+ctgov|NCT06928272|outcome_description|2000|transcriptomics,transcriptomics,yes,WBC RNA sequencing
+ctgov|NCT07757620|brief_summary|-1|transcriptomics,transcriptomics,yes,transcriptomic profiling
+ctgov|NCT07757620|outcome_description|0|transcriptomics,transcriptomics,yes,leukocyte RNA-seq
+ctgov|NCT07757620|outcome_measure|0|transcriptomics,transcriptomics,yes,peripheral blood gene expression profile
+nih|10237225|abstract_text|-1|transcriptomics,transcriptomics,yes,scRNA-seq of leukocytes
+nih|10466413|abstract_text|-1|transcriptomics,transcriptomics,no,animal brain transcriptomics (3D brain clearing)
+nih|10549811|public_health_relevance|-1|transcriptomics,transcriptomics,yes,integration of patient scRNA-seq data
+nih|10551342|public_health_relevance|-1|transcriptomics,transcriptomics,yes,transcriptomics in adolescent cohort
+nih|10788666|abstract_text|-1|transcriptomics,transcriptomics,yes,single-cell transcriptomics of CSF
+nih|10888595|abstract_text|-1|transcriptomics,transcriptomics,yes,RNA-seq ERV expression in ME
+nih|10924995|abstract_text|-1|transcriptomics,transcriptomics,yes,gene expression profile from patient cells
+nih|11301407|abstract_text|-1|transcriptomics,transcriptomics,no,mouse spatial transcriptomics
+nih|11302641|abstract_text|-1|transcriptomics,transcriptomics,no,FD mouse RGC scRNA-seq
+nih|11304994|abstract_text|-1|transcriptomics,transcriptomics,no,sensory ganglia scRNA-seq (animal)
+nih|11347476|public_health_relevance|-1|transcriptomics,transcriptomics,yes,transcriptomic signatures in ME/CFS
+nih|11355650|abstract_text|-1|transcriptomics,transcriptomics,unclear,human and mouse models
+nih|11370284|public_health_relevance|-1|transcriptomics,transcriptomics,unclear,spatial transcriptomics plus patient-derived neurons
+nih|11372088|abstract_text|-1|transcriptomics,transcriptomics,no,animal spatial transcriptomics
+nih|11407168|abstract_text|-1|transcriptomics,transcriptomics,yes,scRNA-seq of patient blood/CSF
+nih|11446349|abstract_text|-1|transcriptomics,transcriptomics,yes,metatranscriptomics of patient samples
+nih|8841998|abstract_text|-1|transcriptomics,transcriptomics,no,RNA-modification methods background
+nih|9113513|abstract_text|-1|transcriptomics,transcriptomics,no,viral RNA sequence homology (not transcriptomics)
+nih|9256438|abstract_text|-1|transcriptomics,transcriptomics,yes,PBMC RNA-seq
+nih|9282018|abstract_text|-1|transcriptomics,transcriptomics,yes,RNA-seq transcripts
+nih|9384761|abstract_text|-1|transcriptomics,transcriptomics,no,lamprey transcriptome
+nih|9385475|public_health_relevance|-1|transcriptomics,transcriptomics,no,viral RNA sequence element
+nih|9993095|abstract_text|-1|transcriptomics,transcriptomics,unclear,ganglionated plexus neurons; organism not stated
+ctgov|NCT02725060|brief_summary|-1|immune_assays,immune_assays,yes,autoantibody levels in POTS
+ctgov|NCT03930914|outcome_description|2|immune_assays,immune_assays,yes,beta1-adrenergic autoantibody levels from blood
+ctgov|NCT03930914|outcome_measure|1|immune_assays,immune_assays,yes,M2 autoantibody levels
+ctgov|NCT03930914|outcome_measure|2|immune_assays,immune_assays,yes,beta1 autoantibody levels
+ctgov|NCT04659889|intervention_description|0|immune_assays,immune_assays,yes,peripheral blood immunophenotyping
+ctgov|NCT04927403|outcome_measure|1109|immune_assays,immune_assays,yes,autoantibody screening and T-cell Elispot
+ctgov|NCT05592418|outcome_description|2004|immune_assays,immune_assays,yes,lymphocyte flow cytometry
+ctgov|NCT05592418|outcome_description|2006|immune_assays,immune_assays,yes,lymphocyte flow cytometry CD4:CD8
+ctgov|NCT05595369|brief_summary|-1|immune_assays,immune_assays,no,hypothesis statement: viral reactivation (not an assay)
+ctgov|NCT05629988|official_title|-1|immune_assays,immune_assays,yes,title: patients with elevated beta2-AR autoantibodies (tested)
+ctgov|NCT05635552|outcome_measure|1004|immune_assays,immune_assays,unclear,EBV reactivation outcome; assay type not stated
+ctgov|NCT05841498|outcome_measure|1002|immune_assays,immune_assays,yes,autoantibody concentration
+ctgov|NCT06128967|brief_summary|-1|immune_assays,immune_assays,no,background: autoreactive response incl. autoantibodies
+ctgov|NCT06161688|brief_title|-1|immune_assays,immune_assays,no,"title: drug for viral persistence (concept, not assay)"
+ctgov|NCT06204458|outcome_measure|2014|immune_assays,immune_assays,yes,post-COVID autoantibodies outcome
+ctgov|NCT06825819|outcome_measure|2000|immune_assays,immune_assays,no,"viral RNA in biopsies (virology assay, outside immune-assay scope)"
+ctgov|NCT06829836|outcome_description|3|immune_assays,immune_assays,yes,flow cytometry NK co-culture assay
+ctgov|NCT07197138|outcome_measure|0|immune_assays,immune_assays,no,'immunophenotypic marker CRP' is a blood chemistry test
+ctgov|NCT07343856|keywords|-1|immune_assays,immune_assays,no,keyword chronic viral persistence
+ctgov|NCT07529197|official_title|-1|immune_assays,immune_assays,yes,autoantibody-positive ME/CFS (tested)
+ctgov|NCT07529197|outcome_measure|1005|immune_assays,immune_assays,yes,decrease in beta2R autoantibodies
+ctgov|NCT07657507|brief_summary|-1|immune_assays,immune_assays,no,'Mast Cell Activation' matched T-cell pattern (regex bug)
+ctgov|NCT07757620|brief_summary|-1|immune_assays,immune_assays,no,research question on viral persistence (concept)
+nih|10620960|abstract_text|-1|immune_assays,immune_assays,yes,autoantibody prevalence examined with immune assays
+nih|10892624|public_health_relevance|-1|immune_assays,immune_assays,no,viral persistence mechanism in oral tissue
+nih|11020706|public_health_relevance|-1|immune_assays,immune_assays,no,SLE background: autoantibody production
+nih|11159278|abstract_text|-1|immune_assays,immune_assays,yes,antigen-specific flow cytometry
+nih|11229937|public_health_relevance|-1|immune_assays,immune_assays,no,background: reactivation associated with risk
+nih|11278151|abstract_text|-1|immune_assays,immune_assays,yes,immunophenotyping in ME/CFS
+nih|11403869|public_health_relevance|-1|immune_assays,immune_assays,no,"herpesvirus reactivation study narrative (virology, not immune assay)"
+ctgov|NCT04806620|brief_title|-1|remote_patient_monitoring,remote_patient_monitoring,unclear,digital platform collecting lifestyle data; objective signals not stated
+ctgov|NCT04806620|keywords|-1|remote_patient_monitoring,remote_patient_monitoring,unclear,"keywords mobile health app, registry, wearables"
+ctgov|NCT05132673|brief_summary|-1|remote_patient_monitoring,remote_patient_monitoring,yes,mHealth technologies for HR and sleep
+ctgov|NCT05172206|brief_summary|-1|remote_patient_monitoring,remote_patient_monitoring,yes,continuous telemonitoring system
+ctgov|NCT05483829|keywords|-1|remote_patient_monitoring,remote_patient_monitoring,no,mHealth behavioural intervention
+ctgov|NCT05725538|brief_summary|-1|remote_patient_monitoring,remote_patient_monitoring,no,exercise-recommendation mHealth intervention
+ctgov|NCT05725538|brief_title|-1|remote_patient_monitoring,remote_patient_monitoring,no,mHealth exercise intervention title
+ctgov|NCT05725538|keywords|-1|remote_patient_monitoring,remote_patient_monitoring,no,keywords of mHealth telerehabilitation
+ctgov|NCT05725538|official_title|-1|remote_patient_monitoring,remote_patient_monitoring,no,mHealth exercise intervention title
+ctgov|NCT05781893|brief_summary|-1|remote_patient_monitoring,remote_patient_monitoring,no,smartphone app delivering exercises
+ctgov|NCT05781893|intervention_description|0|remote_patient_monitoring,remote_patient_monitoring,no,smartphone app delivering exercises
+ctgov|NCT06296914|brief_summary|-1|remote_patient_monitoring,remote_patient_monitoring,yes,mHealth giving objective data to providers
+ctgov|NCT06296914|brief_title|-1|remote_patient_monitoring,remote_patient_monitoring,yes,mHealth system for POTS
+ctgov|NCT06296914|intervention_description|0|remote_patient_monitoring,remote_patient_monitoring,yes,at-home stand test via mHealth app
+ctgov|NCT06296914|intervention_description|1|remote_patient_monitoring,remote_patient_monitoring,yes,at-home stand test via mHealth app
+ctgov|NCT06296914|official_title|-1|remote_patient_monitoring,remote_patient_monitoring,yes,mobile health system for POTS
+ctgov|NCT07156994|brief_summary|-1|remote_patient_monitoring,remote_patient_monitoring,yes,remote monitoring via vocal biomarkers app
+ctgov|NCT07190105|intervention_description|0|remote_patient_monitoring,remote_patient_monitoring,no,sound therapy delivered by smartphone app
+ctgov|NCT07783074|brief_summary|-1|remote_patient_monitoring,remote_patient_monitoring,yes,app with wearables for continuous data
+ctgov|NCT07783074|keywords|-1|remote_patient_monitoring,remote_patient_monitoring,yes,remote monitoring study keywords
+nih|11188689|abstract_text|-1|remote_patient_monitoring,remote_patient_monitoring,unclear,study of preferences for remote-monitoring tools
+nih|11416218|abstract_text|-1|remote_patient_monitoring,remote_patient_monitoring,no,data repository infrastructure

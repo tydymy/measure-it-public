@@ -1,0 +1,244 @@
+mention_id,measurement_id,judgement,reason
+ctgov|NCT02970240|outcome_measure|1001|blood_biomarkers,blood_biomarkers,yes,cytokine profile
+ctgov|NCT03759808|brief_summary|-1|blood_biomarkers,blood_biomarkers,no,"salivary cortisol (saliva, outside 'blood' scope)"
+ctgov|NCT04363606|intervention_description|1|blood_biomarkers,blood_biomarkers,yes,blood count and cytokines
+ctgov|NCT04841759|outcome_description|1017|blood_biomarkers,blood_biomarkers,yes,CRP
+ctgov|NCT05035628|outcome_description|1012|blood_biomarkers,blood_biomarkers,yes,CRP mg/L
+ctgov|NCT05363514|outcome_measure|1001|blood_biomarkers,blood_biomarkers,yes,cytokines
+ctgov|NCT05365607|outcome_measure|2012|blood_biomarkers,blood_biomarkers,yes,CRP change
+ctgov|NCT05445830|intervention_description|2|blood_biomarkers,blood_biomarkers,yes,blood cytokine release
+ctgov|NCT05531019|outcome_measure|1001|blood_biomarkers,blood_biomarkers,yes,D-dimer via blood sample
+ctgov|NCT05630040|outcome_description|1048|blood_biomarkers,blood_biomarkers,no,salivary cortisol (saliva)
+ctgov|NCT05664711|outcome_measure|2001|blood_biomarkers,blood_biomarkers,no,salivary cortisol (saliva)
+ctgov|NCT05823896|outcome_description|1014|blood_biomarkers,blood_biomarkers,yes,plasma biomarkers D-dimer/CRP
+ctgov|NCT05848518|outcome_description|24|blood_biomarkers,blood_biomarkers,yes,IL-6/IL-10
+ctgov|NCT05999435|outcome_measure|2009|blood_biomarkers,blood_biomarkers,yes,systemic inflammatory biomarkers
+ctgov|NCT06064838|outcome_measure|1|blood_biomarkers,blood_biomarkers,yes,IL-6
+ctgov|NCT06188663|brief_summary|-1|blood_biomarkers,blood_biomarkers,yes,cardiac blood biomarkers
+ctgov|NCT06204458|outcome_measure|2009|blood_biomarkers,blood_biomarkers,yes,cytokine panel
+ctgov|NCT06204458|outcome_measure|2010|blood_biomarkers,blood_biomarkers,yes,cytokine panel
+ctgov|NCT06211062|outcome_measure|3|blood_biomarkers,blood_biomarkers,yes,pro-inflammatory cytokines
+ctgov|NCT06279936|intervention_description|3|blood_biomarkers,blood_biomarkers,no,salivary cortisol (saliva)
+ctgov|NCT06294756|brief_summary|-1|blood_biomarkers,blood_biomarkers,yes,serum inflammatory cytokines
+ctgov|NCT06394921|outcome_measure|1001|blood_biomarkers,blood_biomarkers,yes,blood inflammation biomarkers IL-1
+ctgov|NCT06952413|outcome_measure|1016|blood_biomarkers,blood_biomarkers,yes,blood immune biomarker (receptor antibody) analysis
+ctgov|NCT06992401|outcome_measure|1002|blood_biomarkers,blood_biomarkers,yes,cytokines and inflammatory markers
+ctgov|NCT07285707|outcome_measure|1005|blood_biomarkers,blood_biomarkers,yes,laboratory biomarkers CBC
+ctgov|NCT07356570|outcome_measure|1003|blood_biomarkers,blood_biomarkers,yes,serum biomarker panel
+ctgov|NCT07653009|outcome_description|1011|blood_biomarkers,blood_biomarkers,yes,serum CRP
+nih|11356275|abstract_text|-1|blood_biomarkers,blood_biomarkers,yes,cytokine profiling of patient PBMCs
+nih|9111929|abstract_text|-1|blood_biomarkers,blood_biomarkers,no,background: prior finding on IL-6
+nih|9429029|abstract_text|-1|blood_biomarkers,blood_biomarkers,yes,daily serum cytokines in ME/CFS
+ctgov|NCT04736732|outcome_description|1007|continuous_spo2,continuous_spo2,yes,6MWT with ambulatory oximetry
+ctgov|NCT04736732|outcome_measure|1007|continuous_spo2,continuous_spo2,yes,6MWT with ambulatory oximetry
+ctgov|NCT04886414|intervention_description|1|continuous_spo2,continuous_spo2,unclear,SpO2 recorded at regular intervals (spot vs continuous unclear)
+ctgov|NCT05094622|outcome_description|1006|continuous_spo2,continuous_spo2,yes,pulse oximeter worn during 6MWT
+ctgov|NCT05094622|outcome_measure|1001|continuous_spo2,continuous_spo2,yes,SpO2 change during 6MWT
+ctgov|NCT05298878|outcome_description|1000|continuous_spo2,continuous_spo2,yes,exertional desaturation during STS test
+ctgov|NCT05877534|outcome_description|1001|continuous_spo2,continuous_spo2,yes,lowest SpO2 with pulse oximetry during 6MWT
+ctgov|NCT05877534|outcome_measure|1001|continuous_spo2,continuous_spo2,yes,SpO2 change during 6MWT
+ctgov|NCT05877534|outcome_measure|1013|continuous_spo2,continuous_spo2,yes,SpO2 during active stand
+ctgov|NCT06091280|outcome_description|5|continuous_spo2,continuous_spo2,yes,SpO2 monitored during 6MWT
+ctgov|NCT05027724|outcome_measure|3|digital_gait,digital_gait,yes,GAITRite gait assessment
+ctgov|NCT05074771|intervention_description|0|digital_gait,digital_gait,yes,IMUs monitoring home movement exercises
+ctgov|NCT06165978|outcome_description|0|digital_gait,digital_gait,yes,IMU worn one week
+ctgov|NCT06165978|outcome_description|1|digital_gait,digital_gait,yes,IMU worn one week
+ctgov|NCT06165978|outcome_description|3|digital_gait,digital_gait,yes,IMU worn one week
+ctgov|NCT07621068|outcome_description|1007|digital_gait,digital_gait,no,EEG-headband inertial sensors for head position during sleep
+ctgov|NCT02018497|outcome_description|1002|ecg_ambulatory,ecg_ambulatory,yes,Holter / ambulatory ECG use
+ctgov|NCT02018497|outcome_description|2008|ecg_ambulatory,ecg_ambulatory,yes,Holter / ambulatory ECG use
+ctgov|NCT03137537|outcome_description|0|ecg_ambulatory,ecg_ambulatory,yes,Holter / ambulatory ECG use
+ctgov|NCT03515122|outcome_measure|1041|ecg_ambulatory,ecg_ambulatory,yes,Holter / ambulatory ECG use
+ctgov|NCT03717207|brief_summary|-1|ecg_ambulatory,ecg_ambulatory,yes,Holter / ambulatory ECG use
+ctgov|NCT03717207|intervention_name|0|ecg_ambulatory,ecg_ambulatory,yes,Holter / ambulatory ECG use
+ctgov|NCT04374045|intervention_description|0|ecg_ambulatory,ecg_ambulatory,yes,Holter / ambulatory ECG use
+ctgov|NCT04374045|intervention_name|0|ecg_ambulatory,ecg_ambulatory,yes,Holter / ambulatory ECG use
+ctgov|NCT04374045|outcome_measure|1000|ecg_ambulatory,ecg_ambulatory,yes,Holter / ambulatory ECG use
+ctgov|NCT04987853|intervention_description|0|ecg_ambulatory,ecg_ambulatory,yes,Holter / ambulatory ECG use
+ctgov|NCT05228665|outcome_description|1000|ecg_ambulatory,ecg_ambulatory,yes,Polar H10 chest-strap ECG HRV
+ctgov|NCT05622669|brief_summary|-1|ecg_ambulatory,ecg_ambulatory,yes,ECG patches worn
+ctgov|NCT05713266|intervention_description|0|ecg_ambulatory,ecg_ambulatory,no,60-s MouthLab single-lead ECG spot check
+ctgov|NCT05756452|intervention_description|0|ecg_ambulatory,ecg_ambulatory,yes,Holter / ambulatory ECG use
+ctgov|NCT05756452|outcome_description|1|ecg_ambulatory,ecg_ambulatory,yes,Holter / ambulatory ECG use
+ctgov|NCT05807555|intervention_name|0|ecg_ambulatory,ecg_ambulatory,yes,Holter / ambulatory ECG use
+ctgov|NCT06170645|outcome_description|1006|ecg_ambulatory,ecg_ambulatory,yes,Holter / ambulatory ECG use
+ctgov|NCT06404411|outcome_description|1007|ecg_ambulatory,ecg_ambulatory,yes,Holter / ambulatory ECG use
+ctgov|NCT06432270|outcome_description|1003|ecg_ambulatory,ecg_ambulatory,yes,Holter / ambulatory ECG use
+ctgov|NCT06798259|outcome_description|1000|ecg_ambulatory,ecg_ambulatory,yes,Holter / ambulatory ECG use
+ctgov|NCT07775976|brief_summary|-1|ecg_ambulatory,ecg_ambulatory,yes,extended wearable ECG study
+ctgov|NCT07775976|brief_title|-1|ecg_ambulatory,ecg_ambulatory,yes,COR wearable ECG
+ctgov|NCT07775976|intervention_description|1|ecg_ambulatory,ecg_ambulatory,yes,COR wearable ECG data
+ctgov|NCT07775976|intervention_other_names|0|ecg_ambulatory,ecg_ambulatory,yes,COR wearable ECG monitoring
+ctgov|NCT07775976|official_title|-1|ecg_ambulatory,ecg_ambulatory,yes,COR wearable ECG
+ctgov|NCT07775976|outcome_description|1001|ecg_ambulatory,ecg_ambulatory,yes,Holter/ambulatory ECG as reference standard
+nih|10867268|abstract_text|-1|ecg_ambulatory,ecg_ambulatory,unclear,background on Zio patch capability in methods grant
+nih|11244251|abstract_text|-1|ecg_ambulatory,ecg_ambulatory,yes,home PSG single-lead ECG
+nih|11244251|public_health_relevance|-1|ecg_ambulatory,ecg_ambulatory,yes,home PSG single-lead ECG
+nih|11454543|abstract_text|-1|ecg_ambulatory,ecg_ambulatory,yes,7 days remote continuous cardiac monitoring
+ctgov|NCT02970240|outcome_measure|1002|immune_assays,immune_assays,yes,immunophenotyping
+ctgov|NCT04927403|outcome_measure|1110|immune_assays,immune_assays,yes,autoantibody screening and Elispot
+ctgov|NCT05459506|brief_summary|-1|immune_assays,immune_assays,no,background on autoimmunity
+ctgov|NCT05459506|outcome_description|0|immune_assays,immune_assays,yes,autoantibody detection in PASC
+ctgov|NCT05543590|brief_summary|-1|immune_assays,immune_assays,no,background on plasmapheresis effects
+ctgov|NCT05597800|outcome_description|2000|immune_assays,immune_assays,yes,lymphocyte subpopulations
+ctgov|NCT05911009|brief_summary|-1|immune_assays,immune_assays,no,"drug mechanism (autoantibody neutralisation), no assay"
+ctgov|NCT05911009|keywords|-1|immune_assays,immune_assays,unclear,keyword autoantibodies of drug trial
+ctgov|NCT05954325|brief_summary|-1|immune_assays,immune_assays,no,background on autoantibody removal
+ctgov|NCT06005246|outcome_description|1001|immune_assays,immune_assays,yes,autoantibodies among candidate diagnostic biomarkers
+ctgov|NCT06054958|outcome_description|1000|immune_assays,immune_assays,yes,autoantibody levels
+ctgov|NCT06074848|outcome_description|1004|immune_assays,immune_assays,yes,immunophenotyping by flow cytometry
+ctgov|NCT06204458|outcome_description|2015|immune_assays,immune_assays,yes,Elispot
+ctgov|NCT06204458|outcome_measure|2013|immune_assays,immune_assays,yes,post-COVID autoantibodies
+ctgov|NCT06829836|outcome_measure|3|immune_assays,immune_assays,yes,NK cell cytotoxicity
+ctgov|NCT06953661|outcome_description|1014|immune_assays,immune_assays,yes,GPCR autoantibody concentrations
+ctgov|NCT06953661|outcome_measure|1014|immune_assays,immune_assays,yes,GPCR autoantibody activity
+ctgov|NCT07019519|outcome_description|1008|immune_assays,immune_assays,yes,receptor autoantibody panel
+ctgov|NCT07123727|outcome_measure|2001|immune_assays,immune_assays,yes,flow cytometry of NK/CD8 cells
+ctgov|NCT07163130|brief_summary|-1|immune_assays,immune_assays,no,background on prior tVNS results
+ctgov|NCT07197138|outcome_measure|2|immune_assays,immune_assays,no,'immunophenotypic marker IL-1b' is a cytokine assay
+ctgov|NCT07724834|brief_summary|-1|immune_assays,immune_assays,no,background on B cells and autoantibodies
+ctgov|NCT07757620|outcome_description|2|immune_assays,immune_assays,yes,multiparameter flow cytometry
+nih|10554829|abstract_text|-1|immune_assays,immune_assays,no,background on autoantibodies in COVID-19
+nih|11044125|abstract_text|-1|immune_assays,immune_assays,yes,preliminary flow data on CD8 T-cell exhaustion
+nih|11168261|abstract_text|-1|immune_assays,immune_assays,unclear,MSA T-cell activation mechanism; assay/organism not stated
+nih|11361545|abstract_text|-1|immune_assays,immune_assays,yes,T-cell phenotypes in human studies
+nih|11403408|abstract_text|-1|immune_assays,immune_assays,yes,spectral flow cytometry
+nih|11403869|abstract_text|-1|immune_assays,immune_assays,yes,flow cytometry of T cells in ME/CFS
+nih|11407163|abstract_text|-1|immune_assays,immune_assays,yes,CSF flow cytometry
+ctgov|NCT04977388|outcome_description|1004|posture_detection,posture_detection,unclear,"'time standing' likely standing tolerance, not sensor posture"
+ctgov|NCT04977388|outcome_measure|1004|posture_detection,posture_detection,unclear,'time standing' likely standing tolerance
+ctgov|NCT05228691|outcome_description|1003|posture_detection,posture_detection,no,IPAQ questionnaire sitting time
+ctgov|NCT05507190|outcome_description|5|posture_detection,posture_detection,no,orthostatic stress test with postural transitions (not posture detection)
+ctgov|NCT07182578|outcome_description|6|posture_detection,posture_detection,no,single-leg stance balance time
+ctgov|NCT07398508|outcome_description|1003|posture_detection,posture_detection,no,standing tolerance in exertion test
+ctgov|NCT07398508|outcome_measure|1003|posture_detection,posture_detection,unclear,average time standing; method not stated
+ctgov|NCT07661862|brief_summary|-1|posture_detection,posture_detection,no,exercise goal to reduce sitting time
+ctgov|NCT05369520|outcome_description|0|ppg,ppg,yes,finger/wearable photoplethysmography
+ctgov|NCT05369520|outcome_description|29|ppg,ppg,yes,finger/wearable photoplethysmography
+ctgov|NCT05369520|outcome_description|30|ppg,ppg,yes,finger/wearable photoplethysmography
+ctgov|NCT05369520|outcome_description|31|ppg,ppg,yes,finger/wearable photoplethysmography
+ctgov|NCT05648123|outcome_description|2|ppg,ppg,yes,finger/wearable photoplethysmography
+ctgov|NCT07013903|outcome_description|1003|ppg,ppg,yes,finger/wearable photoplethysmography
+ctgov|NCT07013903|outcome_measure|1003|ppg,ppg,yes,finger/wearable photoplethysmography
+ctgov|NCT07783074|outcome_description|1006|ppg,ppg,yes,finger/wearable photoplethysmography
+ctgov|NCT07783074|outcome_description|1011|ppg,ppg,yes,finger/wearable photoplethysmography
+ctgov|NCT07783074|outcome_description|1020|ppg,ppg,yes,finger/wearable photoplethysmography
+ctgov|NCT05205460|intervention_description|0|remote_patient_monitoring,remote_patient_monitoring,yes,home telehealth app with HR-sensing clothes feedback
+ctgov|NCT05713266|intervention_description|0|remote_patient_monitoring,remote_patient_monitoring,yes,hand-held home monitoring device
+ctgov|NCT05713266|outcome_description|1002|remote_patient_monitoring,remote_patient_monitoring,yes,feedback on RPM technology in use
+ctgov|NCT05894616|brief_title|-1|remote_patient_monitoring,remote_patient_monitoring,yes,home monitoring study
+ctgov|NCT05894616|official_title|-1|remote_patient_monitoring,remote_patient_monitoring,yes,home monitoring study
+ctgov|NCT05894616|outcome_measure|0|remote_patient_monitoring,remote_patient_monitoring,unclear,home monitoring via eHealth tool; signals not stated
+ctgov|NCT06978582|outcome_description|1000|remote_patient_monitoring,remote_patient_monitoring,yes,phone-camera PPG app
+nih|10349913|abstract_text|-1|remote_patient_monitoring,remote_patient_monitoring,yes,at-home multimodal monitoring
+ctgov|NCT00096902|brief_summary|-1|respiratory_rate,respiratory_rate,yes,body sensors measuring breathing rate during Valsalva
+ctgov|NCT00581022|brief_summary|-1|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+ctgov|NCT03721445|intervention_description|0|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+ctgov|NCT04118816|intervention_name|0|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+ctgov|NCT04118816|intervention_other_names|0|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+ctgov|NCT04118816|outcome_description|2000|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+ctgov|NCT05454683|outcome_measure|1005|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+ctgov|NCT05606211|outcome_description|3|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+ctgov|NCT05606211|outcome_measure|4|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+ctgov|NCT06404099|outcome_description|1010|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+ctgov|NCT06404099|outcome_description|1011|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+ctgov|NCT06404099|outcome_measure|1010|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+ctgov|NCT06404099|outcome_measure|1011|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+ctgov|NCT06404112|outcome_description|1010|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+ctgov|NCT06404112|outcome_description|1011|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+ctgov|NCT06404112|outcome_measure|1010|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+ctgov|NCT06404112|outcome_measure|1011|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+ctgov|NCT06404112|outcome_measure|1012|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+ctgov|NCT07621068|outcome_description|1007|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+nih|10511731|abstract_text|-1|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+nih|10677281|abstract_text|-1|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+nih|11222655|abstract_text|-1|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+nih|9746112|abstract_text|-1|sleep_objective,sleep_objective,yes,PSG / actigraphy / tracker / EEG sleep measurement
+ctgov|NCT01080287|keywords|-1|small_fiber_testing,small_fiber_testing,yes,skin biopsies to analyse autonomic fibres
+nih|11418630|abstract_text|-1|small_fiber_testing,small_fiber_testing,yes,skin-biopsy nerve fibre data review
+ctgov|NCT04842448|outcome_description|2007|transcriptomics,transcriptomics,yes,PBMC RNA sequencing
+ctgov|NCT05735782|outcome_description|2000|transcriptomics,transcriptomics,yes,plasma RNA-seq
+ctgov|NCT05823896|outcome_description|2002|transcriptomics,transcriptomics,yes,whole-blood RNA-seq
+ctgov|NCT06463106|outcome_measure|5|transcriptomics,transcriptomics,yes,endothelial-cell transcriptomic patterns
+nih|10250909|abstract_text|-1|transcriptomics,transcriptomics,no,background from published alpha-syn model study
+nih|10491027|abstract_text|-1|transcriptomics,transcriptomics,yes,CSF single-cell RNA sequencing
+nih|10549811|abstract_text|-1|transcriptomics,transcriptomics,no,technology background
+nih|10551342|abstract_text|-1|transcriptomics,transcriptomics,yes,transcriptome studies in adolescents
+nih|10553944|abstract_text|-1|transcriptomics,transcriptomics,no,in-vitro infected endothelial cells
+nih|10554898|abstract_text|-1|transcriptomics,transcriptomics,no,animal necropsy samples
+nih|11159129|abstract_text|-1|transcriptomics,transcriptomics,yes,single-cell B-cell transcriptomes (human)
+nih|11237600|abstract_text|-1|transcriptomics,transcriptomics,yes,prior PBMC RNA-seq in ME/CFS
+nih|11280539|abstract_text|-1|transcriptomics,transcriptomics,unclear,taste-cell scRNA-seq; human vs mouse unclear
+nih|11302641|public_health_relevance|-1|transcriptomics,transcriptomics,no,mouse model of FD
+nih|11356275|abstract_text|-1|transcriptomics,transcriptomics,yes,patient PBMC scRNA-seq
+nih|11367343|abstract_text|-1|transcriptomics,transcriptomics,yes,GI mucosal transcriptome
+nih|11370014|abstract_text|-1|transcriptomics,transcriptomics,no,animal brain transcriptomics
+nih|11370284|abstract_text|-1|transcriptomics,transcriptomics,no,FD neuron background
+nih|11380875|abstract_text|-1|transcriptomics,transcriptomics,yes,snRNA-seq of human postmortem MSA brain
+nih|11380875|public_health_relevance|-1|transcriptomics,transcriptomics,yes,snRNA-seq of MSA patient brain
+nih|11398198|abstract_text|-1|transcriptomics,transcriptomics,no,animal neuron transcriptomics
+nih|11403762|abstract_text|-1|transcriptomics,transcriptomics,no,animal microglia snRNA-seq
+nih|11407163|abstract_text|-1|transcriptomics,transcriptomics,yes,scRNA-seq of patient blood/CSF
+nih|11410860|abstract_text|-1|transcriptomics,transcriptomics,yes,PBMC gene expression profiles
+nih|11473912|abstract_text|-1|transcriptomics,transcriptomics,yes,neutrophil scRNA-seq in Long COVID
+nih|8841028|abstract_text|-1|transcriptomics,transcriptomics,no,transgenic mouse motor neurons
+nih|8996606|abstract_text|-1|transcriptomics,transcriptomics,no,animal brainstem astrocytes
+nih|9130283|abstract_text|-1|transcriptomics,transcriptomics,yes,RNA-seq of human MSA brains
+nih|9600713|public_health_relevance|-1|transcriptomics,transcriptomics,yes,RNA-seq in ME/CFS/FM patients
+nih|9637436|abstract_text|-1|transcriptomics,transcriptomics,unclear,VNS heart-failure omics; organism not stated
+ctgov|NCT02406586|outcome_description|12|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT04752293|keywords|-1|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT04752293|outcome_description|1062|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT04752293|outcome_description|1063|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT04752293|outcome_description|1066|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT04752293|outcome_description|1068|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT04752293|outcome_description|1070|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT04752293|outcome_description|1071|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT04752293|outcome_description|1073|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT05172206|outcome_description|1003|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT05240742|outcome_description|1004|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT05518422|outcome_description|1|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT05695755|intervention_description|0|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT05756452|intervention_description|0|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT05756452|outcome_description|1|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT05796154|keywords|-1|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT05896982|official_title|-1|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT06170307|brief_summary|-1|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT06170307|intervention_description|0|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT06170307|intervention_name|0|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT06288828|brief_summary|-1|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT06379672|outcome_description|1|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT06939153|outcome_description|0|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT07076862|outcome_description|1001|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT07150455|brief_title|-1|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+ctgov|NCT07775976|outcome_description|1001|vascular_imaging,vascular_imaging,yes,echocardiography / cardiac MRI / Doppler / vascular imaging use
+nih|11242029|abstract_text|-1|vascular_imaging,vascular_imaging,unclear,career-development plan to learn TCD
+nih|11372088|abstract_text|-1|vascular_imaging,vascular_imaging,no,echocardiography in rats
+nih|11611413|abstract_text|-1|vascular_imaging,vascular_imaging,yes,preliminary echocardiogram data in patients
+nih|9537670|abstract_text|-1|vascular_imaging,vascular_imaging,no,PET tracer development in animals
+ctgov|NCT01376635|brief_summary|-1|wearable_heart_rate,wearable_heart_rate,no,lab continuous HR recording during tilt (not wearable)
+ctgov|NCT03003429|intervention_description|0|wearable_heart_rate,wearable_heart_rate,yes,overnight Polar RS800CX
+ctgov|NCT03003429|intervention_name|0|wearable_heart_rate,wearable_heart_rate,yes,heart rate monitor
+ctgov|NCT03182725|outcome_description|0|wearable_heart_rate,wearable_heart_rate,unclear,orthostatic HR monitoring; device not stated
+ctgov|NCT03675087|outcome_description|1022|wearable_heart_rate,wearable_heart_rate,yes,Polar band HR sensor in 6MWT
+ctgov|NCT03675087|outcome_description|1023|wearable_heart_rate,wearable_heart_rate,yes,Polar band HR sensor
+ctgov|NCT03675087|outcome_description|1025|wearable_heart_rate,wearable_heart_rate,yes,Polar band RR intervals
+ctgov|NCT05027724|outcome_description|2|wearable_heart_rate,wearable_heart_rate,unclear,HR monitoring in lab ergometer test; device not stated
+ctgov|NCT05040893|intervention_description|0|wearable_heart_rate,wearable_heart_rate,yes,wearable real-time HR monitors for pacing
+ctgov|NCT05502094|intervention_description|0|wearable_heart_rate,wearable_heart_rate,yes,Polar H10
+ctgov|NCT05622669|brief_summary|-1|wearable_heart_rate,wearable_heart_rate,yes,wrist-worn HR sensors
+ctgov|NCT05764070|outcome_description|1|wearable_heart_rate,wearable_heart_rate,yes,Polar H10 chest strap
+ctgov|NCT06073886|outcome_description|1001|wearable_heart_rate,wearable_heart_rate,yes,Oura HRV
+ctgov|NCT06248151|outcome_description|1000|wearable_heart_rate,wearable_heart_rate,yes,heart rate monitor
+ctgov|NCT06248151|outcome_description|1|wearable_heart_rate,wearable_heart_rate,yes,heart rate monitor HRV
+ctgov|NCT06305793|outcome_measure|1008|wearable_heart_rate,wearable_heart_rate,yes,wearable-measured HR
+ctgov|NCT06366724|outcome_description|1005|wearable_heart_rate,wearable_heart_rate,yes,Garmin resting HR
+ctgov|NCT06829836|outcome_description|1004|wearable_heart_rate,wearable_heart_rate,yes,WHOOP HR
+ctgov|NCT06829836|outcome_description|1005|wearable_heart_rate,wearable_heart_rate,yes,Polar HR sensor in VO2max test
+ctgov|NCT06978582|outcome_description|1000|wearable_heart_rate,wearable_heart_rate,no,validation background
+ctgov|NCT07275164|outcome_description|1009|wearable_heart_rate,wearable_heart_rate,yes,Polar H10 HRV
+ctgov|NCT07312409|outcome_description|1000|wearable_heart_rate,wearable_heart_rate,yes,home Polar HR strap
+ctgov|NCT07388550|brief_summary|-1|wearable_heart_rate,wearable_heart_rate,yes,24-h heart rate monitor
+ctgov|NCT07715838|outcome_description|1002|wearable_heart_rate,wearable_heart_rate,yes,Polar H10 for 7 days
+ctgov|NCT07783074|keywords|-1|wearable_heart_rate,wearable_heart_rate,yes,keywords wearables + HRV in feasibility study
+nih|11343361|abstract_text|-1|wearable_heart_rate,wearable_heart_rate,yes,wearable HR/HRV sensors for 4 weeks

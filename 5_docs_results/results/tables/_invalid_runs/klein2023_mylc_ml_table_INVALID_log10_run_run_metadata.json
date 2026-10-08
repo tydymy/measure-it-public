@@ -1,0 +1,11 @@
+{
+  "analysis_version": "klein2023_mylc_ml_table 2026-09-24.1",
+  "plan": "docs/ANALYSIS_PLAN_KLEIN2023_MYLC_ML_TABLE.md",
+  "computed_at": "2026-09-24T21:27:07+00:00",
+  "seed": 20260923,
+  "n_perm": 1000,
+  "signature_rows": 146,
+  "figures": [
+    "results/figures/drafts/klein2023_mylc_ml_table_auroc_and_null.png"
+  ]
+}

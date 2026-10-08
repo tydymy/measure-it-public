@@ -1,0 +1,52 @@
+{
+  "started": "2026-09-23T23:20:19+00:00",
+  "finished": "2026-09-23T23:23:33+00:00",
+  "n_facilities": 328496,
+  "n_clinic_registry": 321303,
+  "n_research_site_registry": 8534,
+  "n_facility_trials": 18074,
+  "n_facility_nih": 9297,
+  "rejected": {
+    "span_over_25km": 271,
+    "two_hrsa_sites": 7887,
+    "two_nih_orgs": 13
+  },
+  "validation": [
+    {
+      "validation": "V1_hrsa_site_npi_ground_truth",
+      "n_hrsa_sites_with_npi_in_nppes_orgs": 5758,
+      "n_linked_to_any_nppes_by_name_location": 3138,
+      "n_linked_to_true_npi_group": 3043,
+      "n_linked_to_same_name_as_true_npi": 3099,
+      "precision_strict": 0.9697259400892289,
+      "precision_lenient": 0.9875717017208413,
+      "recall_strict": 0.5284821118443904
+    },
+    {
+      "validation": "V2_location_shuffle_false_links_ctgov_nih",
+      "observed_cross_source_links": 3419,
+      "shuffle_mean_links": 18.0,
+      "estimated_false_link_share": 0.005264697279906405
+    }
+  ],
+  "ctgov_filter": {
+    "trial_site_rows_us": 27828,
+    "us_rows_sponsor_placeholder": 7597,
+    "us_rows_facility_missing": 1995,
+    "us_rows_nonfacility_location": 11,
+    "us_rows_nonfacility_examples": [
+      "Alethios Digital Research Platform (Decentralized)",
+      "Clarkson University. Entire study is online, no physical site used.",
+      "IQVIA Virtual Site",
+      "Nationwide Telemedicine Study (Leading Edge Clinic)",
+      "Nationwide home based study program",
+      "ProofPilot (Virtual Study: https://p.proofpilot.com)",
+      "Remote trial - anyone residing in the United States",
+      "Subjects' homes",
+      "Virtual",
+      "Virtual Facility",
+      "Virtual Tribunal Monastery"
+    ],
+    "us_rows_identifiable_kept": 18225
+  }
+}
